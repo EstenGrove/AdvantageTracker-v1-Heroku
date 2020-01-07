@@ -1,0 +1,10 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+.PanelLG {
+    min-width: 100%;
+    min-height: 100%;
+    border-radius: .5rem;
+    -webkit-box-shadow: map-get($map: $shadows, $key: 'subtle');
+    box-shadow: map-get($map: $shadows, $key: 'subtle');
+}

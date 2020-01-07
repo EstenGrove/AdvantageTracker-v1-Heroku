@@ -1,0 +1,27 @@
+@import "../../sass/mixins";
+@import "../../sass/variables";
+
+.StopButton {
+    width: auto;
+    height: auto;
+    @include col_center_all;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+
+    &_label {
+        font-size: 1.3rem;
+        font-weight: 300;
+        color: map-get($map: $blueGreys, $key: "headings");
+    }
+
+    &_icon {
+        width: 2rem;
+        height: 2rem;
+        fill: map-get($map: $colors, $key: "mainRed");
+        cursor: pointer;
+
+        &_disabled {
+            fill: map-get($map: $blueGreys, $key: "subheadings");
+        }
+    }
+}

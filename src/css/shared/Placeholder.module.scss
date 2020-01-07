@@ -1,0 +1,8 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+.Placeholder {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: map-get($map: $colors, $key: 'headings');
+}

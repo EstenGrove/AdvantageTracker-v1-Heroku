@@ -1,0 +1,30 @@
+@import "../../sass/mixins";
+@import "../../sass/variables";
+
+.VoiceRecorder {
+    width: 100%;
+    height: auto;
+    @include col_start_start;
+
+    &_input {
+        width: 100%;
+        height: 20rem;
+    }
+
+    &_controls {
+        width: 100%;
+        height: auto;
+        @include row_evenly_center;
+    }
+}
+
+.NOT_SUPPORTED {
+    width: 20rem;
+    height: auto;
+
+    &_TITLE {
+        font-size: 1.6rem;
+        color: map-get($map: $flatColors, $key: "mainRed");
+        text-align: center;
+    }
+}

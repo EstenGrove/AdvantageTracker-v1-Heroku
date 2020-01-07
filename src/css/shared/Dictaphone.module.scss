@@ -1,0 +1,30 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+@import '../../sass/animations';
+
+.Dictaphone {
+    width: 100%;
+    height: auto;
+    padding: 1rem;
+    border: 1px solid #ccc;
+
+    &_inner {
+        @include fill_container;
+
+        &_mic {
+            width: 2rem;
+            height: 2rem;
+            fill: map-get($map: $colors, $key: 'mainBlackBlue');
+
+            &:hover {
+                cursor: pointer;
+                fill: map-get($map: $colors, $key: 'mainRed');
+            }
+        }
+    }
+}
+
+.recording {
+    fill: map-get($map: $colors, $key: 'mainRed');
+    @include ping;
+}

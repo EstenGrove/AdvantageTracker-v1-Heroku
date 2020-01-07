@@ -1,0 +1,24 @@
+@import "../../sass/mixins";
+@import "../../sass/variables";
+@import "../../sass/animations";
+
+.RecordButton {
+    width: 5rem;
+    height: auto;
+
+    &_label {
+        font-size: 1.3rem;
+        font-weight: 300;
+        color: map-get($map: $blueGreys, $key: 'headings');
+    }
+
+    &_icon {
+        width: 1.7rem;
+        height: 1.7rem;
+        fill: map-get($map: $blueGreys, $key: 'headings');
+    }
+}
+
+.recording {
+    @include ping;
+}

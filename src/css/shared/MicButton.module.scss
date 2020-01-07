@@ -1,0 +1,43 @@
+@import "../../sass/mixins";
+@import "../../sass/animations";
+@import "../../sass/variables";
+
+.MicButton {
+    width: auto;
+    height: auto;
+    @include col_center_all;
+
+
+
+
+    &_inner {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        background-color: map-get($map: $colors, $key: "main");
+        color: #ffffff;
+        @include col_center_all;
+        -webkit-box-shadow: map-get($map: $shadows, $key: 'light');
+        box-shadow: map-get($map: $shadows, $key: 'light');
+
+        &:hover {
+            cursor: pointer;
+            -webkit-box-shadow: map-get($map: $shadows, $key: 'medium');
+            box-shadow: map-get($map: $shadows, $key: 'medium');
+        }
+
+        &_icon {
+            width: 2rem;
+            height: 2rem;
+            fill: #ffffff;
+        }
+    }
+
+    &_label {
+        text-align: center;
+    }
+}
+
+.recording {
+    @include ping;
+}
