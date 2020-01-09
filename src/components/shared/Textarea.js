@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "../css/Textarea.module.scss";
+import styles from "../../css/shared/Textarea.module.scss";
 import { PropTypes } from "prop-types";
 
 const Textarea = ({
@@ -29,7 +29,7 @@ const Textarea = ({
       <label htmlFor={id} className={styles.Textarea_label}>
         {label}
         {addRequiredFlag && (
-          <div class={styles.Textarea_label_requiredFlag}>*</div>
+          <div className={styles.Textarea_label_requiredFlag}>*</div>
         )}
       </label>
       <textarea

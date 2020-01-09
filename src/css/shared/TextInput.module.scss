@@ -6,12 +6,11 @@
     height: auto;
     border-radius: .5rem;
     @include col_start_start;
-    margin-bottom: 2rem;
 
     &_label {
         position: relative;
-        font-size: 1.5rem;
-        font-weight: 300;
+        font-size: 1.6rem;
+        font-weight: 400;
         color: map-get($map: $blueGreys, $key: 'subheadings');
     }
 
@@ -27,8 +26,14 @@
         font-size: 1.6rem;
         font-weight: 400;
 
+        &:hover,
+        &:focus-within {
+            cursor: pointer;
+            -webkit-box-shadow: map-get($map: $shadows, $key: 'mainOutline');
+            box-shadow: map-get($map: $shadows, $key: 'mainOutline');
+        }
+
         // BORDER STYLES FOR REQUIRED INPUTS
-        // Uncomment for border highlighting valid/invalid entries
         // &:required {
         //     border-left: 3px solid map-get($map: $flatColors, $key: 'mainRed');
         // }

@@ -2,19 +2,17 @@ import React from "react";
 import styles from "../../css/shared/TextInput.module.scss";
 import { PropTypes } from "prop-types";
 
-// ### TODO: ADD VALIDATION AND ERROR HANDLING W/ MESSAGES
-
 const TextInput = ({
   label,
   name,
   id,
   placeholder,
+  required = false,
   val,
   handleChange,
   handleBlur,
   handleFocus,
   handleReset,
-  required = false,
   addRequiredFlag = false
 }) => {
   return (
