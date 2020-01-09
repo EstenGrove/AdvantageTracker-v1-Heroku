@@ -1,3 +1,8 @@
+// scheduledTasks.save.task
+// scheduledTasks.get.task
+// unscheduledTasks.update.task
+// unscheduledTasks.delete.taskMany
+
 const endpoints = {
   base: "https://apitest.aladvantage.com/alaservices/v1/",
   auth: {

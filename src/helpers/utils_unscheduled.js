@@ -8,7 +8,7 @@ import { unscheduledTasks } from "./utils_endpoints";
  * @param {array} tasks array of AssessmentUnscheduleTask models with updated values to save to database
  */
 const saveUnscheduledTasks = async (token, params, tasks) => {
-  let url = test.base + unscheduledTasks.task;
+  let url = test.base + unscheduledTasks.save.task;
   if (params) url += "?" + new URLSearchParams(params);
 
   try {
@@ -64,7 +64,7 @@ const getUnscheduledTasks = async (token, residentID) => {
 
 // returns the AssessmentUnscheduleTaskId
 const updateUnscheduledTask = async (token, params, tasks) => {
-  let url = test.base + unscheduledTasks.updateTask;
+  let url = test.base + unscheduledTasks.update.task;
   url += "?" + new URLSearchParams(params);
 
   try {
@@ -82,4 +82,32 @@ const updateUnscheduledTask = async (token, params, tasks) => {
   } catch (err) {}
 };
 
-export { saveUnscheduledTasks, getUnscheduledTasks, updateUnscheduledTask };
+const deleteUnscheduledTask = async (token, params, tasks) => {
+  let url = test.base + unscheduledTasks.delete.task;
+  url += "?" + new URLSearchParams(params);
+
+  try {
+    const request = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Basic " + btoa(test.user + ":" + test.password),
+        SecurityToken: token,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(tasks)
+    });
+
+    const response = await request.json();
+    return response;
+  } catch (err) {
+    console.log("An error occurred " + err.message);
+    return err;
+  }
+};
+
+export {
+  saveUnscheduledTasks,
+  getUnscheduledTasks,
+  updateUnscheduledTask,
+  deleteUnscheduledTask
+};
