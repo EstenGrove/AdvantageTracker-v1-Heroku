@@ -1,14 +1,18 @@
-const THEME_COLORS = {
-  FLATS: {
-    blue: "hsla(197, 100%, 50%, .3)",
-    purple: "hsla(222, 89%, 64%, .3)",
-    vibe: "hsla(259, 77%, 64%, .4)",
-    green: "hsla(144, 69%, 63%, .4)",
-    red: "hsla(330, 100%, 41%, .22)",
-    yellow: "hsla(60, 92%, 71%, .7)",
-    orange: "hsla(11, 100%, 75%, .4)"
+const themeColors = {
+  brand: {
+    lightBlue: "hsla(192, 100%, 46%, 1)",
+    darkBlue: "hsla(210, 83%, 34%, 1)",
+    altLightBlue: "hsla(210, 52%, 47%, 1)",
+    lightGrey: "hsla(204, 12%, 92%, 1)",
+    altLightGrey: "hsla(210, 45%, 96%, 1)",
+    mainWhite: "hsla(0, 0%, 100%, 1)",
+    mainGreen: "hsla(79, 71%, 48%, 1)",
+    lightGreen: "hsla(89, 54%, 85%, 1)",
+    getBrands: function() {
+      return console.log(Object.getOwnPropertyNames(this));
+    }
   },
-  MAINS: {
+  main: {
     main: "hsla(242, 89%, 64%, 1)",
     mainBlue: "hsla(197, 100%, 50%, 1)",
     mainGreen: "hsla(170, 100%, 39%, 1)",
@@ -24,45 +28,63 @@ const THEME_COLORS = {
     mainPink: "hsla(332, 100%, 74%, 1)",
     neonGreen: "hsla(151, 100%, 45%, 1)",
     altYellow: "hsla(39, 100%, 70%, 1)",
-    altRed: "hsla(352, 70%, 60%, 1)"
+    altRed: "hsla(352, 70%, 60%, 1)",
+    getMains: function() {
+      return console.log(Object.getOwnPropertyNames(this));
+    }
   },
-  BLUEGREYS: {
+  flat: {
+    blue: "hsla(197, 100%, 50%, .3)",
+    purple: "hsla(222, 89%, 64%, .3)",
+    vibe: "hsla(259, 77%, 64%, .4)",
+    green: "hsla(144, 69%, 63%, .4)",
+    red: "hsla(330, 100%, 41%, .22)",
+    yellow: "hsla(60, 92%, 71%, .7)",
+    orange: "hsla(11, 100%, 75%, .4)",
+    getFlats: function() {
+      return console.log(Object.getOwnPropertyNames(this));
+    }
+  },
+  blueGreys: {
     main: "hsla(214, 32%, 91%, 1)",
     saturated: "hsla(211, 25%, 84%, 1)",
     text: "hsla(216, 15%, 52%, 1)",
     headings: "hsla(218, 17%, 35%, 1)",
     subheadings: "hsla(218, 17, 65, 1)",
     light: "hsla(204, 46%, 98%, 1)",
-    lightened: "hsla(234, 32%, 91%, 0.4)"
+    lightened: "hsla(234, 32%, 91%, 0.4)",
+    getBlueGreys: function() {
+      return console.log(Object.getOwnPropertyNames(this));
+    }
   },
-  getColors: function() {
-    return Object.getOwnPropertyNames(this).map((key, index) =>
-      console.log(Object.getOwnPropertyNames(this[key]))
-    );
+  greys: {
+    getGreys: function() {
+      return console.log(Object.getOwnPropertyNames(this));
+    }
   }
 };
 
-const { FLATS, MAINS, BLUEGREYS } = THEME_COLORS;
+const { brand, main, flat, blueGreys, greys } = themeColors;
 
-const ADL_COLORS = {
-  Ambulation: MAINS.mainBlue,
-  Bathing: MAINS.mainGreen,
-  Dressing: MAINS.mainYellow,
-  Grooming: MAINS.mainRed,
-  SpecialCare: MAINS.main,
-  Laundry: MAINS.mainBlackBlue,
-  Meals: MAINS.mainMustard,
-  MedAssist: MAINS.mainPink,
-  Psychosocial: MAINS.mainViolet,
-  StatusChecks: MAINS.mainTeal,
-  Toileting: MAINS.mainGreen,
-  Transfers: FLATS.red,
+const adlColors = {
+  Ambulation: themeColors.main.mainBlue,
+  Bathing: themeColors.main.mainGreen,
+  Dressing: themeColors.main.mainYellow,
+  Grooming: themeColors.main.mainRed,
+  SpecialCare: themeColors.main.main,
+  Laundry: themeColors.main.mainBlackBlue,
+  Meals: themeColors.main.mainMustard,
+  MedAssist: themeColors.main.mainPink,
+  Psychosocial: themeColors.main.mainViolet,
+  StatusChecks: themeColors.main.mainTeal,
+  Toileting: themeColors.main.mainGreen,
+  Transfers: themeColors.flat.red,
   getColors: function() {
-    return console.log(Object.getOwnPropertyNames(this)); // for DEV MODE ONLY
+    return console.log(Object.getOwnPropertyNames(this));
   }
 };
 
-const ICON_CHART = {
+const iconChart = {
   stopwatch: "access_alarmalarm",
   close: "clearclose",
   comments: "comments2",
@@ -79,17 +101,17 @@ const ICON_CHART = {
 const statusReducer = status => {
   switch (status) {
     case "COMPLETE":
-      return { backgroundColor: MAINS.mainGreen }; // "hsla(170, 100%, 39%, 1)"
+      return { backgroundColor: themeColors.main.mainGreen }; // "hsla(170, 100%, 39%, 1)"
     case "NOT-COMPLETE":
-      return { backgroundColor: MAINS.mainCharcoal }; // "hsla(268, 10%, 30%, 1)"
+      return { backgroundColor: themeColors.main.mainCharcoal }; // "hsla(268, 10%, 30%, 1)"
     case "IN-PROGRESS":
-      return { backgroundColor: MAINS.mainMustard }; // "hsla(39, 100%, 70%, 1)"
+      return { backgroundColor: themeColors.main.mainMustard }; // "hsla(39, 100%, 70%, 1)"
     case "PENDING":
-      return { backgroundColor: MAINS.mainOrange }; // "hsla(11, 100%, 75%, 1)"
+      return { backgroundColor: themeColors.main.mainOrange }; // "hsla(11, 100%, 75%, 1)"
     case "MISSED-EVENT":
-      return { backgroundColor: MAINS.mainRed }; // "hsla(352, 70%, 50%, 1)"
+      return { backgroundColor: themeColors.main.mainRed }; // "hsla(352, 70%, 50%, 1)"
     default:
-      return { backgroundColor: MAINS.mainCharcoal }; // "hsla(268, 10%, 30%, 1)"
+      return { backgroundColor: themeColors.main.mainCharcoal }; // "hsla(268, 10%, 30%, 1)"
   }
 };
 
@@ -213,12 +235,14 @@ const iconsReducer = type => {
 };
 
 export {
-  THEME_COLORS,
-  FLATS,
-  MAINS,
-  BLUEGREYS,
-  ADL_COLORS,
-  ICON_CHART,
+  themeColors,
+  adlColors,
+  brand,
+  main,
+  flat,
+  blueGreys,
+  greys,
+  iconChart,
   statusReducer,
   iconsReducer
 };

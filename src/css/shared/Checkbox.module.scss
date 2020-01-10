@@ -27,6 +27,13 @@
 			left: 0;
 			border: 1px solid #777;
 			border-radius: 0.5rem;
+
+			&:hover,
+			&::before {
+				-webkit-box-shadow: map-get($map: $shadows, $key: 'mainOutline');
+				box-shadow: map-get($map: $shadows, $key: 'mainOutline');
+				cursor: pointer;
+			}
 		}
 
 		&::after {
@@ -52,7 +59,8 @@
 		display: block;
 	}
 
-	input[type="checkbox"]:disabled+label {
+	input[type="checkbox"]:disabled+label,
+	input[type="checkbox"]:disabled+label::after {
 		opacity: .3;
 	}
 
