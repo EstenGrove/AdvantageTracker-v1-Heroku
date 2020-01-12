@@ -1,0 +1,23 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+
+.ShiftTag {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 7rem;
+  height: 7rem;
+  padding: 0.5rem;
+  background-color: map-get($map: $colors, $key: "mainBlackBlue");
+  -webkit-clip-path: polygon(100% 0, 25% 0, 100% 69%);
+  clip-path: polygon(100% 0, 25% 0, 100% 69%);
+  border-radius: 0.5rem;
+
+  &_shift {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: right;
+  }
+}
