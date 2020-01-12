@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../css/Row.module.scss";
+import styles from "../../css/shared/Row.module.scss";
 import { PropTypes } from "prop-types";
 import { convertSizes } from "../../helpers/utils_containers";
 

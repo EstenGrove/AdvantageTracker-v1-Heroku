@@ -17,3 +17,14 @@
   font-size: 1.8rem;
   font-weight: 300;
 }
+
+.icon {
+  width: 1.7rem;
+  height: 1.7rem;
+  fill: map-get($map: $blueGreys, $key: 'headings');
+
+  &:hover {
+    cursor: pointer;
+    fill: map-get($map: $colors, $key: 'main');
+  }
+}

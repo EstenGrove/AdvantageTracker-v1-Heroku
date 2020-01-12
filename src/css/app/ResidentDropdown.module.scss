@@ -1,0 +1,41 @@
+@import "../../sass/mixins";
+@import "../../sass/variables";
+
+.ResidentDropdown {
+    display: block;
+    margin: 2rem auto;
+    width: 40rem;
+    height: 4rem;
+
+    &_label {
+        font-size: 1.6rem;
+        text-align: center;
+    }
+
+    &_search {
+        @include fill_container;
+        @include row_start_center;
+
+        &:focus-within {
+            -webkit-box-shadow: map-get($map: $shadows, $key: "mainOutline");
+            box-shadow: map-get($map: $shadows, $key: "mainOutline");
+            border-radius: 0.5rem;
+        }
+
+        &_input {
+            @include fill_container;
+            width: 90%;
+            border-radius: 0.5rem 0 0 0.5rem;
+            border: none;
+            outline: none;
+            padding-left: 0.5rem;
+            font-size: 1.6rem;
+            font-weight: 400;
+
+            &::-webkit-calendar-picker-indicator {
+                color: map-get($map: $colors, $key: "main");
+                opacity: 1;
+            }
+        }
+    }
+}

@@ -1,6 +1,6 @@
 import React from "react";
-import styles from "../css/VoiceRecorder.module.scss";
 import { PropTypes } from "prop-types";
+import styles from "../../css/shared/VoiceRecorder.module.scss";
 import MicButton from "./MicButton";
 import StopButton from "./StopButton";
 import Textarea from "./Textarea";

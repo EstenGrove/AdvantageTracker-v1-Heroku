@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../css/CardSM.module.scss";
+import styles from "../../css/shared/CardSM.module.scss";
 
 const CardSM = ({ children, customStyles }) => {
   return (

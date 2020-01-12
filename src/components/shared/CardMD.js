@@ -1,6 +1,6 @@
 import React from "react";
 import { PropTypes } from "prop-types";
-import styles from "../css/CardMD.module.scss";
+import styles from "../../css/shared/CardMD.module.scss";
 
 const CardMD = ({ children, customStyles }) => {
   return (

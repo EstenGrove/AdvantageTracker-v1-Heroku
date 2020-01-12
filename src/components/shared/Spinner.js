@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../css/Spinner.module.scss";
+import styles from "../../css/shared/Spinner.module.scss";
 
 // range helper: creates array [1...12]
 const range = (start, stop, callback) => {

@@ -1,0 +1,71 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+
+.DailySummaryListItem {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    position: relative;
+    border: 1px solid map-get($map: $colors, $key: "mainGrey");
+    border-radius: 0.5rem;
+    background-color: #ffffff;
+    z-index: 1;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        cursor: pointer;
+        -webkit-box-shadow: map-get($map: $shadows, $key: "inset");
+        box-shadow: map-get($map: $shadows, $key: "inset");
+    }
+
+    &:hover &_item_icon,
+    &:hover &_item_count {
+        fill: map-get($map: $colors, $key: "main");
+        color: map-get($map: $colors, $key: "main");
+    }
+
+    &_details {
+        @include fill_container;
+    }
+
+    &_item {
+        @include row_end_center;
+
+        &:hover>&_count {
+            cursor: pointer;
+            color: map-get($map: $colors, $key: "main");
+            fill: map-get($map: $colors, $key: "main");
+        }
+
+        &_status {
+            margin-right: auto;
+            width: 0.8rem;
+            height: 0.8rem;
+            border-radius: 50%;
+            background-color: map-get($map: $colors, $key: "mainGreen");
+
+            &_badge {
+                width: 0.8rem;
+                height: 0.8rem;
+            }
+        }
+
+        &_icon {
+            width: 1.4rem;
+            height: 1.4rem;
+            fill: map-get($map: $blueGreys, $key: "subheadings");
+            margin-right: 0.3rem;
+
+            &:hover {
+                cursor: pointer;
+                fill: map-get($map: $colors, $key: "main");
+            }
+        }
+
+        &_count {
+            color: map-get($map: $blueGreys, $key: "headings");
+            font-weight: 700;
+            margin-right: 0.3rem;
+        }
+    }
+}

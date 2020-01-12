@@ -1,6 +1,6 @@
 import React from "react";
 import { PropTypes } from "prop-types";
-import styles from "../css/RecordButton.module.scss";
+import styles from "../../css/shared/RecordButton.module.scss";
 import sprite from "../../assets/media.svg";
 
 const RecordButton = ({ isRecording, startRecording }) => {

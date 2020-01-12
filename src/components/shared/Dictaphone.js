@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useReducer } from "react";
-import styles from "../css/Dictaphone.module.scss";
+import styles from "../../css/shared/Dictaphone.module.scss";
 import sprite from "../../assets/media.svg";
 import RecordButton from "./RecordButton";
 import StopButton from "./StopButton";

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "../css/SearchButton.module.scss";
+import styles from "../../css/shared/SearchButton.module.scss";
 
 const SearchButton = ({ text, action, addIcon = false, handleClick }) => {
   const [isDisabled, setIsDisabled] = useState(false);

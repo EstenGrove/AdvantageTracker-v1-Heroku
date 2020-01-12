@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../css/StopButton.module.scss";
+import styles from "../../css/shared/StopButton.module.scss";
 import sprite from "../../assets/media.svg";
 
 const StopButton = ({ isRecording, isStopped, stopRecording }) => {

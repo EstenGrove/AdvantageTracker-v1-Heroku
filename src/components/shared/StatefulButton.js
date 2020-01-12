@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import styles from "../css/StatefulButton.module.scss";
+import styles from "../../css/shared/StatefulButton.module.scss";
 
 const StatefulButton = ({
   action,

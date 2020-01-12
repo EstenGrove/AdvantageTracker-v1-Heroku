@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../css/ContainerLG.module.scss";
+import styles from "../../css/shared/ContainerLG.module.scss";
 import { convertSizes } from "../../helpers/utils_containers";
 
 const ContainerLG = ({

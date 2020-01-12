@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../css/Placeholder.module.scss";
+import styles from "../../css/shared/Placeholder.module.scss";
 import { PropTypes } from "prop-types";
 
 const Placeholder = ({ msg, txtColor, size = "SM" }) => {

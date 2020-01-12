@@ -1,6 +1,6 @@
 import React from "react";
 import sprite from "../../assets/media.svg";
-import styles from "../css/MicButton.module.scss";
+import styles from "../../css/shared/MicButton.module.scss";
 
 const MicButton = ({ isRecording, startRecording }) => {
   return (

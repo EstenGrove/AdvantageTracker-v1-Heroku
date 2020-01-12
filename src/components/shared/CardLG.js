@@ -1,6 +1,6 @@
 import React from "react";
 import { PropTypes } from "prop-types";
-import styles from "../css/CardLG.module.scss";
+import styles from "../../css/shared/CardLG.module.scss";
 
 const CardLG = ({ children, customStyles }) => {
   return (

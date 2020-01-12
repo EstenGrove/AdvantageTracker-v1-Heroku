@@ -1,0 +1,6 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+.CalendarView {
+    @include fill_container;
+}

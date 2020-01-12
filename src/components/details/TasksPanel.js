@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { PropTypes } from "prop-types";
-import { useForm } from "../utils/useForm";
-import styles from "../css/TasksPanel.module.scss";
-import sprite2 from "../assets/buttons.svg";
+import { useForm } from "../../utils/useForm";
+import styles from "../../css/details/TasksPanel.module.scss";
+import sprite2 from "../../assets/buttons.svg";
 import StatefulButton from "../shared/StatefulButton";
 import Modal from "../shared/Modal";
 import AppliedFilters from "./AppliedFilters";

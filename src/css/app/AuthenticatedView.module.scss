@@ -1,0 +1,16 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+
+.AuthenticatedView {
+    @include fill_container;
+
+    &_dashboard {
+        @include fill_container;
+        padding-top: 6rem;
+
+        &_header {
+            width: 100%;
+            height: auto;
+        }
+    }
+}

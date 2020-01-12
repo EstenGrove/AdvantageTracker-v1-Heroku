@@ -1,0 +1,33 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+
+.DashboardNav {
+    display: block;
+    margin: 0 auto;
+    width: 50%;
+    height: auto;
+    padding: 1rem 2rem;
+    @include row_between_start;
+
+    &_btn {
+        background-color: transparent;
+        border: none;
+        outline: none;
+
+        &:focus-within {
+            -webkit-box-shadow: map-get($map: $shadows, $key: "mainOutline");
+            box-shadow: map-get($map: $shadows, $key: "mainOutline");
+        }
+
+        &_icon {
+            width: 1.7rem;
+            height: 1.7rem;
+            fill: map-get($map: $blueGreys, $key: "headings");
+
+            &:hover {
+                cursor: pointer;
+                fill: map-get($map: $colors, $key: "main");
+            }
+        }
+    }
+}

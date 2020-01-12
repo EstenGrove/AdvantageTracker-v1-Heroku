@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../css/PanelLG.module.scss";
+import styles from "../../css/shared/PanelLG.module.scss";
 
 const PanelLG = ({ children, customStyles }) => {
   return (

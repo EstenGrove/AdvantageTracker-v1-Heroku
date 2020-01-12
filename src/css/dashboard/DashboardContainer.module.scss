@@ -1,0 +1,9 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+
+.DashboardContainer {
+    @include fill_container;
+    padding-top: 8rem;
+    padding-right: 2rem;
+    padding-left: 2rem;
+}
