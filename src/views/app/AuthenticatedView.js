@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from "react";
-import styles from "../../css/app/AuthenticatedView.module.scss";
 import { PropTypes } from "prop-types";
 import { AuthContext } from "../../state/AuthContext";
 import { GlobalStateContext } from "../../state/GlobalStateContext";
@@ -8,8 +7,17 @@ import {
   getInitialResource,
   syncResourceToState
 } from "../../helpers/utils_requests";
-import { isEmptyVal } from "../../helpers/utils_types";
+import { isEmptyVal, isEmptyObj } from "../../helpers/utils_types";
 import { handleResidentSelection } from "../../helpers/utils_residents";
+import { mergeDailyResidentData } from "../../helpers/utils_residentData";
+import { populateState } from "../../helpers/utils_state";
+
+import styles from "../../css/app/AuthenticatedView.module.scss";
+
+import Navbar from "../../components/app/Navbar";
+import ResidentDropdown from "../../components/app/ResidentDropdown";
+import ResidentCard from "../../components/app/ResidentCard";
+import DashboardNav from "../../components/dashboard/DashboardNav";
 
 const AuthenticatedView = ({ history }) => {
   const { authData } = useContext(AuthContext);
@@ -51,6 +59,27 @@ const AuthenticatedView = ({ history }) => {
     );
   };
 
+  const loadResident = async e => {
+    if (isEmptyObj(currentResident)) return alert("Please select a resident.");
+    const { ResidentID } = currentResident;
+    const { token } = authData;
+
+    dispatch({ type: "LOADING" });
+
+    // fetch data and merged together
+    const merged = await mergeDailyResidentData(token, ResidentID, new Date());
+    // clone and sync to state
+    const oldState = { ...state };
+    const newState = populateState(merged, oldState);
+
+    return dispatch({
+      type: "SUCCESS",
+      data: {
+        newState: newState
+      }
+    });
+  };
+
   useEffect(() => {
     // prevents memory leaks (DO NOT REMOVE!!)
     let isMounted = true;
@@ -68,23 +97,25 @@ const AuthenticatedView = ({ history }) => {
 
   return (
     <div className={styles.AuthenticatedView}>
-      {/* NAVBAR */}
+      <Navbar
+        currentUser={state.user}
+        dispatch={dispatch}
+        handleLogout={handleLogout}
+      />
       <section
         className={styles.AuthenticatedView_dashboard}
         style={customStyles}
       >
         <header className={styles.AuthenticatedView_dashboard_header}>
-          {/* -----REMOVE BELOW THIS LINE AFTER PROJECT INIT----- */}
-          <h1 className="title">Application Boilerplate</h1>
-          <h4 className="subtitle">
-            A custom boilerplate for ALA App structure w/ included deps and
-            auth.
-          </h4>
-          {/* -----REMOVE ABOVE THIS LINE AFTER PROJECT INIT----- */}
-
-          {/* RESIDENT DROPDOWN */}
-          {/* DASHBOARD NAV */}
-          {/* RESIDENT CARD???? */}
+          <ResidentDropdown
+            residents={state.globals.residents}
+            name="currentResident"
+            id="currentResident"
+            selectResident={selectResident}
+            loadResident={loadResident}
+          />
+          <DashboardNav />
+          <ResidentCard currentResident={currentResident} />
         </header>
         {/* DASHBOARD CONTAINER */}
       </section>

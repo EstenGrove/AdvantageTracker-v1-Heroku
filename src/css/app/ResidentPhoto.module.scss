@@ -1,0 +1,73 @@
+@import "../../sass/mixins";
+@import "../../sass/variables";
+
+.ResidentPhoto {
+    border-radius: 50%;
+    -webkit-box-shadow: map-get($map: $shadows, $key: "medSubtle");
+    box-shadow: map-get($map: $shadows, $key: "medSubtle");
+    @include row_center_all;
+    shape-outside: circle(15em at 10% 40%) padding-box;
+
+    &_SM {
+        @extend .ResidentPhoto;
+        width: 4rem;
+        height: 4rem;
+    }
+
+    &_MD {
+        @extend .ResidentPhoto;
+        width: 8rem;
+        height: 8rem;
+    }
+
+    &_LG {
+        @extend .ResidentPhoto;
+        width: 12rem;
+        height: 12rem;
+    }
+
+    &_image {
+        border-radius: 50%;
+        border: 1px solid map-get($map: $blueGreys, $key: "subheadings");
+
+        &_SM {
+            @extend .ResidentPhoto_image;
+            width: 4rem;
+            height: 4rem;
+        }
+
+        &_MD {
+            @extend .ResidentPhoto_image;
+            width: 8rem;
+            height: 8rem;
+        }
+
+        &_LG {
+            @extend .ResidentPhoto_image;
+            width: 12rem;
+            height: 12rem;
+        }
+    }
+
+    &_fallback {
+        fill: map-get($map: $blueGreys, $key: "subheadings");
+
+        &_SM {
+            @extend .ResidentPhoto_fallback;
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+
+        &_MD {
+            @extend .ResidentPhoto_fallback;
+            width: 6rem;
+            height: 6rem;
+        }
+
+        &_LG {
+            @extend .ResidentPhoto_fallback;
+            width: 10rem;
+            height: 10rem;
+        }
+    }
+}

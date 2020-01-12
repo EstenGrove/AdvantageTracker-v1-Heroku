@@ -1,1 +1,5 @@
-# Components Global To the Application Such as the <ResidentDropdown/>, <Navbar/> etc
+# Global App Components
+
+The components in this directory are components used globally or do NOT fall specifically into a single view's requirements.
+
+**Examples include <Navbar/>, <ResidentDropdown/> etc.**
