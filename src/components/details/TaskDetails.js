@@ -15,9 +15,9 @@ import styles from "../../css/details/TaskDetails.module.scss";
 import sprite from "../../assets/tasks.svg";
 
 import StatusBadge from "../shared/StatusBadge"; // updated component
-import Dictaphone from "../shared/components/Dictaphone";
-import Textarea from "../shared/components/Textarea";
-import VoiceRecorder from "../shared/components/VoiceRecorder";
+import Dictaphone from "../shared/Dictaphone";
+import Textarea from "../shared/Textarea";
+import VoiceRecorder from "../shared/VoiceRecorder";
 
 const TaskDetails = ({ task = {}, children }) => {
   if (isEmptyObj(task)) {

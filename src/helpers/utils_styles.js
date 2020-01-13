@@ -402,6 +402,9 @@ const iconsReducer = type => {
 export {
   themeColors,
   adlColors,
+  statusColors,
+  adlIcons,
+  // destructured
   brand,
   main,
   flat,

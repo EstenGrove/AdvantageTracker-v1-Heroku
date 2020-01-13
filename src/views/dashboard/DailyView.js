@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import styles from "../css/DailyView.module.scss";
+import styles from "../../css/dashboard/DailyView.module.scss";
 import { PropTypes } from "prop-types";
 
 import { GlobalStateContext } from "../../state/GlobalStateContext";
@@ -7,13 +7,13 @@ import { isEmptyArray } from "../../helpers/utils_types";
 import {
   findTasksByADL,
   findTodaysTasksByADL
-} from "../../helpers/utils_scheduledTasks";
+} from "../../helpers/utils_scheduled";
 import { adlColors } from "../../helpers/utils_styles";
 import Spinner from "../../components/shared/Spinner";
 import ContainerLG from "../../components/shared/ContainerLG";
 import Row from "../../components/shared/Row";
 import CardSM from "../../components/shared/CardSM";
-import DailySummaryCard from "../../components/daiy/DailySummaryCard";
+import DailySummaryCard from "../../components/daily/DailySummaryCard";
 import DetailsView from "./DetailsView";
 
 // REQUIRED PROPS:

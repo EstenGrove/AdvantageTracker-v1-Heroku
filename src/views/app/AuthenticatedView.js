@@ -18,6 +18,7 @@ import Navbar from "../../components/app/Navbar";
 import ResidentDropdown from "../../components/app/ResidentDropdown";
 import ResidentCard from "../../components/app/ResidentCard";
 import DashboardNav from "../../components/dashboard/DashboardNav";
+import DashboardContainer from "../../components/dashboard/DashboardContainer";
 
 const AuthenticatedView = ({ history }) => {
   const { authData } = useContext(AuthContext);
@@ -117,7 +118,12 @@ const AuthenticatedView = ({ history }) => {
           <DashboardNav />
           <ResidentCard currentResident={currentResident} />
         </header>
-        {/* DASHBOARD CONTAINER */}
+        <DashboardContainer
+          isExpanded={isExpanded}
+          state={state}
+          dispatch={dispatch}
+          handleSidebar={handleSidebar}
+        />
       </section>
       {/*  */}
     </div>
