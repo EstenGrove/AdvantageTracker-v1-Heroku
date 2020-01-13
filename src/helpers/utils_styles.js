@@ -61,21 +61,18 @@ const { brand, main, flat, blueGreys, greys } = themeColors;
 
 // ADL CATEGORY COLORS - HARDCODED
 const adlColors = {
-  Ambulation: themeColors.main.mainBlue,
-  Bathing: themeColors.main.mainGreen,
-  Dressing: themeColors.main.mainYellow,
-  Grooming: themeColors.main.mainRed,
+  Ambulation: themeColors.main.blue,
+  Bathing: themeColors.main.green,
+  Dressing: themeColors.main.yellow,
+  Grooming: themeColors.main.red,
   SpecialCare: themeColors.main.main,
-  Laundry: themeColors.main.mainBlackBlue,
-  Meals: themeColors.main.mainMustard,
-  MedAssist: themeColors.main.mainPink,
-  Psychosocial: themeColors.main.mainViolet,
-  StatusChecks: themeColors.main.mainTeal,
-  Toileting: themeColors.main.mainGreen,
-  Transfers: themeColors.flat.red,
-  getColors: function() {
-    return console.log(Object.getOwnPropertyNames(this));
-  }
+  Laundry: themeColors.main.blackBlue,
+  Meals: themeColors.main.mustard,
+  MedAssist: themeColors.main.pink,
+  Psychosocial: themeColors.main.violet,
+  StatusChecks: themeColors.main.teal,
+  Toileting: themeColors.main.green,
+  Transfers: themeColors.flat.red
 };
 
 // TASK STATUS COLORS

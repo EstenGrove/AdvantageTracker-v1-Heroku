@@ -41,7 +41,9 @@ const DailyView = props => {
           {categories &&
             categories.map((adl, index) => (
               <CardSM
-                customStyles={adlColors[adl.AdlCategoryType]}
+                customStyles={{
+                  borderTop: `2px solid ${adlColors[adl.AdlCategoryType]}`
+                }}
                 key={`${adl.AdlId}_${index}`}
               >
                 <DailySummaryCard

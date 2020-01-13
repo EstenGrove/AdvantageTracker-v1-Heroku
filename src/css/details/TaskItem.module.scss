@@ -1,0 +1,176 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+
+.TaskItem {
+    position: relative;
+    min-width: 35rem;
+    width: 100%;
+    min-height: 30rem;
+    border: 1px solid map-get($map: $colors, $key: "mainGrey");
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
+    background-color: #ffffff;
+    font-family: map-get($map: $fonts, $key: "mainSans");
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        cursor: pointer;
+        -webkit-box-shadow: map-get($map: $shadows, $key: "light");
+        box-shadow: map-get($map: $shadows, $key: "light");
+    }
+
+    // USED FOR COMPLETED TASKS
+    &_isCompleted {
+        @extend .TaskItem;
+        opacity: 0.4;
+    }
+
+    &_inner {
+        @include fill_container;
+
+        // ADL CATEGORY NAME
+        &_category {
+            width: 50%;
+            height: auto;
+            @include col_start_start;
+            margin-bottom: 2rem;
+
+            &_icon {
+                width: 2rem;
+                height: 2rem;
+                margin-bottom: 0.2rem;
+            }
+
+            &_title {
+                color: map-get($map: $colors, $key: "mainBlackBlue");
+            }
+        }
+
+        // TASK DESCRIPTION
+        &_desc {
+            width: auto;
+            height: auto;
+            margin-bottom: 2rem;
+
+            &_title {
+                font-size: 1.3rem;
+                font-weight: 600;
+                color: map-get($map: $blueGreys, $key: "subheadings");
+            }
+
+            &_text {
+                font-size: 1.5rem;
+                color: map-get($map: $blueGreys, $key: "headings");
+            }
+        }
+
+        // STATUS BADGE & SHIFT TYPE
+        &_middle {
+            width: 100%;
+            @include row_between_start;
+
+            margin-bottom: 2rem;
+
+            &_shift {
+                color: map-get($map: $blueGreys, $key: "subheadings");
+
+                &>i {
+                    font-size: 1.4rem;
+                    font-weight: 400;
+
+                    &>b {
+                        color: map-get($map: $blueGreys, $key: "headings");
+                    }
+                }
+            }
+        }
+
+        &_bottom {
+            height: auto;
+            @include row_between;
+
+            &_left {
+                width: auto;
+                height: auto;
+            }
+
+            &_title {
+                font-size: 1.2rem;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+                color: map-get($map: $blueGreys, $key: "subheadings");
+            }
+
+            &_middle {
+                width: auto;
+                height: auto;
+                @include col_start_start;
+
+                &_title {
+                    // width: 100%;
+                    font-size: 1.2rem;
+                    font-weight: 600;
+                    margin-bottom: 0.5rem;
+                    color: map-get($map: $blueGreys, $key: "subheadings");
+                    // text-align: left;
+                }
+            }
+
+            &_right {
+                width: auto;
+                height: auto;
+
+                &_due {
+                    @include col_start_end;
+                    margin-bottom: 1rem;
+
+                    &_title {
+                        font-size: 1rem;
+                        font-weight: 600;
+                        color: map-get($map: $blueGreys, $key: "subheadings");
+                    }
+
+                    &_icon {
+                        width: 1.4rem;
+                        height: 1.4rem;
+                        fill: map-get($map: $blueGreys, $key: "subheadings");
+                    }
+                }
+
+                &_menu {
+                    width: auto;
+                    height: 50%;
+                    padding: 0.5rem 0;
+                    @include row_end_end;
+
+                    &_icon {
+                        width: 1.4rem;
+                        height: 1.4rem;
+                        fill: map-get($map: $colors, $key: "main");
+                        cursor: pointer;
+                    }
+
+                    &>div {
+                        @include base_flex;
+                        -webkit-box-align: center;
+                        -ms-flex-align: center;
+                        align-items: center;
+
+                        &:hover &>span {
+                            fill: map-get($map: $colors, $key: "main");
+                            color: map-get($map: $colors, $key: "main");
+                        }
+
+                        &>span {
+                            font-size: 1.4rem;
+                            color: map-get($map: $colors, $key: "main");
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

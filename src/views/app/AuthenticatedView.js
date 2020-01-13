@@ -31,7 +31,7 @@ const AuthenticatedView = ({ history }) => {
 
   // handles expanding/shrinking container based on Sidebar's width
   const customStyles = {
-    paddingLeft: isExpanded ? "22rem" : "0"
+    paddingLeft: isExpanded ? "22rem" : "8rem"
   };
 
   const handleLogout = async e => {

@@ -3,7 +3,6 @@ import { NavLink, withRouter, useRouteMatch } from "react-router-dom";
 import { PropTypes } from "prop-types";
 import styles from "../../css/dashboard/Sidebar.module.scss";
 import sprite from "../../assets/sidebar.svg";
-import Button from "../shared/Button";
 
 // **IMPLEMENT MOBILE SIDEBAR**
 // PASS STATE (ie resident, tasks via routes)
