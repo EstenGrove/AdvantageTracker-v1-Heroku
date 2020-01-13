@@ -1,13 +1,45 @@
 const SHIFTS = ["AM", "PM", "NOC", "ANY"];
 
 const DAYS = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday"
+	"Sunday",
+	"Monday",
+	"Tuesday",
+	"Wednesday",
+	"Thursday",
+	"Friday",
+	"Saturday"
 ];
 
-export { SHIFTS, DAYS };
+const STATUS = [
+	"COMPLETE",
+	"IN-PROGRESS",
+	"NOT-COMPLETE",
+	"PENDING",
+	"MISSED-EVENT"
+];
+
+const RESOLUTIONS = [
+	"COMPLETED",
+	"COMPLETED-REASSESSMENT-NEEDED",
+	"TBC-NEXT-SHIFT",
+	"RESIDENT-DENIED",
+	"CANCELLED-BY-SUPERVISOR",
+	"PENDING",
+	"TBC-NEXT-SHIFT-NEEDS"
+];
+
+const REASONS = [
+	"COMPLETED-ON-LATER-SHIFT",
+	"CANCELLED-BY-SUPERVISOR",
+	"NOT-NEEDED",
+	"MISSED-FORGOTTEN",
+	"INSUFFICIENT-TIME-TO-COMPLETE",
+	"COMPLETED-AS-SCHEDULED",
+	"NOT-COMPLETED",
+	"MISSED",
+	"FORGOTTEN"
+];
+
+const PRIORITIES = ["NONE", "LOW", "MEDIUM", "HIGH"];
+
+export { SHIFTS, DAYS, STATUS, RESOLUTIONS, REASONS, PRIORITIES };
