@@ -5,7 +5,10 @@ import { PropTypes } from "prop-types";
 import { adlColors } from "../../helpers/utils_styles";
 import { useForm } from "../../utils/useForm";
 import { findTaskRecordByID } from "../../helpers/utils_tasks";
-import { updateTrackingTasks } from "../../helpers/utils_scheduled";
+import {
+	updateTrackingTasks,
+	getTrackingTasks
+} from "../../helpers/utils_scheduled";
 import {
 	ScheduledTask,
 	ScheduledTaskShift,

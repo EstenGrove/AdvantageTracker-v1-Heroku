@@ -89,6 +89,20 @@ const reducer = (state, action) => {
 				}
 			};
 		}
+		case "UPDATE": {
+			// SAME AS "SUCCESS" ACTION
+			const { newState } = action.data;
+			return {
+				...state,
+				...newState,
+				app: {
+					hasLoaded: true,
+					isLoading: false,
+					isError: false,
+					hasCache: false
+				}
+			};
+		}
 		case "RESET": {
 			return {
 				...initialGlobalState

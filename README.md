@@ -26,5 +26,9 @@ Working build complete with all views:
 **User Flows**
 
 - [ ] Task Updates
+
   - Create immediate update of user data "prior" to POST request.
   - Apply this user flow inside of the <DetailsView/>
+
+- [ ] Create "ADD NOTE" flow for tasks and subtasks.
+  - Might need some helpers for finding the matching task record whose note record needs updating.
