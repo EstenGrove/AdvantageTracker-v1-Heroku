@@ -24,7 +24,7 @@ const hasProperty = (obj, prop) => {
 };
 
 const handleEmpties = val => {
-  if (isEmptyArray(val)) return [];
+  if (isEmptyArray(val) || !val) return [];
   return [...val];
 };
 

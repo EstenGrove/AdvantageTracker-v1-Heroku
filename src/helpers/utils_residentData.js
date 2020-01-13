@@ -13,7 +13,6 @@ const getResidentDay = async (token, residentID, weekDate) => {
       residentId: residentID,
       dayOfWeekDate: weekDate
     });
-
   try {
     const request = await fetch(url, {
       method: "GET",
@@ -145,6 +144,7 @@ const parseAndFindResident = (resident, residents) => {
 // token, id and day to fetch data for (ie Sunday = 0, Monday = 1, ...)
 const fetchDailyResidentData = async (token, residentID, day = new Date()) => {
   const dayOfWeekDate = format(day, "MM/DD/YYYY");
+  console.log("dayOfWeekDate", dayOfWeekDate);
   const dailyData = await getResidentDay(token, residentID, dayOfWeekDate);
   const profileData = await getResidentProfile(token, residentID);
 

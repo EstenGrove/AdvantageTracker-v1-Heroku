@@ -71,6 +71,14 @@ const AuthenticatedView = ({ history }) => {
     const merged = await mergeDailyResidentData(token, ResidentID, new Date());
     // clone and sync to state
     const oldState = { ...state };
+
+    console.group("AuthView (before populateState is invoked)");
+    console.log("state", state);
+    console.log("state.globals", state.globals);
+    console.log("oldState", oldState);
+    console.log("resident", merged);
+    console.groupEnd();
+
     const newState = populateState(merged, oldState);
 
     return dispatch({
