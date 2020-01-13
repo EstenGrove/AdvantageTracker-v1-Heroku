@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import { PropTypes } from "prop-types";
+
 import { adlColors } from "../../helpers/utils_styles";
 import { useForm } from "../../utils/useForm";
-
+import { findTaskRecordByID } from "../../helpers/utils_tasks";
+import { updateTrackingTasks } from "../../helpers/utils_scheduled";
 import {
 	ScheduledTask,
 	ScheduledTaskShift,
@@ -32,13 +34,7 @@ const DetailsView = props => {
 	} = props.location.state;
 	const [showModal, setShowModal] = useState(false);
 	const [activeTask, setActiveTask] = useState({});
-	const {
-		formState,
-		setFormState,
-		handleChange,
-		handleCheckbox,
-		handleBlur
-	} = useForm({
+	const { formState, setFormState, handleChange, handleCheckbox } = useForm({
 		status: "",
 		shift: "",
 		taskNotes: "",
@@ -59,9 +55,22 @@ const DetailsView = props => {
 	const saveTaskUpdate = async e => {
 		e.persist();
 		e.preventDefault();
-		const taskModel = new ScheduledTask();
+		const { values } = formState;
+		const match = findTaskRecordByID(
+			activeTask,
+			trackingTasks,
+			"AssessmentTrackingTaskId"
+		);
+		// update server-side
+		const update = await updateTrackingTasks(currentResident.token, [...match]);
+		console.group("saveTaskUpdate");
+		console.log("values", values);
+		console.log("update", update);
+		console.log("match", match);
+		return console.groupEnd();
 	};
 
+	// handles setting priority value
 	const handlePriority = priority => {
 		return setFormState({
 			...formState,
@@ -102,6 +111,7 @@ const DetailsView = props => {
 							handleChange={handleChange}
 							handleCheckbox={handleCheckbox}
 							handlePriority={handlePriority}
+							saveTaskUpdate={saveTaskUpdate}
 						/>
 					</TaskDetails>
 				</Modal>
