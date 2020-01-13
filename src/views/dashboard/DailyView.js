@@ -26,7 +26,13 @@ const DailyView = props => {
 	const {
 		state: {
 			app: { isLoading },
-			globals: { currentResident, scheduledTasks, unscheduledTasks, categories }
+			globals: {
+				currentResident,
+				scheduledTasks,
+				unscheduledTasks,
+				trackingTasks,
+				categories
+			}
 		}
 	} = useContext(GlobalStateContext);
 
@@ -48,11 +54,13 @@ const DailyView = props => {
 							>
 								<DailySummaryCard
 									key={`${adl.AdlId}_${adl.AdlCategoryId}`}
+									currentResident={currentResident}
 									scheduledTasks={findTasksByADL(
 										scheduledTasks,
 										adl.AdlCategoryType
 									)}
 									category={adl}
+									trackingTasks={trackingTasks}
 									day={new Date()}
 								/>
 							</CardSM>

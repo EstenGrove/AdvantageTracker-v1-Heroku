@@ -3,6 +3,14 @@ import { withRouter } from "react-router-dom";
 import { PropTypes } from "prop-types";
 import { adlColors } from "../../helpers/utils_styles";
 import { useForm } from "../../utils/useForm";
+
+import {
+	ScheduledTask,
+	ScheduledTaskShift,
+	ScheduledShiftSubTask,
+	ScheduledTaskNote
+} from "../../helpers/utils_models";
+
 import styles from "../../css/dashboard/DetailsView.module.scss";
 import PanelLG from "../../components/shared/PanelLG";
 import Modal from "../../components/shared/Modal";
@@ -16,10 +24,21 @@ import EditTaskForm from "../../components/details/EditTaskForm";
 
 // DETAILS VIEW - CHILD ROUTE OF THE <DailyView/> route
 const DetailsView = props => {
-	const { category, scheduledTasks } = props.location.state;
+	const {
+		category,
+		scheduledTasks,
+		trackingTasks,
+		currentResident
+	} = props.location.state;
 	const [showModal, setShowModal] = useState(false);
 	const [activeTask, setActiveTask] = useState({});
-	const { formState, handleChange, handleCheckbox, handleBlur } = useForm({
+	const {
+		formState,
+		setFormState,
+		handleChange,
+		handleCheckbox,
+		handleBlur
+	} = useForm({
 		status: "",
 		shift: "",
 		taskNotes: "",
@@ -28,7 +47,8 @@ const DetailsView = props => {
 		requiresMedCheck: "",
 		reassess: false,
 		reassessNotes: "",
-		minutes: 0
+		minutes: 0,
+		priority: ""
 	});
 
 	const viewDetails = task => {
@@ -39,9 +59,23 @@ const DetailsView = props => {
 	const saveTaskUpdate = async e => {
 		e.persist();
 		e.preventDefault();
+		const taskModel = new ScheduledTask();
 	};
 
-	console.log("formState", formState);
+	const handlePriority = priority => {
+		return setFormState({
+			...formState,
+			values: {
+				...formState.values,
+				priority: priority
+			}
+		});
+	};
+
+	console.group("<DetailsView/>");
+	console.log("currentResident", currentResident);
+	console.log("trackingTasks", trackingTasks);
+	console.groupEnd();
 
 	return (
 		<>
@@ -67,6 +101,7 @@ const DetailsView = props => {
 							vals={formState.values}
 							handleChange={handleChange}
 							handleCheckbox={handleCheckbox}
+							handlePriority={handlePriority}
 						/>
 					</TaskDetails>
 				</Modal>
