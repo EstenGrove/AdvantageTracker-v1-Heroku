@@ -2,27 +2,46 @@ import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import { PropTypes } from "prop-types";
 import { adlColors } from "../../helpers/utils_styles";
+import { useForm } from "../../utils/useForm";
 import styles from "../../css/dashboard/DetailsView.module.scss";
 import PanelLG from "../../components/shared/PanelLG";
 import Modal from "../../components/shared/Modal";
 import TasksPanel from "../../components/details/TasksPanel";
 import TaskList from "../../components/details/TaskList";
 import TaskDetails from "../../components/details/TaskDetails";
+import EditTaskForm from "../../components/details/EditTaskForm";
+
+// **TODOS**:
+// 1. REASSESS NOTES TEXTAREA NOT SHOWING WHEN REASSESS CHECKBOX IS SELECTED
 
 // DETAILS VIEW - CHILD ROUTE OF THE <DailyView/> route
 const DetailsView = props => {
 	const { category, scheduledTasks } = props.location.state;
 	const [showModal, setShowModal] = useState(false);
 	const [activeTask, setActiveTask] = useState({});
+	const { formState, handleChange, handleCheckbox, handleBlur } = useForm({
+		status: "",
+		shift: "",
+		taskNotes: "",
+		signature: "",
+		residentUnavailable: false,
+		requiresMedCheck: "",
+		reassess: false,
+		reassessNotes: "",
+		minutes: 0
+	});
 
 	const viewDetails = task => {
 		setShowModal(true);
 		setActiveTask(task);
-		console.group("viewDetails Modal");
-		console.log("task", task);
-		console.log("activeTask", activeTask);
-		console.groupEnd();
 	};
+
+	const saveTaskUpdate = async e => {
+		e.persist();
+		e.preventDefault();
+	};
+
+	console.log("formState", formState);
 
 	return (
 		<>
@@ -42,7 +61,14 @@ const DetailsView = props => {
 
 			{showModal && (
 				<Modal title="Edit/Update Task" closeModal={() => setShowModal(false)}>
-					<TaskDetails task={activeTask} />
+					<TaskDetails task={activeTask}>
+						<EditTaskForm
+							title="Update task"
+							vals={formState.values}
+							handleChange={handleChange}
+							handleCheckbox={handleCheckbox}
+						/>
+					</TaskDetails>
 				</Modal>
 			)}
 		</>

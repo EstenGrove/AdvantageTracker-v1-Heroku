@@ -20,3 +20,5 @@ Working build complete with all views:
 **Components**
 
 - [ ] Rework <CreateTaskForm/> & <UpdateTaskForm/> to better handle shifts, subtasks and task notes.
+
+- [ ] <Counter/> needs to be fixed to handle min/max, onChange/manual entry and more features.

@@ -9,21 +9,18 @@ import Checkbox from "../shared/Checkbox";
 import Textarea from "../shared/Textarea";
 import TextInput from "../shared/TextInput";
 import StatefulButton from "../shared/StatefulButton";
-import MinutesCounter from "../shared/MinutesCounter";
+import Counter from "../shared/Counter";
 import PriorityButtonGroup from "../shared/PriorityButtonGroup";
 
 const EditTaskForm = ({
 	title,
-	categories,
 	vals,
-	incrementMinutes,
-	decrementMinutes,
-	handleShift,
+	setCount,
 	handleChange,
 	handleCheckbox,
 	handlePriority,
 	handleBlur,
-	saveTaskForm
+	saveTaskUpdate
 }) => {
 	// handles hidden sections: additional options/reassess notes
 	const [taskFormSections, setTaskFormSections] = useState({
@@ -123,16 +120,11 @@ const EditTaskForm = ({
 							{/* ---------HIDDEN BY DEFAULT--------- */}
 							{/* ADDITIONAL TASK OPTIONS (HIDDEN BY DEFAULT) */}
 							{/* ACTUAL TIME TAKEN */}
-							<MinutesCounter
+							<Counter
 								val={vals.minutes}
-								minNum={0}
-								maxNum={120}
 								label="How long did it take? (mins)"
 								name="minutes"
 								id="minutes"
-								handleChange={handleChange}
-								incrementCount={incrementMinutes}
-								decrementCount={decrementMinutes}
 							/>
 							{/* FOLLOWUP-DATE */}
 							{/* PRIORITY BUTTONS???? */}
@@ -164,7 +156,11 @@ const EditTaskForm = ({
 					isRequired={true}
 				/>
 
-				<StatefulButton text="Save" action="Saving..." />
+				<StatefulButton
+					text="Save"
+					action="Saving..."
+					callback={saveTaskUpdate}
+				/>
 			</form>
 		</article>
 	);
