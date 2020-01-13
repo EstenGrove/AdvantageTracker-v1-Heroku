@@ -1,4 +1,4 @@
-const getPriorityID = priority => {
+const findPriorityID = priority => {
 	switch (priority) {
 		case "NONE":
 			return 0;
@@ -13,7 +13,7 @@ const getPriorityID = priority => {
 	}
 };
 
-const getPriorityNameFromID = priority => {
+const findPriorityNameFromID = priority => {
 	switch (priority) {
 		case 0:
 			return "NONE";
@@ -28,4 +28,4 @@ const getPriorityNameFromID = priority => {
 	}
 };
 
-export { getPriorityID, getPriorityNameFromID };
+export { findPriorityID, findPriorityNameFromID };

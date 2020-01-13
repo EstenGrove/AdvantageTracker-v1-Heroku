@@ -2,9 +2,6 @@ import { test } from "./utils_env";
 import { scheduledTasks, reassess } from "./utils_endpoints";
 import { format } from "date-fns";
 import { isEmptyArray, isEmptyVal, hasProperty } from "./utils_types";
-import { findStatusID } from "./utils_status";
-import { findShiftID } from "./utils_shifts";
-import { findPriorityID } from "./utils_priority";
 
 /**
  * @description "READ" request to fetch active tasks
@@ -120,59 +117,12 @@ const deleteTrackingTasks = async (token, params, tasksToDelete) => {
 	}
 };
 
-const handleTaskNotes = vals => {
-	return `${vals.taskNotes} <br/> Reassess Notes: ${vals.reassessNotes}`;
-};
-
 // REQUIREMENTS:
-// 1. handle residentUnavailable case
-// 2.
-
-const updateTaskRecord = (vals, record) => {
-	return {
-		...record,
-		AssessmentTaskStatusId: findStatusID(vals.status),
-		CompletedAssessmentShiftId: findShiftID(vals.shift),
-		AssessmentPriorityId: findPriorityID(vals.priority),
-		SignedBy: vals.signature,
-		Notes: vals.taskNotes
-	};
-};
-
-// consider using for mapping user-generated values to the correct value in the task record???
-const handleResolutions = (task, status = "PENDING") => {
-	switch (status) {
-		case "PENDING": {
-			return;
-		}
-		case "COMPLETE": {
-			return;
-		}
-		case "NOT-COMPLETE": {
-			return;
-		}
-
-		case "IN-PROGRESS": {
-			return;
-		}
-		case "MISSED-EVENT": {
-			return;
-		}
-
-		default:
-			break;
-	}
-};
-
-const markAsMissedEvent = (vals, record) => {
-	return {
-		...record,
-		AssessmentTaskStatusId: findStatusID("MISSED-EVENT"),
-		CompletedAssessmentShiftId: 0,
-		SignedBy: vals.signature,
-		Notes: vals.reassess ? handleTaskNotes(vals) : vals.taskNotes
-	};
-};
+// 1. CASES TO HANDLE: (make calles to "handleResolutions()" function based off of status)
+//  1a. RESIDENT UNAVAILABLE
+//  2a. MISSED-EVENT STATUS
+//  3a. NOT-COMPLETE STATUS
+//  4a. IN-PROGRESS STATUS
 
 const isScheduledTask = task => {
 	if (hasProperty("AssessmentUnscheduleTaskId")) {
@@ -226,10 +176,6 @@ const findTasksByDayAndADL = (tasks, day, adl) => {
 
 // TASK UPDATE UTILITIES
 export {
-	updateTaskRecord,
-	handleTaskNotes,
-	handleResolutions, // WIP: finish all resolution cases
-	markAsMissedEvent,
 	isScheduledTask,
 	findTasksByShift,
 	findTasksByDay,

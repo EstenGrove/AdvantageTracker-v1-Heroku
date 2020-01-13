@@ -39,6 +39,7 @@ const DetailsView = props => {
 		shift: "",
 		taskNotes: "",
 		signature: "",
+		followUpDate: "",
 		residentUnavailable: false,
 		requiresMedCheck: "",
 		reassess: false,
