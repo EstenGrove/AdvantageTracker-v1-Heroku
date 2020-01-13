@@ -1,9 +1,22 @@
-# Boilerplate v1
+# ALA-App
 
-A custom React boilerplate for ALA Application generation complete w/ required deps, reusable components, pre-defined folder structure and full-functioning authentication.
+Working build complete with all views:
 
----
+- Daily
+  - Details
+- Calendar
+- Summary
+- ResidentInfo
+- Settings
 
-## Project Structure
+## Todos - categorized
 
-This application boilerplate uses a specific project structure to keep things organized and consistent.
+**Views**
+
+- [ ] Update <CalendarView/> with new data structure to include subtasks, shifts and task notes.
+- [ ] Update <SummaryView/> with new data structure to include subtasks, shifts and task notes.
+- [ ] IF TIME PERMITS: Add base structure of <ResidentInfo/> and <Settings/> view.
+
+**Components**
+
+- [ ] Rework <CreateTaskForm/> & <UpdateTaskForm/> to better handle shifts, subtasks and task notes.
