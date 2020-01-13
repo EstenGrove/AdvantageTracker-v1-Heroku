@@ -54,7 +54,7 @@ const updateTrackingTasks = async (token, tasksToUpdate) => {
 			body: JSON.stringify(tasksToUpdate)
 		});
 		const response = await request.json();
-		return response;
+		return response.Data;
 	} catch (err) {
 		return console.log("An error occurred ", err.message);
 	}

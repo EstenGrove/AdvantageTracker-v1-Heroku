@@ -22,3 +22,9 @@ Working build complete with all views:
 - [ ] Rework <CreateTaskForm/> & <UpdateTaskForm/> to better handle shifts, subtasks and task notes.
 
 - [ ] <Counter/> needs to be fixed to handle min/max, onChange/manual entry and more features.
+
+**User Flows**
+
+- [ ] Task Updates
+  - Create immediate update of user data "prior" to POST request.
+  - Apply this user flow inside of the <DetailsView/>

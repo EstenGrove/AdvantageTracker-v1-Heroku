@@ -33,7 +33,8 @@ const DailyView = props => {
 				trackingTasks,
 				categories
 			}
-		}
+		},
+		dispatch
 	} = useContext(GlobalStateContext);
 
 	if (isLoading) {
@@ -59,6 +60,7 @@ const DailyView = props => {
 										scheduledTasks,
 										adl.AdlCategoryType
 									)}
+									dispatch={dispatch}
 									category={adl}
 									trackingTasks={trackingTasks}
 									day={new Date()}

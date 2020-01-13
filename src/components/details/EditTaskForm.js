@@ -72,6 +72,18 @@ const EditTaskForm = ({
 						name="reassess"
 						handleCheckbox={handleCheckbox}
 					/>
+
+					<Textarea
+						label="Notes/Comments"
+						placeholder="Enter any notes or task related comments..."
+						name="taskNotes"
+						id="taskNotes"
+						val={vals.taskNotes}
+						handleChange={handleChange}
+						enableCharCount={true}
+						maxChar={250}
+					/>
+
 					{vals.reassess && (
 						<div className={styles.EditTaskForm_form_checkGroup_reassess}>
 							<Textarea
@@ -129,16 +141,7 @@ const EditTaskForm = ({
 							{/* FOLLOWUP-DATE */}
 							{/* PRIORITY BUTTONS???? */}
 							{/* NOTES TEXTBOX */}
-							<Textarea
-								label="Notes/Comments"
-								placeholder="Enter any notes or task related comments..."
-								name="taskNotes"
-								id="taskNotes"
-								val={vals.taskNotes}
-								handleChange={handleChange}
-								enableCharCount={true}
-								maxChar={250}
-							/>
+
 							{/* ---------HIDDEN BY DEFAULT--------- */}
 						</article>
 					</section>

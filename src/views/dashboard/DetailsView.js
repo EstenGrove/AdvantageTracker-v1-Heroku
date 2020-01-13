@@ -12,6 +12,7 @@ import {
 	ScheduledShiftSubTask,
 	ScheduledTaskNote
 } from "../../helpers/utils_models";
+import { handleStatusResolution } from "../../helpers/utils_updates";
 
 import styles from "../../css/dashboard/DetailsView.module.scss";
 import PanelLG from "../../components/shared/PanelLG";
@@ -27,6 +28,7 @@ import EditTaskForm from "../../components/details/EditTaskForm";
 // DETAILS VIEW - CHILD ROUTE OF THE <DailyView/> route
 const DetailsView = props => {
 	const {
+		dispatch,
 		category,
 		scheduledTasks,
 		trackingTasks,
@@ -62,13 +64,18 @@ const DetailsView = props => {
 			trackingTasks,
 			"AssessmentTrackingTaskId"
 		);
+		const updatedRecord = handleStatusResolution(values, match, values.status);
+		console.group("<DetailsView/>: saveTaskUpdate");
+		console.log("matched record (**before** updates)", match);
+		console.log("matched record (**after** updates)", updatedRecord);
+		console.groupEnd();
 		// update server-side
-		const update = await updateTrackingTasks(currentResident.token, [...match]);
-		console.group("saveTaskUpdate");
-		console.log("values", values);
-		console.log("update", update);
-		console.log("match", match);
-		return console.groupEnd();
+		const success = await updateTrackingTasks(currentResident.token, match);
+		if (success) {
+			return dispatch({
+				type: "UPDATE"
+			});
+		}
 	};
 
 	// handles setting priority value
