@@ -13,22 +13,20 @@ import SettingsView from "../../views/dashboard/SettingsView";
 import PastDueView from "../../views/dashboard/PastDueView";
 
 const Dashboard = () => {
-  return (
-    <main className={styles.Dashboard}>
-      <h1 className={styles.Dashboard_subtitle}>Today's Agenda</h1>
-
-      {/* DASHBOARD ROUTES */}
-      <Switch>
-        <Route exact path="/dashboard/daily" component={DailyView} />
-        <Route path="/dashboard/daily/details/:id" component={DetailsView} />
-        <Route path="/dashboard/calendar" component={CalendarView} />
-        <Route path="/dashboard/summary" component={SummaryView} />
-        <Route path="/dashboard/pastdue" component={PastDueView} />
-        <Route path="/dashboard/residentinfo" component={ResidentInfoView} />
-        <Route path="/dashboard/settings" component={SettingsView} />
-      </Switch>
-    </main>
-  );
+	return (
+		<main className={styles.Dashboard}>
+			{/* DASHBOARD ROUTES */}
+			<Switch>
+				<Route exact path="/dashboard/daily" component={DailyView} />
+				<Route path="/dashboard/daily/details/:id" component={DetailsView} />
+				<Route path="/dashboard/calendar" component={CalendarView} />
+				<Route path="/dashboard/summary" component={SummaryView} />
+				<Route path="/dashboard/pastdue" component={PastDueView} />
+				<Route path="/dashboard/residentinfo" component={ResidentInfoView} />
+				<Route path="/dashboard/settings" component={SettingsView} />
+			</Switch>
+		</main>
+	);
 };
 
 export default Dashboard;
@@ -36,6 +34,6 @@ export default Dashboard;
 Dashboard.defaultProps = {};
 
 Dashboard.propTypes = {
-  state: PropTypes.object,
-  dispatch: PropTypes.func
+	state: PropTypes.object,
+	dispatch: PropTypes.func
 };
