@@ -69,15 +69,7 @@ const EditTaskForm = ({
             handleChange={handleChange}
           />
         </ConditionalForm>
-        {/* <DropdownSelect
-          val={vals.status}
-          label="Select a task status"
-          name="status"
-          id="status"
-          placeholder="Select Status"
-          options={STATUS}
-          handleChange={handleChange}
-        /> */}
+
         <DropdownSelectSM
           val={vals.shift}
           name="shift"

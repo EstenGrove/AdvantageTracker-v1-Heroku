@@ -2,133 +2,148 @@ import { isEmptyVal, isEmptyObj } from "./utils_types";
 import { findStatusID } from "./utils_status";
 import { findPriorityID } from "./utils_priority";
 import { findShiftID } from "./utils_shifts";
+import { findTaskRecordByProp } from "./utils_tasks";
+import { getReasonID } from "./utils_reasons";
+import { getResolutionID } from "./utils_resolution";
 
-const updateTaskRecord = (vals, record) => {
-  return {
-    ...record,
-    AssessmentTaskStatusId: findStatusID(vals.status),
-    CompletedAssessmentShiftId: findShiftID(vals.shift),
-    AssessmentPriorityId: findPriorityID(vals.priority),
-    SignedBy: vals.signature,
-    Notes: vals.taskNotes
-  };
+/**
+ * @description - First finds the AssessmentTrackingTask record by ID, then updates it's values with the user input from the edit form.
+ * @param {object} vals - form values from user input (ie Edit/Create task form)
+ * @param {object} activeTask - current ADLCareTask record being updated
+ * @param {array} taskRecords - array of AssessmentTrackingTask records for a resident.
+ */
+const findRecordAndUpdate = (vals, activeTask, taskRecords) => {
+  const matchingRecord = findTaskRecordByProp(
+    activeTask,
+    taskRecords,
+    "AssessmentTrackingTaskId"
+  );
+  return updateTaskRecord(vals, matchingRecord);
 };
-// consider using for mapping user-generated values to the correct value in the task record???
+
+/**
+ * @description - Takes form values from user and and the task record and applies the new values to the task record before being saved server-side.
+ * @param {object} vals - form values from user input.
+ * @param {object} record - AssessmentTrackingTask record
+ */
+const updateTaskRecord = (vals, record) => {
+  switch (vals.status) {
+    case "COMPLETE": {
+      return handleCompletion(vals, record);
+    }
+    case "NOT-COMPLETE": {
+      return handleException(vals, record);
+    }
+    case "PENDING": {
+      return handlePending(vals, record);
+    }
+    case "MISSED-EVENT": {
+      return handleException(vals, record);
+    }
+    case "IN-PROGRESS": {
+      return handlePending(vals, record);
+    }
+    default:
+      return handlePending(vals, record);
+  }
+};
+
+/**
+ * @description - Handles the "TaskNotes" field in a task record. Appends "ReassessNotes" if applicable.
+ * @param {object} vals - form values from user input
+ */
 const handleTaskNotes = vals => {
   if (isEmptyVal(vals.reassessNotes)) return vals.taskNotes;
   return `${vals.taskNotes} <br/> Reassess Notes: ${vals.reassessNotes}`;
 };
 
-// handle mapping form vals to task record based off of task status.
-const handleStatusResolution = (vals, task, status = "PENDING") => {
-  switch (status) {
-    case "PENDING": {
-      return {
-        ...task,
-        AssessmentTaskStatusId: findStatusID(vals.status),
-        AssessmentPriorityId: findPriorityID(vals.priority),
-        CompletedAssessmentShiftId: 4,
-        FollowUpDate: vals.followUpDate,
-        SignedBy: vals.signature,
-        Notes: handleTaskNotes(vals),
-        IsCompleted: false,
-        IsFinal: false,
-        IsActive: true
-      };
-    }
-    case "COMPLETE": {
-      return {
-        ...task,
-        AssessmentTaskStatusId: findStatusID(vals.status),
-        AssessmentPriorityId: findPriorityID(vals.priority),
-        CompletedAssessmentShiftId: findShiftID(vals.shift),
-        SignedBy: vals.signature,
-        Notes: handleTaskNotes(vals),
-        IsCompleted: true,
-        IsFinal: isEmptyVal(vals.FollowUpDate) ? true : false,
-        IsActive: true
-      };
-    }
-    case "NOT-COMPLETE": {
-      return {
-        ...task,
-        AssessmentTaskStatusId: findStatusID(vals.status),
-        AssessmentPriorityId: findPriorityID(vals.priority),
-        CompletedAssessmentShiftId: 4,
-        FollowUpDate: vals.followUpDate,
-        SignedBy: vals.signature,
-        Notes: handleTaskNotes(vals),
-        IsCompleted: false,
-        IsFinal: false,
-        IsActive: true
-      };
-    }
-
-    case "IN-PROGRESS": {
-      return {
-        ...task,
-        AssessmentTaskStatusId: findStatusID(vals.status),
-        AssessmentPriorityId: findPriorityID(vals.priority),
-        CompletedAssessmentShiftId: 4,
-        FollowUpDate: vals.followUpDate,
-        SignedBy: vals.signature,
-        Notes: handleTaskNotes(vals),
-        IsCompleted: false,
-        IsFinal: false,
-        IsActive: true
-      };
-    }
-    case "MISSED-EVENT": {
-      return {
-        ...task,
-        AssessmentTaskStatusId: findStatusID(vals.status),
-        AssessmentPriorityId: findPriorityID(vals.priority),
-        CompletedAssessmentShiftId: findShiftID(vals.shift),
-        FollowUpDate: vals.followUpDate,
-        SignedBy: vals.signature,
-        Notes: handleTaskNotes(vals),
-        IsCompleted: false,
-        IsFinal: true,
-        IsActive: true
-      };
-    }
-    default:
-      // defaults to "NOT-COMPLETE"
-      return {
-        ...task,
-        AssessmentTaskStatusId: findStatusID(vals.status),
-        AssessmentPriorityId: findPriorityID(vals.priority),
-        CompletedAssessmentShiftId: 4,
-        FollowUpDate: vals.followUpDate,
-        SignedBy: vals.signature,
-        Notes: handleTaskNotes(vals),
-        IsCompleted: false,
-        IsFinal: false,
-        IsActive: true
-      };
+/**
+ * @description - Determines the AssessmentResolutionId based off the user's selected values in the form.
+ * @param {object} vals - form values from user input
+ */
+const determineResolution = vals => {
+  if (vals.residentUnavailable) {
+    return "RESIDENT-DENIED";
   }
+  if (isEmptyVal(vals.followUpDate) && !vals.residentUnavailable) {
+    return "TBC-NEXT-SHIFT";
+  }
+  if (vals.requiresMedCheck) {
+    return "TBC-NEXT-SHIFT-NEEDS";
+  }
+  if (vals.reassess) {
+    return "COMPLETED-REASSESSMENT-NEEDED";
+  }
+  return "PENDING";
 };
 
-const markAsMissedEvent = (vals, record) => {
+/**
+ * @description - Handles statusing and updating a task record marked as "NOT-COMPLETE" and/or "MISSED-EVENT". Accounts for "RESIDENT UNAVAILABLE" and a scheduled "FOLLOWUP DATE"
+ * @param {object} vals - form values
+ * @param {object} record - task record to be updated
+ */
+const handleException = (vals, record) => {
   return {
     ...record,
-    AssessmentTaskStatusId: findStatusID("MISSED-EVENT"),
-    CompletedAssessmentShiftId: 0,
+    CompletedDate: "",
     SignedBy: vals.signature,
-    Notes: vals.reassess ? handleTaskNotes(vals) : vals.taskNotes
+    Notes: handleTaskNotes(vals),
+    IsCompleted: false,
+    IsFinal: false,
+    IsActive: true,
+    AssessmentTaskStatusId: findStatusID(vals.status),
+    AssessmentReasonId: getReasonID(vals.reason),
+    AssessmentResolutionId: getResolutionID(determineResolution(vals)),
+    AssessmentPriorityId: findPriorityID(vals.priority),
+    CompletedAssessmentShiftId: 4,
+    FollowUpDate: isEmptyVal(vals.followUpDate) ? "" : vals.followUpDate
   };
 };
 
-const getResolutionID = (vals, resolution) => {
-  if (!vals.residentUnavailable && vals.status !== "MISSED-EVENT") {
-    // not a missed event
-  }
-  // mark as missed event
+// handles completed task updates
+const handleCompletion = (vals, record) => {
+  return {
+    ...record,
+    CompletedDate: new Date().toUTCString(),
+    SignedBy: vals.signature,
+    Notes: handleTaskNotes(vals),
+    IsCompleted: true,
+    IsFinal: true,
+    IsActive: false,
+    AssessmentReasonId: getReasonID("COMPLETED-AS-SCHEDULED"),
+    CompletedAssessmentShiftId: findShiftID(vals.shift),
+    AssessmentResolutionId: getResolutionID(
+      determineResolution(getResolutionID(vals))
+    ),
+    AssessmentTaskStatusId: findStatusID(vals.status),
+    AssessmentPriorityId: findPriorityID(vals.priority)
+  };
+};
+
+// handles pending task updates
+const handlePending = (vals, record) => {
+  return {
+    ...record,
+    CompletedDate: "",
+    SignedBy: vals.signature,
+    Notes: handleTaskNotes(vals),
+    IsCompleted: false,
+    IsFinal: false,
+    IsActive: true,
+    AssessmentReasonId: isEmptyVal(vals.reason) ? 6 : getReasonID(vals.reason),
+    CompletedAssessmentShiftId: findShiftID(vals.shift),
+    AssessmentResolutionId: getResolutionID("PENDING"),
+    AssessmentTaskStatusId: findStatusID(vals.status),
+    AssessmentPriorityId: findPriorityID(vals.priority)
+  };
 };
 
 export {
-  updateTaskRecord,
+  determineResolution,
   handleTaskNotes,
-  handleStatusResolution,
-  markAsMissedEvent
+  handleException,
+  handleCompletion,
+  handlePending
 };
+
+export { updateTaskRecord, findRecordAndUpdate };

@@ -83,6 +83,7 @@ const DetailsView = props => {
     console.groupEnd();
     // update server-side
     const success = await updateTrackingTasks(currentResident.token, match);
+    // refetch data??? OR update UI optimistically.
     if (success) {
       return dispatch({
         type: "UPDATE"
@@ -100,11 +101,6 @@ const DetailsView = props => {
       }
     });
   };
-
-  console.group("<DetailsView/>");
-  console.log("currentResident", currentResident);
-  console.log("trackingTasks", trackingTasks);
-  console.groupEnd();
 
   return (
     <>
