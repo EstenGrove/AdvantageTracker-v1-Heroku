@@ -81,6 +81,22 @@ const REASONS_DETAILS = [
 
 const PRIORITIES = ["NONE", "LOW", "MEDIUM", "HIGH"];
 
+const ADLS = [
+  "Ambulation",
+  "Bathing",
+  "Dressing",
+  "Grooming",
+  "Laundry",
+  "Meals",
+  "Meds",
+  "Psychosocial",
+  "SpecialCare",
+  "StatusChecks",
+  "Toileting",
+  "Transfers",
+  "Other"
+];
+
 export {
   SHIFTS,
   DAYS,
@@ -93,5 +109,6 @@ export {
   REASONS,
   REASONS_DETAILS,
   // priorities
-  PRIORITIES
+  PRIORITIES,
+  ADLS
 };

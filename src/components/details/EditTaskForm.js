@@ -45,6 +45,7 @@ const EditTaskForm = ({
     <article className={styles.EditTaskForm}>
       <form className={styles.EditTaskForm_form}>
         <h2 className={styles.EditTaskForm_form_title}>{title}</h2>
+        {/* SHOWS REASON DROPDOWN IF "NOT-COMPLETE"/"MISSED-EVENT" ARE CHOSEN */}
         <ConditionalForm
           condition={statusCondition}
           mainInput={
@@ -79,6 +80,7 @@ const EditTaskForm = ({
           options={SHIFTS}
           handleChange={handleChange}
         />
+        {/* FOLLOW-UPS REQUIRED */}
         <section className={styles.EditTaskForm_form_checkGroup}>
           <Checkbox
             val={vals.residentUnavailable}
