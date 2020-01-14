@@ -1,4 +1,4 @@
-import { isEmptyVal, isEmptyObj } from "./utils_types";
+import { isEmptyVal } from "./utils_types";
 import { findStatusID } from "./utils_status";
 import { findPriorityID } from "./utils_priority";
 import { findShiftID } from "./utils_shifts";

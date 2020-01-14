@@ -16,7 +16,7 @@ import {
   ScheduledShiftSubTask,
   ScheduledTaskNote
 } from "../../helpers/utils_models";
-import { handleStatusResolution } from "../../helpers/utils_updates";
+import { findRecordAndUpdate } from "../../helpers/utils_updates";
 
 import styles from "../../css/dashboard/DetailsView.module.scss";
 import PanelLG from "../../components/shared/PanelLG";
@@ -55,13 +55,14 @@ const DetailsView = props => {
     signature: "",
     followUpDate: "",
     residentUnavailable: false,
-    requiresMedCheck: "",
+    requiresMedCheck: false,
     reassess: false,
     reassessNotes: "",
     minutes: 0,
     priority: ""
   });
 
+  // opens modal and sets active task
   const viewDetails = task => {
     setShowModal(true);
     setActiveTask(task);
@@ -71,19 +72,20 @@ const DetailsView = props => {
     e.persist();
     e.preventDefault();
     const { values } = formState;
-    const match = findTaskRecordByID(
+
+    const updatedRecord = findRecordAndUpdate(
+      values,
       activeTask,
-      trackingTasks,
-      "AssessmentTrackingTaskId"
+      trackingTasks
     );
-    const updatedRecord = handleStatusResolution(values, match, values.status);
     console.group("<DetailsView/>: saveTaskUpdate");
-    console.log("matched record (**before** updates)", match);
     console.log("matched record (**after** updates)", updatedRecord);
     console.groupEnd();
     // update server-side
-    const success = await updateTrackingTasks(currentResident.token, match);
-    // refetch data??? OR update UI optimistically.
+    const success = await updateTrackingTasks(
+      currentResident.token,
+      updatedRecord
+    );
     if (success) {
       return dispatch({
         type: "UPDATE"
