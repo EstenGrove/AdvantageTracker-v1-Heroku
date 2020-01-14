@@ -1,5 +1,6 @@
-@import "../../sass/mixins";
-@import "../../sass/variables";
+@import '../../sass/mixins';
+@import '../../sass/variables';
+
 
 .Counter {
 	width: -webkit-max-content;
@@ -8,58 +9,67 @@
 	height: -webkit-max-content;
 	height: -moz-max-content;
 	height: max-content;
-	margin-bottom: 2rem;
+	margin-bottom: 3rem;
 
 	&_label {
-		width: 100%;
-		font-size: 1.8rem;
-		font-weight: 700;
+		font-size: 1.4rem;
+		font-weight: 300;
+		color: map-get($map: $blueGreys, $key: 'headings');
 		@include row_center_all;
 	}
 
-	&_counter {
-		@include row_start_center;
+	&_wrapper {
+		width: -webkit-max-content;
+		width: -moz-max-content;
+		width: max-content;
+		height: -webkit-max-content;
+		height: -moz-max-content;
+		height: max-content;
 
 		&_btn {
-			padding: 0.3rem 1rem;
-			font-size: 1.8rem;
-			font-weight: 700;
+			padding: .5rem 1rem;
+			border-radius: .5rem;
 			border: none;
 			outline: none;
-			border-radius: 0.5rem;
-			background-color: map-get($map: $colors, $key: "mainGrey");
+			background-color: map-get($map: $colors, $key: 'mainGrey');
+			color: map-get($map: $colors, $key: 'mainBlackBlue');
+			font-size: 1.7rem;
+			font-weight: 600;
+
 			&:hover,
 			&:focus-within {
-				-webkit-box-shadow: map-get($map: $shadows, $key: "mainOutline");
-				box-shadow: map-get($map: $shadows, $key: "mainOutline");
 				cursor: pointer;
+				-webkit-box-shadow: map-get($map: $shadows, $key: 'mainOutline');
+				box-shadow: map-get($map: $shadows, $key: 'mainOutline');
 			}
+
 			&:nth-child(1) {
-				margin-right: 0.3rem;
+				margin-right: .5rem;
 			}
+
 			&:nth-child(3) {
-				margin-left: 0.3rem;
+				margin-left: .5rem;
 			}
 		}
+
 		&_input {
 			width: -webkit-max-content;
 			width: -moz-max-content;
 			width: max-content;
-			min-width: 5rem;
-			max-width: 10rem;
-			height: -webkit-max-content;
-			height: -moz-max-content;
-			height: max-content;
-			font-size: 1.8rem;
-			text-align: center;
-			outline: none;
+			max-width: 5rem;
+			height: auto;
 			border: none;
-			border-radius: 0.5rem;
+			outline: none;
+			border-radius: .5rem;
+			text-align: center;
+			font-size: 1.8rem;
+			font-weight: 800;
+
 			&:hover,
 			&:focus-within {
-				-webkit-box-shadow: map-get($map: $shadows, $key: "mainOutline");
-				box-shadow: map-get($map: $shadows, $key: "mainOutline");
 				cursor: pointer;
+				-webkit-box-shadow: map-get($map: $shadows, $key: 'mainOutline');
+				box-shadow: map-get($map: $shadows, $key: 'mainOutline');
 			}
 		}
 	}

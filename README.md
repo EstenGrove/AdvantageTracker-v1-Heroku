@@ -31,4 +31,13 @@ Working build complete with all views:
   - Apply this user flow inside of the <DetailsView/>
 
 - [ ] Create "ADD NOTE" flow for tasks and subtasks.
+
   - Might need some helpers for finding the matching task record whose note record needs updating.
+
+- [ ] REQUIRES MED CHECK:
+  - if selected mark as "NOT-COMPLETE" and require a "follow-up date"
+
+**Styles**
+
+- [ ] Fix <DashboardNav/>
+  - Add "back arrow" to upper left, next to <Sidebar/> and make it larger!

@@ -47,4 +47,26 @@ const getReasonFromID = reasonID => {
   }
 };
 
+const getResolutionID = resolution => {
+  switch (resolution) {
+    case "COMPLETED":
+      return 1;
+    case "COMPLETED-REASSESSMENT-NEEDED":
+      return 2;
+    case "TBC-NEXT-SHIFT":
+      return 3;
+    case "RESIDENT-DENIED":
+      return 4;
+    case "CANCELLED-BY-SUPERVISOR":
+      return 5;
+    case "PENDING":
+      return 6;
+    case "TBC-NEXT-SHIFT-NEEDS":
+      return 7;
+
+    default:
+      break;
+  }
+};
+
 export { getReasonFromID, getReasonID };
