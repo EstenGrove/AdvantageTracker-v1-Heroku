@@ -3,7 +3,7 @@ import styles from "../../css/app/CreateTaskForm.module.scss";
 import { PropTypes } from "prop-types";
 import { SHIFTS, ADLS } from "../../helpers/utils_options";
 
-import sprite from "../../assets/show-hide.svg";
+import sprite from "../../assets/showhide.svg";
 import TextInput from "../shared/TextInput";
 import Textarea from "../shared/Textarea";
 import DropdownSelect from "../shared/DropdownSelect";
@@ -40,6 +40,13 @@ const CreateTaskForm = ({
       <form className={styles.CreateTaskForm_form}>
         <h2 className={styles.CreateTaskForm_form_title}>{title}</h2>
         {/* PICK AN ADL CATEGORY - DEFAULTS TO CURRENT CATEGORY */}
+        <TextInput
+          val={vals.newTaskName}
+          label="Create a Task Name"
+          name="newTaskName"
+          placeholder="Enter a name for the task..."
+          handleChange={handleChange}
+        />
         <DropdownSelect
           val={vals.newTaskADL}
           label="Select an ADL"

@@ -25,6 +25,7 @@ import TasksPanel from "../../components/details/TasksPanel";
 import TaskList from "../../components/details/TaskList";
 import TaskDetails from "../../components/details/TaskDetails";
 import EditTaskForm from "../../components/details/EditTaskForm";
+import CreateTaskForm from "../../components/app/CreateTaskForm";
 
 // **TODOS**:
 // 1. REASSESS NOTES TEXTAREA NOT SHOWING WHEN REASSESS CHECKBOX IS SELECTED
@@ -39,6 +40,7 @@ const DetailsView = props => {
     currentResident
   } = props.location.state;
   const [showModal, setShowModal] = useState(false);
+  const [showNewTaskModal, setShowNewTaskModal] = useState(true);
   const [activeTask, setActiveTask] = useState({});
   const {
     count,
@@ -59,7 +61,12 @@ const DetailsView = props => {
     reassess: false,
     reassessNotes: "",
     minutes: 0,
-    priority: ""
+    priority: "",
+    // Create task values
+    newTaskName: "",
+    newTaskADL: "",
+    newTaskNote: "",
+    newTaskShift: ""
   });
 
   // opens modal and sets active task
@@ -137,6 +144,15 @@ const DetailsView = props => {
               handleCountBlur={handleCountBlur}
             />
           </TaskDetails>
+        </Modal>
+      )}
+
+      {showNewTaskModal && (
+        <Modal
+          title="Create Task"
+          closeModal={() => setShowNewTaskModal(false)}
+        >
+          <CreateTaskForm vals={formState.values} />
         </Modal>
       )}
     </>
