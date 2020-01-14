@@ -50,6 +50,7 @@ const DetailsView = props => {
   const { formState, setFormState, handleChange, handleCheckbox } = useForm({
     status: "",
     shift: "",
+    reason: "",
     taskNotes: "",
     signature: "",
     followUpDate: "",

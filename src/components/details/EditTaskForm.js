@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { PropTypes } from "prop-types";
-import { STATUS, SHIFTS } from "../../helpers/utils_options";
+import { STATUS, SHIFTS, REASONS } from "../../helpers/utils_options";
 import styles from "../../css/details/EditTaskForm.module.scss";
 import sprite from "../../assets/showhide.svg";
 import DropdownSelect from "../shared/DropdownSelect";
@@ -10,7 +10,13 @@ import Textarea from "../shared/Textarea";
 import TextInput from "../shared/TextInput";
 import StatefulButton from "../shared/StatefulButton";
 import Counter from "../shared/Counter";
+import ConditionalForm from "../shared/ConditionalForm";
 import PriorityButtonGroup from "../shared/PriorityButtonGroup";
+
+// TODOS:
+// 1. ADD SUB TASKS LIST
+// 2. ADD TASK NOTE OPTION
+// 3. ADD PRIORITY BUTTON GROUP
 
 const EditTaskForm = ({
   title,
@@ -31,12 +37,39 @@ const EditTaskForm = ({
     showAdditional: false,
     showReassess: false
   });
+
+  const statusCondition =
+    vals.status === "NOT-COMPLETE" || vals.status === "MISSED-EVENT";
+
   return (
     <article className={styles.EditTaskForm}>
       <form className={styles.EditTaskForm_form}>
         <h2 className={styles.EditTaskForm_form_title}>{title}</h2>
-
-        <DropdownSelect
+        <ConditionalForm
+          condition={statusCondition}
+          mainInput={
+            <DropdownSelect
+              val={vals.status}
+              label="Select a task status"
+              name="status"
+              id="status"
+              placeholder="Select Status"
+              options={STATUS}
+              handleChange={handleChange}
+            />
+          }
+        >
+          <DropdownSelect
+            val={vals.reason}
+            name="reason"
+            id="reason"
+            options={REASONS}
+            label="Please select a reason"
+            placeholder="Select a Reason"
+            handleChange={handleChange}
+          />
+        </ConditionalForm>
+        {/* <DropdownSelect
           val={vals.status}
           label="Select a task status"
           name="status"
@@ -44,7 +77,7 @@ const EditTaskForm = ({
           placeholder="Select Status"
           options={STATUS}
           handleChange={handleChange}
-        />
+        /> */}
         <DropdownSelectSM
           val={vals.shift}
           name="shift"

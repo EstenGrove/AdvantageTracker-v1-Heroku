@@ -3,26 +3,20 @@
 
 
 .ConditionalForm {
-    width: -webkit-max-content;
-    width: -moz-max-content;
-    width: max-content;
+    width: 100%;
     height: -webkit-max-content;
     height: -moz-max-content;
     height: max-content;
 
     &_mainInput {
-        width: -webkit-max-content;
-        width: -moz-max-content;
-        width: max-content;
+        width: 100%;
         height: -webkit-max-content;
         height: -moz-max-content;
         height: max-content;
     }
 
     &_conditionalInput {
-        width: -webkit-max-content;
-        width: -moz-max-content;
-        width: max-content;
+        width: 100%;
         height: -webkit-max-content;
         height: -moz-max-content;
         height: max-content;
