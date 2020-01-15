@@ -14,7 +14,6 @@ import ContainerLG from "../../components/shared/ContainerLG";
 import Row from "../../components/shared/Row";
 import CardSM from "../../components/shared/CardSM";
 import DailySummaryCard from "../../components/daily/DailySummaryCard";
-import DetailsView from "./DetailsView";
 
 // REQUIRED PROPS:
 // 1. resident data

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import { PropTypes } from "prop-types";
 
@@ -6,7 +6,6 @@ import { adlColors } from "../../helpers/utils_styles";
 import { useForm } from "../../utils/useForm";
 import { useCounter } from "../../utils/useCounter";
 import { useSpeechRecognition } from "../../utils/useSpeechRecognition";
-import { findTaskRecordByID } from "../../helpers/utils_tasks";
 import {
 	updateTrackingTasks,
 	getTrackingTasks
@@ -18,7 +17,7 @@ import {
 	ScheduledTaskNote
 } from "../../helpers/utils_models";
 import { findRecordAndUpdate } from "../../helpers/utils_updates";
-
+import { NewTaskContext } from "../../state/NewTaskContext";
 import styles from "../../css/dashboard/DetailsView.module.scss";
 import PanelLG from "../../components/shared/PanelLG";
 import Modal from "../../components/shared/Modal";
@@ -41,7 +40,7 @@ const DetailsView = props => {
 		currentResident
 	} = props.location.state;
 	const [showModal, setShowModal] = useState(false);
-	const [showNewTaskModal, setShowNewTaskModal] = useState(false);
+	const { showTaskModal, setShowTaskModal } = props;
 	const [activeTask, setActiveTask] = useState({});
 	const {
 		count,
@@ -88,12 +87,6 @@ const DetailsView = props => {
 		setActiveTask(task);
 	};
 
-	const createNewTask = e => {
-		e.preventDefault();
-		setShowNewTaskModal(true);
-		console.log("Creating task...");
-	};
-
 	const saveTaskUpdate = async e => {
 		e.persist();
 		e.preventDefault();
@@ -129,6 +122,10 @@ const DetailsView = props => {
 			}
 		});
 	};
+
+	console.group("<DetailsView/>");
+	console.log("props", props);
+	console.groupEnd();
 
 	return (
 		<>
@@ -166,11 +163,8 @@ const DetailsView = props => {
 				</Modal>
 			)}
 
-			{showNewTaskModal && (
-				<Modal
-					title="Create Task"
-					closeModal={() => setShowNewTaskModal(false)}
-				>
+			{showTaskModal && (
+				<Modal title="Create Task" closeModal={() => setShowTaskModal(false)}>
 					<CreateTaskForm
 						vals={formState.values}
 						handleChange={handleChange}

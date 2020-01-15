@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink, withRouter, useRouteMatch } from "react-router-dom";
 import { PropTypes } from "prop-types";
+import { NewTaskContext } from "../../state/NewTaskContext";
 import styles from "../../css/dashboard/Sidebar.module.scss";
 import sprite from "../../assets/sidebar.svg";
 
@@ -10,7 +11,7 @@ import sprite from "../../assets/sidebar.svg";
 const Sidebar = ({
 	isExpanded,
 	handleSidebar,
-	handleNewTaskModal,
+	setShowTaskModal,
 	state,
 	scheduledTasks,
 	unscheduledTasks,
@@ -18,7 +19,6 @@ const Sidebar = ({
 	categories
 }) => {
 	const match = useRouteMatch(); // required for nested routes & link
-
 	const expandedSidebar = (
 		<aside className={styles.Sidebar}>
 			<section className={styles.Sidebar_top}>
@@ -31,7 +31,7 @@ const Sidebar = ({
 					<li className={styles.Sidebar_inner_list_newTask}>
 						<button
 							className={styles.Sidebar_inner_list_newTask_btn}
-							onClick={e => handleNewTaskModal(e)}
+							onClick={() => setShowTaskModal(true)}
 						>
 							Create Task
 						</button>
@@ -139,7 +139,7 @@ const Sidebar = ({
 					<li className={styles.CollapsedSidebar_inner_list_newTask}>
 						<button
 							className={styles.CollapsedSidebar_inner_list_newTask_btn}
-							onClick={handleNewTaskModal}
+							onClick={() => setShowTaskModal(true)}
 						>
 							<svg
 								className={styles.CollapsedSidebar_inner_list_newTask_btn_icon}
@@ -237,7 +237,7 @@ const Sidebar = ({
 				<li className={styles.MobileSidebar_inner_item} title="Create a task">
 					<svg
 						className={styles.MobileSidebar_inner_item_newTask}
-						onClick={handleNewTaskModal}
+						onClick={() => setShowTaskModal(true)}
 					>
 						<use xlinkHref={`${sprite}#icon-plus21`}></use>
 					</svg>
@@ -271,11 +271,6 @@ const Sidebar = ({
 			</ul>
 		</aside>
 	);
-
-	const sideBarTask = e => {
-		console.log("Clicked from <Sidebar/>");
-		return handleNewTaskModal(e);
-	};
 
 	return <>{isExpanded ? expandedSidebar : collapsedSidebar}</>;
 };

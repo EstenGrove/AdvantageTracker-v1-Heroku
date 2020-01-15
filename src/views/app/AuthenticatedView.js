@@ -24,7 +24,6 @@ const AuthenticatedView = ({ history }) => {
 	const { authData } = useContext(AuthContext);
 	const { state, dispatch } = useContext(GlobalStateContext);
 
-	const [showNewTaskModal, setShowNewTaskModal] = useState(false);
 	const [isExpanded, setIsExpanded] = useState(true);
 	const [currentResident, setCurrentResident] = useState({});
 
@@ -35,7 +34,9 @@ const AuthenticatedView = ({ history }) => {
 		paddingLeft: isExpanded ? "22rem" : "8rem"
 	};
 
-	const handleNewTaskModal = () => setShowNewTaskModal(!showNewTaskModal);
+	const handleNewTaskModal = () => {
+		return console.log("Clicked...");
+	};
 
 	const handleLogout = async e => {
 		const { token } = authData;
@@ -99,37 +100,38 @@ const AuthenticatedView = ({ history }) => {
 	}, []);
 
 	return (
-		<div className={styles.AuthenticatedView}>
-			<Navbar
-				currentUser={state.user}
-				dispatch={dispatch}
-				handleLogout={handleLogout}
-			/>
-			<section
-				className={styles.AuthenticatedView_dashboard}
-				style={customStyles}
-			>
-				<header className={styles.AuthenticatedView_dashboard_header}>
-					<ResidentDropdown
-						residents={state.globals.residents}
-						name="currentResident"
-						id="currentResident"
-						selectResident={selectResident}
-						loadResident={loadResident}
-					/>
-					<DashboardNav />
-					<ResidentCard currentResident={currentResident} />
-				</header>
-				<DashboardContainer
-					isExpanded={isExpanded}
-					state={state}
+		<>
+			<div className={styles.AuthenticatedView}>
+				<Navbar
+					currentUser={state.user}
 					dispatch={dispatch}
-					handleSidebar={handleSidebar}
-					handleNewTaskModal={handleNewTaskModal}
+					handleLogout={handleLogout}
 				/>
-			</section>
-			{/*  */}
-		</div>
+				<section
+					className={styles.AuthenticatedView_dashboard}
+					style={customStyles}
+				>
+					<header className={styles.AuthenticatedView_dashboard_header}>
+						<ResidentDropdown
+							residents={state.globals.residents}
+							name="currentResident"
+							id="currentResident"
+							selectResident={selectResident}
+							loadResident={loadResident}
+						/>
+						<DashboardNav />
+						<ResidentCard currentResident={currentResident} />
+					</header>
+					<DashboardContainer
+						isExpanded={isExpanded}
+						state={state}
+						dispatch={dispatch}
+						handleSidebar={handleSidebar}
+					/>
+				</section>
+				{/*  */}
+			</div>
+		</>
 	);
 };
 
