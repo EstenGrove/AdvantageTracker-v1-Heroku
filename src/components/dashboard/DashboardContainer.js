@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { PropTypes } from "prop-types";
-import { NewTaskProvider } from "../../state/NewTaskContext";
 import styles from "../../css/dashboard/DashboardContainer.module.scss";
 import Dashboard from "./Dashboard";
 import Sidebar from "./Sidebar";

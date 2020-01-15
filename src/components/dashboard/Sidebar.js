@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { NavLink, withRouter, useRouteMatch } from "react-router-dom";
 import { PropTypes } from "prop-types";
-import { NewTaskContext } from "../../state/NewTaskContext";
 import styles from "../../css/dashboard/Sidebar.module.scss";
 import sprite from "../../assets/sidebar.svg";
 

@@ -17,7 +17,7 @@ import {
 	ScheduledTaskNote
 } from "../../helpers/utils_models";
 import { findRecordAndUpdate } from "../../helpers/utils_updates";
-import { NewTaskContext } from "../../state/NewTaskContext";
+
 import styles from "../../css/dashboard/DetailsView.module.scss";
 import PanelLG from "../../components/shared/PanelLG";
 import Modal from "../../components/shared/Modal";
