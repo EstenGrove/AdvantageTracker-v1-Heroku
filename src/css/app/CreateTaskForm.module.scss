@@ -61,7 +61,7 @@
 @media screen and (max-width: 500px) {
 	.CreateTaskForm {
 		&_form {
-			width: 100%;
+			@include fill_container;
 		}
 	}
 }

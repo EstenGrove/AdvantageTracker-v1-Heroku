@@ -45,3 +45,21 @@ Working build complete with all views:
 
 - [ ] Fix <DashboardNav/>
   - Add "back arrow" to upper left, next to <Sidebar/> and make it larger!
+
+
+------------------
+
+## Application Structure
+
+```
+                                    <App/>
+                                   /      \
+            <NonAuthenticatedView/>        <AuthenticatedView/>
+          /                                                     \
+    <LoginPage/>                                             <DashboardContainer/>
+                                                            /                    \
+                                                      <Dashboard/>               <Sidebar/>
+                                                          ||
+                                                        Views
+
+```

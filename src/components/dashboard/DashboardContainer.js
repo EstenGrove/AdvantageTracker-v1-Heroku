@@ -13,13 +13,14 @@ const DashboardContainer = ({
 	dispatch,
 	isExpanded,
 	handleSidebar,
-	customStyles
+	handleNewTaskModal
 }) => {
 	return (
 		<div className={styles.DashboardContainer}>
 			<Sidebar
 				isExpanded={isExpanded}
 				handleSidebar={handleSidebar}
+				handleNewTaskModal={handleNewTaskModal}
 				state={state}
 				dispatch={dispatch}
 				currentResident={state.globals.currentResident}

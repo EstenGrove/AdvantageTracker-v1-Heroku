@@ -4,8 +4,8 @@ import { AuthContext } from "../../state/AuthContext";
 import { GlobalStateContext } from "../../state/GlobalStateContext";
 import { logout } from "../../helpers/utils_auth";
 import {
-  getInitialResource,
-  syncResourceToState
+	getInitialResource,
+	syncResourceToState
 } from "../../helpers/utils_requests";
 import { isEmptyVal, isEmptyObj } from "../../helpers/utils_types";
 import { handleResidentSelection } from "../../helpers/utils_residents";
@@ -21,121 +21,116 @@ import DashboardNav from "../../components/dashboard/DashboardNav";
 import DashboardContainer from "../../components/dashboard/DashboardContainer";
 
 const AuthenticatedView = ({ history }) => {
-  const { authData } = useContext(AuthContext);
-  const { state, dispatch } = useContext(GlobalStateContext);
+	const { authData } = useContext(AuthContext);
+	const { state, dispatch } = useContext(GlobalStateContext);
 
-  const [isExpanded, setIsExpanded] = useState(true);
-  const [currentResident, setCurrentResident] = useState({});
+	const [showNewTaskModal, setShowNewTaskModal] = useState(false);
+	const [isExpanded, setIsExpanded] = useState(true);
+	const [currentResident, setCurrentResident] = useState({});
 
-  const handleSidebar = () => setIsExpanded(!isExpanded);
+	const handleSidebar = () => setIsExpanded(!isExpanded);
 
-  // handles expanding/shrinking container based on Sidebar's width
-  const customStyles = {
-    paddingLeft: isExpanded ? "22rem" : "8rem"
-  };
+	// handles expanding/shrinking container based on Sidebar's width
+	const customStyles = {
+		paddingLeft: isExpanded ? "22rem" : "8rem"
+	};
 
-  const handleLogout = async e => {
-    const { token } = authData;
-    const wasSuccessful = await logout(token);
-    if (wasSuccessful) {
-      return history.replaceState("/");
-    }
-    return alert("Something went wrong. Please try again.");
-  };
+	const handleNewTaskModal = () => setShowNewTaskModal(!showNewTaskModal);
 
-  const handleInitialResource = async () => {
-    const resource = await getInitialResource(authData, state, dispatch);
-    return syncResourceToState({ ...resource, authData }, state, dispatch);
-  };
+	const handleLogout = async e => {
+		const { token } = authData;
+		const wasSuccessful = await logout(token);
+		if (wasSuccessful) {
+			return history.replaceState("/");
+		}
+		return alert("Something went wrong. Please try again.");
+	};
 
-  const selectResident = e => {
-    const { value } = e.target;
-    if (isEmptyVal(value)) return setCurrentResident({});
+	const handleInitialResource = async () => {
+		const resource = await getInitialResource(authData, state, dispatch);
+		return syncResourceToState({ ...resource, authData }, state, dispatch);
+	};
 
-    // parses text value, finds resident by id sets local state
-    return handleResidentSelection(
-      value,
-      state.globals.residents,
-      setCurrentResident
-    );
-  };
+	const selectResident = e => {
+		const { value } = e.target;
+		if (isEmptyVal(value)) return setCurrentResident({});
 
-  const loadResident = async e => {
-    if (isEmptyObj(currentResident)) return alert("Please select a resident.");
-    const { ResidentID } = currentResident;
-    const { token } = authData;
+		// parses text value, finds resident by id sets local state
+		return handleResidentSelection(
+			value,
+			state.globals.residents,
+			setCurrentResident
+		);
+	};
 
-    dispatch({ type: "LOADING" });
+	const loadResident = async e => {
+		if (isEmptyObj(currentResident)) return alert("Please select a resident.");
+		const { ResidentID } = currentResident;
+		const { token } = authData;
 
-    // fetch data and merged together
-    const merged = await mergeDailyResidentData(token, ResidentID, new Date());
-    // clone and sync to state
-    const oldState = { ...state };
+		dispatch({ type: "LOADING" });
 
-    console.group("AuthView (before populateState is invoked)");
-    console.log("state", state);
-    console.log("state.globals", state.globals);
-    console.log("oldState", oldState);
-    console.log("resident", merged);
-    console.groupEnd();
+		// fetch data and merged together
+		const merged = await mergeDailyResidentData(token, ResidentID, new Date());
+		const oldState = { ...state };
+		const newState = populateState(merged, oldState);
 
-    const newState = populateState(merged, oldState);
+		return dispatch({
+			type: "SUCCESS",
+			data: {
+				newState: newState
+			}
+		});
+	};
 
-    return dispatch({
-      type: "SUCCESS",
-      data: {
-        newState: newState
-      }
-    });
-  };
+	useEffect(() => {
+		// prevents memory leaks (DO NOT REMOVE!!)
+		let isMounted = true;
 
-  useEffect(() => {
-    // prevents memory leaks (DO NOT REMOVE!!)
-    let isMounted = true;
+		if (!isMounted) {
+			return;
+		}
+		handleInitialResource();
 
-    if (!isMounted) {
-      return;
-    }
-    handleInitialResource();
+		return () => {
+			isMounted = false;
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
-    return () => {
-      isMounted = false;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return (
-    <div className={styles.AuthenticatedView}>
-      <Navbar
-        currentUser={state.user}
-        dispatch={dispatch}
-        handleLogout={handleLogout}
-      />
-      <section
-        className={styles.AuthenticatedView_dashboard}
-        style={customStyles}
-      >
-        <header className={styles.AuthenticatedView_dashboard_header}>
-          <ResidentDropdown
-            residents={state.globals.residents}
-            name="currentResident"
-            id="currentResident"
-            selectResident={selectResident}
-            loadResident={loadResident}
-          />
-          <DashboardNav />
-          <ResidentCard currentResident={currentResident} />
-        </header>
-        <DashboardContainer
-          isExpanded={isExpanded}
-          state={state}
-          dispatch={dispatch}
-          handleSidebar={handleSidebar}
-        />
-      </section>
-      {/*  */}
-    </div>
-  );
+	return (
+		<div className={styles.AuthenticatedView}>
+			<Navbar
+				currentUser={state.user}
+				dispatch={dispatch}
+				handleLogout={handleLogout}
+			/>
+			<section
+				className={styles.AuthenticatedView_dashboard}
+				style={customStyles}
+			>
+				<header className={styles.AuthenticatedView_dashboard_header}>
+					<ResidentDropdown
+						residents={state.globals.residents}
+						name="currentResident"
+						id="currentResident"
+						selectResident={selectResident}
+						loadResident={loadResident}
+					/>
+					<DashboardNav />
+					<ResidentCard currentResident={currentResident} />
+				</header>
+				<DashboardContainer
+					isExpanded={isExpanded}
+					state={state}
+					dispatch={dispatch}
+					handleSidebar={handleSidebar}
+					handleNewTaskModal={handleNewTaskModal}
+				/>
+			</section>
+			{/*  */}
+		</div>
+	);
 };
 
 export default AuthenticatedView;
@@ -143,5 +138,5 @@ export default AuthenticatedView;
 AuthenticatedView.defaultProps = {};
 
 AuthenticatedView.propTypes = {
-  history: PropTypes.object
+	history: PropTypes.object
 };

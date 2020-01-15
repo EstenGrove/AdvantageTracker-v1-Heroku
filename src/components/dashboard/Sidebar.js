@@ -31,7 +31,7 @@ const Sidebar = ({
 					<li className={styles.Sidebar_inner_list_newTask}>
 						<button
 							className={styles.Sidebar_inner_list_newTask_btn}
-							onClick={handleNewTaskModal}
+							onClick={e => handleNewTaskModal(e)}
 						>
 							Create Task
 						</button>
@@ -271,6 +271,11 @@ const Sidebar = ({
 			</ul>
 		</aside>
 	);
+
+	const sideBarTask = e => {
+		console.log("Clicked from <Sidebar/>");
+		return handleNewTaskModal(e);
+	};
 
 	return <>{isExpanded ? expandedSidebar : collapsedSidebar}</>;
 };

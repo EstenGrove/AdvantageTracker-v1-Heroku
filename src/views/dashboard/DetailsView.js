@@ -41,7 +41,7 @@ const DetailsView = props => {
 		currentResident
 	} = props.location.state;
 	const [showModal, setShowModal] = useState(false);
-	const [showNewTaskModal, setShowNewTaskModal] = useState(true);
+	const [showNewTaskModal, setShowNewTaskModal] = useState(false);
 	const [activeTask, setActiveTask] = useState({});
 	const {
 		count,
@@ -86,6 +86,12 @@ const DetailsView = props => {
 	const viewDetails = task => {
 		setShowModal(true);
 		setActiveTask(task);
+	};
+
+	const createNewTask = e => {
+		e.preventDefault();
+		setShowNewTaskModal(true);
+		console.log("Creating task...");
 	};
 
 	const saveTaskUpdate = async e => {

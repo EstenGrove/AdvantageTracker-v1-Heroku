@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { PropTypes } from "prop-types";
-// libs
 import { withRouter, useRouteMatch, NavLink } from "react-router-dom";
 import { format } from "date-fns";
-// utils
 import {
 	getCount,
 	getCompletedCount,
@@ -15,10 +13,8 @@ import {
 	checkCategoryNaming,
 	checkForADLPoints
 } from "../../helpers/utils_categories";
-// styles/sprites
 import sprite from "../../assets/icon-bar.svg";
 import styles from "../../css/daily/DailySummaryCard.module.scss";
-// components
 import DailySummaryList from "./DailySummaryList";
 
 // ADD TOTAL ADL POINTS FROM ADLCARELEVEL array
