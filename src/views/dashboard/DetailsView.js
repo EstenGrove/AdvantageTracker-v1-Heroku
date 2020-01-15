@@ -123,10 +123,6 @@ const DetailsView = props => {
 		});
 	};
 
-	console.group("<DetailsView/>");
-	console.log("props", props);
-	console.groupEnd();
-
 	return (
 		<>
 			<section className={styles.DetailsView}>

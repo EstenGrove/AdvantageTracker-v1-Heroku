@@ -15,11 +15,6 @@ import PastDueView from "../../views/dashboard/PastDueView";
 import Modal from "../shared/Modal";
 
 const Dashboard = props => {
-	console.group("<Dashboard/>: props");
-	console.log("props", props);
-	console.log("props showNewTaskModal");
-	console.groupEnd();
-
 	return (
 		<>
 			<main className={styles.Dashboard}>
