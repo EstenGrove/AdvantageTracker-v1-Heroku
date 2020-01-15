@@ -29,6 +29,10 @@ Working build complete with all views:
 
   - Create immediate update of user data "prior" to POST request.
   - Apply this user flow inside of the <DetailsView/>
+  - When user clicks "SAVE CHANGES" in the "task list" section the follow occurs:
+    - 1. A <Modal/> pops up asking them if they'd like to add notes, or edit the task or tasks they are planning on changing.
+    - 2. If they click "NO" then the task(s) are submitted with the defaults.
+    - 3. If they click "EDIT/UPDATE" it'll show them the <Modal> with their task's details so they can make changes easily.
 
 - [ ] Create "ADD NOTE" flow for tasks and subtasks.
 
