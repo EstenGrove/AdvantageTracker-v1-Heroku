@@ -1,57 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { PropTypes } from "prop-types";
 import { isEmptyArray } from "../../helpers/utils_types";
-import Checkbox from "../shared/Checkbox";
-import styles from "../../css/details/SubTaskList.module.scss";
+import styles from "../../css/details/SubtaskList.module.scss";
+import ButtonSM from "./shared/ButtonSM";
+import SubtaskItem from "./SubtaskItem";
 
-const SubTask = ({ val, subtask, handleSubTask, label, ...rest }) => {
-  return (
-    <div className={styles.SubTaskEntry}>
-      <Checkbox
-        {...rest}
-        val={val}
-        checked={subtask.IsChecked}
-        handleCheckbox={handleSubTask}
-        label={label}
-      />
-    </div>
-  );
-};
-
-export { SubTask };
-
-SubTask.defaultProps = {};
-
-SubTask.propTypes = {
-  val: PropTypes.string.isRequired,
-  subtask: PropTypes.object,
-  handleSubTask: PropTypes.func,
-  rest: PropTypes.any
-};
-
-const SubTaskList = ({ tasks }) => {
-  const { ShiftTasks: shiftTasks } = tasks;
-  if (isEmptyArray(shiftTasks)) {
+const SubtaskList = ({ task = {}, vals, markSubtask, addNewSubtask }) => {
+  if (isEmptyArray(task.ShiftTasks)) {
     return (
-      <article className={styles.EMPTY}>
-        <h4 className={styles.EMPTY_MSG}>No subtasks</h4>
-      </article>
+      <section className={styles.SubtaskList}>
+        <h4 className={styles.SubtaskList_EMPTY}>No subtasks</h4>
+        <ButtonSM handleClick={addNewSubtask}>
+          <b>+</b> Create Subtask
+        </ButtonSM>
+      </section>
     );
   }
   return (
-    <article className={styles.SubTaskList}>
-      {shiftTasks &&
-        shiftTasks.map((shiftTask, index) => <SubTask subtask={shiftTask} />)}
-    </article>
+    <section className={styles.SubtaskList}>
+      {task.ShiftTasks &&
+        task.ShiftTasks.map((subtask, index) => (
+          <SubtaskItem
+            key={`${subtask.AssessmentTrackingTaskShiftSubTaskId}_${index}`}
+            subtask={subtask}
+            markSubtask={markSubtask}
+            val={vals[subtask.AssessmentTrackingTaskShiftSubTaskId]}
+          />
+        ))}
+    </section>
   );
 };
 
-export default SubTaskList;
+export default SubtaskList;
 
-SubTaskList.defaultProps = {
-  subtasks: []
-};
+SubtaskList.defaultProps = {};
 
-SubTaskList.propTypes = {
-  subtasks: PropTypes.array
+SubtaskList.propTypes = {
+  task: PropTypes.object,
+  addNewSubtask: PropTypes.func
 };
