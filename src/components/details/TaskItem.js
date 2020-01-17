@@ -3,26 +3,36 @@ import { PropTypes } from "prop-types";
 import styles from "../../css/details/TaskItem.module.scss";
 import sprite from "../../assets/tasks.svg";
 
-import { iconsReducer } from "../../helpers/utils_styles";
+import { iconsReducer, adlIcons } from "../../helpers/utils_styles";
 import {
 	replaceNullWithMsg,
 	addEllipsis
 } from "../../helpers/utils_processing";
-import { formatDate } from "../../helpers/utils_dates";
-import TaskShiftList from "./TaskShiftList";
-import SubTaskList from "./SubTaskList";
+import {
+	formatDate,
+	isPastDue,
+	formatPastDate,
+	formatTimeToNow
+} from "../../helpers/utils_dates";
+import { isEmptyArray } from "../../helpers/utils_types";
+import { SHIFTS } from "../../helpers/utils_options";
 import ShiftTag from "../shared/ShiftTag";
 import StatusBadge from "../shared/StatusBadge";
-import Checkbox from "../shared/Checkbox";
+import DropdownSelectSM from "../shared/DropdownSelectSM";
+import SubtaskCount from "./SubtaskCount";
+import TaskShiftList from "./TaskShiftList";
 
 // NEW REQUIREMENTS:
 // 1. ADD SHIFTS FOR EACH TASK
 // 2. ADD AN "ADD SUBTASK" BUTTON/ICON
 // 3. ENABLE SUBTASKS TO BE SCHEDULED PER SHIFT
 // 4. WRITE FUNCTION TO JOIN SUBTASKS WITH TASK RECORDS (IE ADLCARETASK)
+// 5. WRITE CONDITIONAL FOR HANDLING SHIFTS
+//    5A. IF SHIFTS, THEN LOAD <ShiftList/>, ELSE LOAD <DropdownSelectSM/>
 
 const TaskItem = ({ viewDetails, addNote, task = {}, values = {} }) => {
 	const [isCompleted, setIsCompleted] = useState(task.IsCompleted);
+	const [pastDue, setPastDue] = useState(isPastDue(task.TrackDate));
 
 	return (
 		<article
@@ -35,12 +45,10 @@ const TaskItem = ({ viewDetails, addNote, task = {}, values = {} }) => {
 				<header className={styles.TaskItem_inner_category}>
 					<svg
 						className={styles.TaskItem_inner_category_icon}
-						style={iconsReducer(task.ADLCategory).styles}
+						style={adlIcons[task.ADLCategory].styles}
 					>
 						<use
-							xlinkHref={`${sprite}#icon-${
-								iconsReducer(task.ADLCategory).icon
-							}`}
+							xlinkHref={`${sprite}#icon-${adlIcons[task.ADLCategory].icon}`}
 						></use>
 					</svg>
 					<h2 className={styles.TaskItem_inner_category_title}>
@@ -71,10 +79,9 @@ const TaskItem = ({ viewDetails, addNote, task = {}, values = {} }) => {
 						</i>
 					</section>
 				</article>
-				{/* TASK SHIFTS */}
-				{/* TASK SHIFTS */}
-				{/* TASK SHIFTS */}
-				{/* TASK SHIFTS */}
+				{/* SHIFTS */}
+				{/* SHIFTS */}
+				{/* CORRESPONDS TO SHIFTSUBTASK RECORDS */}
 				<article className={styles.TaskItem_inner_bottom}>
 					<section className={styles.TaskItem_inner_bottom_left}>
 						<h2 className={styles.TaskItem_inner_bottom_title}>Shifts</h2>
@@ -87,9 +94,10 @@ const TaskItem = ({ viewDetails, addNote, task = {}, values = {} }) => {
 						<h2 className={styles.TaskItem_inner_bottom_middle_title}>
 							Subtasks
 						</h2>
-						{/* <SubTaskList task={task} /> */}
+						<SubtaskCount subtasks={task.ShiftTasks} />
 					</section>
 
+					{/* DUE DATE- CHECK IS PAST DUE */}
 					<section className={styles.TaskItem_inner_bottom_right}>
 						<div className={styles.TaskItem_inner_bottom_right_due}>
 							<h2 className={styles.TaskItem_inner_bottom_right_due_title}>
@@ -101,11 +109,16 @@ const TaskItem = ({ viewDetails, addNote, task = {}, values = {} }) => {
 							<time className={styles.TaskItem_inner_bottom_right_due_date}>
 								{formatDate(task.TrackDate)}
 							</time>
+							{pastDue && !isCompleted && (
+								<span className={styles.red}>
+									<b>{formatTimeToNow(task.TrackDate, new Date())}</b> Past Due
+								</span>
+							)}
 						</div>
 						<div className={styles.TaskItem_inner_bottom_right_menu}>
 							<div>
 								<svg className={styles.TaskItem_inner_bottom_right_menu_icon}>
-									<use xlinkHref={`${sprite}#icon-createmode_editedit`}></use>
+									<use xlinkHref={`${sprite}#icon-plus21`}></use>
 								</svg>
 								<span>Add Note</span>
 							</div>

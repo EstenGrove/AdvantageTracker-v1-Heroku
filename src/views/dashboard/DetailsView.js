@@ -134,7 +134,11 @@ const DetailsView = props => {
 				</h1>
 				<PanelLG customStyles={{ backgroundColor: "#ffffff" }}>
 					<TasksPanel>
-						<TaskList tasks={scheduledTasks} viewDetails={viewDetails} />
+						<TaskList
+							tasks={scheduledTasks}
+							viewDetails={viewDetails}
+							handleShiftStatus={handleCheckbox}
+						/>
 					</TasksPanel>
 				</PanelLG>
 			</section>

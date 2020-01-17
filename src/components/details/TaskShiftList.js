@@ -2,19 +2,20 @@ import React from "react";
 import styles from "../../css/details/TaskShiftList.module.scss";
 import { PropTypes } from "prop-types";
 import { isEmptyArray, isEmptyObj } from "../../helpers/utils_types";
-import { findShiftName, handleShiftLabel } from "../../helpers/utils_shifts";
-import Checkbox from "../shared/Checkbox";
+import { handleShiftLabel } from "../../helpers/utils_shifts";
 import sprite from "../../assets/tasks.svg";
+import { getCompletedCount } from "./SubtaskCount";
 
 // NOTE: IN ORDER TO UPDATE TASKSHIFTENTRY UPDATE THE "IsCheck" property!!
-// **REFACTOR COMPONENT AFTER APP IS FINISHED!!!**
+// REFACTOR COMPONENT TO SHOW:
+// AM: # of subtasks
+// PM: # of subtasks
+// NOC: # of subtasks
 
-export const TaskShiftEntry = ({
-	task,
-	shift = {},
-	handleStatus,
-	viewShiftNotes
-}) => {
+// MAP THRU THE Shifts
+// THEN COUNT THE ShiftTasks for each Shift and display a count.
+
+export const TaskShiftEntry = ({ task, shift = {} }) => {
 	if (isEmptyArray(task.Shifts)) {
 		return (
 			<div className={styles.EMPTY}>
@@ -23,17 +24,13 @@ export const TaskShiftEntry = ({
 		);
 	}
 	return (
-		<div
-			className={styles.TaskShiftEntry}
-			// onClick={() => handleStatus(task, shift)} // MAYBE USE LATER?????
-		>
-			<Checkbox
-				label={handleShiftLabel(task, shift)}
-				val={shift.IsCheck}
-				customStyles={{ marginBottom: "0" }}
-				id={`taskShift_${task.AssessmentTrackingTaskId}_${shift.AssessmentTrackingTaskShiftId}`}
-				name={`taskShift_${task.AssessmentTrackingTaskId}_${shift.AssessmentTrackingTaskShiftId}`}
-			/>
+		<div className={styles.TaskShiftEntry}>
+			<h6 className={styles.TaskShiftEntry_shift}>
+				{handleShiftLabel(task, shift)}
+			</h6>
+			<p className={styles.TaskShiftEntry_subtaskCount}>
+				{getCompletedCount(task.ShiftTasks)}
+			</p>
 		</div>
 	);
 };
@@ -47,7 +44,7 @@ TaskShiftEntry.propTypes = {
 	viewShiftNotes: PropTypes.func
 };
 
-const TaskShiftList = ({ task = {}, handleStatus }) => {
+const TaskShiftList = ({ task = {} }) => {
 	const { Shifts: shifts } = task;
 	if (isEmptyObj(task)) return;
 	return (

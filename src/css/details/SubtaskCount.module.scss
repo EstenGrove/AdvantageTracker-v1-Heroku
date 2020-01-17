@@ -1,0 +1,32 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+
+.SubtaskCount {
+	width: -webkit-max-content;
+	width: -moz-max-content;
+	width: max-content;
+	height: 100%;
+
+	&_top {
+		width: -webkit-max-content;
+		width: -moz-max-content;
+		width: max-content;
+		height: -webkit-max-content;
+		height: -moz-max-content;
+		height: max-content;
+		@include row_center_start;
+		margin-bottom: 1rem;
+
+		&_icon {
+			width: 1.6rem;
+			height: 1.6rem;
+			fill: map-get($map: $blueGreys, $key: "headings");
+			margin-right: 0.5rem;
+		}
+
+		&_count {
+			color: map-get($map: $blueGreys, $key: "headings");
+			font-size: 1.2rem;
+		}
+	}
+}

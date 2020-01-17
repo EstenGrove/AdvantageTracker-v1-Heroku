@@ -66,7 +66,7 @@ const TaskDetails = ({ task = {}, children }) => {
 					</StatusBadge>
 				</div>
 			</main>
-			<hr />
+			<hr className={styles.divider} />
 			<section className={styles.TaskDetails_addNote}>{children}</section>
 		</div>
 	);

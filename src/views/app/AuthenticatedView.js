@@ -129,7 +129,6 @@ const AuthenticatedView = ({ history }) => {
 						handleSidebar={handleSidebar}
 					/>
 				</section>
-				{/*  */}
 			</div>
 		</>
 	);

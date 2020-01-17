@@ -36,6 +36,8 @@ const DailyView = props => {
 		dispatch
 	} = useContext(GlobalStateContext);
 
+	console.log(scheduledTasks.filter(x => x.ShiftTasks.length > 3));
+
 	if (isLoading) {
 		return <Spinner />;
 	}
