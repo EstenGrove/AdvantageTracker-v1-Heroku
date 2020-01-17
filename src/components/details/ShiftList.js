@@ -15,12 +15,6 @@ import { countSubtasksByShiftID } from "../../helpers/utils_subtasks";
 // THEN COUNT THE ShiftTasks for each Shift and display a count.
 
 export const ShiftEntry = ({ task = {}, shift = {} }) => {
-	console.group("<ShiftEntry/>");
-	console.log("task", task);
-	console.log("subtasks", task.ShiftTasks);
-	console.log("shift", shift);
-	console.groupEnd();
-
 	if (isEmptyArray(task.Shifts)) {
 		return (
 			<div className={styles.EMPTY}>

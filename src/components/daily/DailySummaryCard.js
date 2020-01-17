@@ -20,9 +20,11 @@ import DailySummaryList from "./DailySummaryList";
 // ADD TOTAL ADL POINTS FROM ADLCARELEVEL array
 
 const DailySummaryCard = ({
+	dispatch,
 	hasBeenUpdated = false,
 	category,
 	day,
+	currentUser,
 	currentResident,
 	trackingTasks = [],
 	scheduledTasks = [],
@@ -88,6 +90,8 @@ const DailySummaryCard = ({
 		scheduledTasks
 	]);
 
+	console.log("<DailySummaryCard/>: currentUser", currentUser);
+
 	return (
 		<div className={styles.DailySummaryCard}>
 			<section className={styles.DailySummaryCard_top}>
@@ -121,10 +125,12 @@ const DailySummaryCard = ({
 							to={{
 								pathname: `${match.url}/details/${category.AdlCategoryType}`,
 								state: {
+									currentUser: currentUser,
 									currentResident: currentResident,
 									category: category,
 									scheduledTasks: scheduledTasks,
-									trackingTasks: trackingTasks
+									trackingTasks: trackingTasks,
+									dispatch: dispatch
 								}
 							}}
 						>
@@ -194,6 +200,7 @@ DailySummaryCard.defaultProps = {
 };
 DailySummaryCard.propTypes = {
 	hasBeenUpdated: PropTypes.bool,
+	currentUser: PropTypes.object.isRequired,
 	category: PropTypes.object.isRequired,
 	day: PropTypes.instanceOf(Date).isRequired,
 	scheduledTasks: PropTypes.array,

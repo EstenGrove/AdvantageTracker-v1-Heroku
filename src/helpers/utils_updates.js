@@ -14,12 +14,12 @@ import { getResolutionID } from "./utils_resolution";
  * @returns {function} Returns a callback which is invoked that updates the task record prior to submission.
  */
 const findRecordAndUpdate = (vals, activeTask, taskRecords) => {
-  const matchingRecord = findTaskRecordByProp(
-    activeTask,
-    taskRecords,
-    "AssessmentTrackingTaskId"
-  );
-  return updateTaskRecord(vals, matchingRecord);
+	const matchingRecord = findTaskRecordByProp(
+		activeTask,
+		taskRecords,
+		"AssessmentTrackingTaskId"
+	);
+	return updateTaskRecord(vals, matchingRecord);
 };
 
 /**
@@ -29,25 +29,25 @@ const findRecordAndUpdate = (vals, activeTask, taskRecords) => {
  * @returns {object} - Returns the updated AssessmentTrackingTask record for submission.
  */
 const updateTaskRecord = (vals, record) => {
-  switch (vals.status) {
-    case "COMPLETE": {
-      return handleCompletion(vals, record);
-    }
-    case "NOT-COMPLETE": {
-      return handleException(vals, record);
-    }
-    case "PENDING": {
-      return handlePending(vals, record);
-    }
-    case "MISSED-EVENT": {
-      return handleException(vals, record);
-    }
-    case "IN-PROGRESS": {
-      return handlePending(vals, record);
-    }
-    default:
-      return handlePending(vals, record);
-  }
+	switch (vals.status) {
+		case "COMPLETE": {
+			return handleCompletion(vals, record);
+		}
+		case "NOT-COMPLETE": {
+			return handleException(vals, record);
+		}
+		case "PENDING": {
+			return handlePending(vals, record);
+		}
+		case "MISSED-EVENT": {
+			return handleException(vals, record);
+		}
+		case "IN-PROGRESS": {
+			return handlePending(vals, record);
+		}
+		default:
+			return handlePending(vals, record);
+	}
 };
 
 /**
@@ -56,8 +56,8 @@ const updateTaskRecord = (vals, record) => {
  * @returns {string} - Returns a string with the formatted task notes, including Reassess notes, if applicable.
  */
 const handleTaskNotes = vals => {
-  if (isEmptyVal(vals.reassessNotes)) return vals.taskNotes;
-  return `${vals.taskNotes} <br/> Reassess Notes: ${vals.reassessNotes}`;
+	if (isEmptyVal(vals.reassessNotes)) return vals.taskNotes;
+	return `${vals.taskNotes} <br/> Reassess Notes: ${vals.reassessNotes}`;
 };
 
 /**
@@ -66,19 +66,19 @@ const handleTaskNotes = vals => {
  * @returns {string} - Returns the string-form of the task resolution, based on user inputs.
  */
 const determineResolution = vals => {
-  if (vals.residentUnavailable) {
-    return "RESIDENT-DENIED";
-  }
-  if (isEmptyVal(vals.followUpDate) && !vals.residentUnavailable) {
-    return "TBC-NEXT-SHIFT";
-  }
-  if (vals.requiresMedCheck) {
-    return "TBC-NEXT-SHIFT-NEEDS";
-  }
-  if (vals.reassess) {
-    return "COMPLETED-REASSESSMENT-NEEDED";
-  }
-  return "PENDING";
+	if (vals.residentUnavailable) {
+		return "RESIDENT-DENIED";
+	}
+	if (isEmptyVal(vals.followUpDate) && !vals.residentUnavailable) {
+		return "TBC-NEXT-SHIFT";
+	}
+	if (vals.requiresMedCheck) {
+		return "TBC-NEXT-SHIFT-NEEDS";
+	}
+	if (vals.reassess) {
+		return "COMPLETED-REASSESSMENT-NEEDED";
+	}
+	return "PENDING";
 };
 
 /**
@@ -88,67 +88,67 @@ const determineResolution = vals => {
  * @returns {object} - Returns the updated task record with the user's inputs applied.
  */
 const handleException = (vals, record) => {
-  return {
-    ...record,
-    CompletedDate: "",
-    SignedBy: vals.signature,
-    Notes: handleTaskNotes(vals),
-    IsCompleted: false,
-    IsFinal: false,
-    IsActive: true,
-    AssessmentTaskStatusId: findStatusID(vals.status),
-    AssessmentReasonId: getReasonID(vals.reason),
-    AssessmentResolutionId: getResolutionID(determineResolution(vals)),
-    AssessmentPriorityId: findPriorityID(vals.priority),
-    CompletedAssessmentShiftId: 4,
-    FollowUpDate: isEmptyVal(vals.followUpDate) ? "" : vals.followUpDate
-  };
+	return {
+		...record,
+		CompletedDate: "",
+		SignedBy: vals.signature,
+		Notes: handleTaskNotes(vals),
+		IsCompleted: false,
+		IsFinal: false,
+		IsActive: true,
+		AssessmentTaskStatusId: findStatusID(vals.status),
+		AssessmentReasonId: getReasonID(vals.reason),
+		AssessmentResolutionId: getResolutionID(determineResolution(vals)),
+		AssessmentPriorityId: findPriorityID(vals.priority),
+		CompletedAssessmentShiftId: 4,
+		FollowUpDate: isEmptyVal(vals.followUpDate) ? "" : vals.followUpDate
+	};
 };
 
 // handles completed task updates
 const handleCompletion = (vals, record) => {
-  return {
-    ...record,
-    CompletedDate: new Date().toUTCString(),
-    SignedBy: vals.signature,
-    Notes: handleTaskNotes(vals),
-    IsCompleted: true,
-    IsFinal: true,
-    IsActive: false,
-    AssessmentReasonId: getReasonID("COMPLETED-AS-SCHEDULED"),
-    CompletedAssessmentShiftId: findShiftID(vals.shift),
-    AssessmentResolutionId: getResolutionID(
-      determineResolution(getResolutionID(vals))
-    ),
-    AssessmentTaskStatusId: findStatusID(vals.status),
-    AssessmentPriorityId: findPriorityID(vals.priority)
-  };
+	return {
+		...record,
+		CompletedDate: new Date().toUTCString(),
+		SignedBy: vals.signature,
+		Notes: handleTaskNotes(vals),
+		IsCompleted: true,
+		IsFinal: true,
+		IsActive: false,
+		AssessmentReasonId: getReasonID("COMPLETED-AS-SCHEDULED"),
+		CompletedAssessmentShiftId: findShiftID(vals.shift),
+		AssessmentResolutionId: getResolutionID(
+			determineResolution(getResolutionID(vals))
+		),
+		AssessmentTaskStatusId: findStatusID(vals.status),
+		AssessmentPriorityId: findPriorityID(vals.priority)
+	};
 };
 
 // handles pending task updates
 const handlePending = (vals, record) => {
-  return {
-    ...record,
-    CompletedDate: "",
-    SignedBy: vals.signature,
-    Notes: handleTaskNotes(vals),
-    IsCompleted: false,
-    IsFinal: false,
-    IsActive: true,
-    AssessmentReasonId: isEmptyVal(vals.reason) ? 6 : getReasonID(vals.reason),
-    CompletedAssessmentShiftId: findShiftID(vals.shift),
-    AssessmentResolutionId: getResolutionID("PENDING"),
-    AssessmentTaskStatusId: findStatusID(vals.status),
-    AssessmentPriorityId: findPriorityID(vals.priority)
-  };
+	return {
+		...record,
+		CompletedDate: "",
+		SignedBy: vals.signature,
+		Notes: handleTaskNotes(vals),
+		IsCompleted: false,
+		IsFinal: false,
+		IsActive: true,
+		AssessmentReasonId: isEmptyVal(vals.reason) ? 6 : getReasonID(vals.reason),
+		CompletedAssessmentShiftId: findShiftID(vals.shift),
+		AssessmentResolutionId: getResolutionID("PENDING"),
+		AssessmentTaskStatusId: findStatusID(vals.status),
+		AssessmentPriorityId: findPriorityID(vals.priority)
+	};
 };
 
 export {
-  determineResolution,
-  handleTaskNotes,
-  handleException,
-  handleCompletion,
-  handlePending
+	determineResolution,
+	handleTaskNotes,
+	handleException,
+	handleCompletion,
+	handlePending
 };
 
 export { updateTaskRecord, findRecordAndUpdate };

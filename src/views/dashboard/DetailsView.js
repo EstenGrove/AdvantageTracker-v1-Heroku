@@ -30,34 +30,20 @@ const DetailsView = props => {
 	const {
 		dispatch,
 		category,
+		currentUser,
 		scheduledTasks,
 		trackingTasks,
 		currentResident
 	} = props.location.state;
 	const { showTaskModal, setShowTaskModal } = props;
-	const [activeTask, setActiveTask] = useState({});
 	// useForm: ONLY USED FOR CREATING NEW TASKS,
 	// UPDATING TASKS IS HANDLED INSIDE THE <TasksPanel/>
-	const { formState, setFormState, handleChange, handleCheckbox } = useForm({
-		status: "",
-		shift: "",
-		reason: "",
-		taskNotes: "",
-		signature: "",
-		followUpDate: "",
-		residentUnavailable: false,
-		requiresMedCheck: false,
-		reassess: false,
-		reassessNotes: "",
-		minutes: 0,
-		priority: "",
+	const { formState, handleChange, handleCheckbox } = useForm({
 		// Create task values
 		newTaskName: "",
 		newTaskADL: "",
 		newTaskNote: "",
-		newTaskShift: "",
-		// Subtask values
-		...createSubtaskVals(activeTask)
+		newTaskShift: ""
 	});
 	const {
 		isSupported,
@@ -69,10 +55,10 @@ const DetailsView = props => {
 		startRecording,
 		stopRecording,
 		handleRecording
-	} = useSpeechRecognition(true, true);
+	} = useSpeechRecognition(true, true); // CONSIDER MOVING DOWN THE TREE INTO CHILD COMPONENT(S)
 
 	// handles setting priority value
-
+	console.log("currentUser", currentUser);
 	return (
 		<>
 			<section className={styles.DetailsView}>
@@ -87,6 +73,8 @@ const DetailsView = props => {
 						scheduledTasks={scheduledTasks}
 						trackingTasks={trackingTasks}
 						currentResident={currentResident}
+						currentUser={currentUser}
+						dispatch={dispatch}
 					/>
 				</PanelLG>
 			</section>

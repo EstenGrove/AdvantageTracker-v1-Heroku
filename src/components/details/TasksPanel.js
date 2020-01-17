@@ -30,8 +30,10 @@ const TasksPanel = ({
 	scheduledTasksUpdateCount = 0,
 	scheduledTasks,
 	trackingTasks,
+	currentUser,
 	currentResident
 }) => {
+	const [tasks, setTasks] = useState([...scheduledTasks]);
 	const [showAppliedFilters, setShowAppliedFilters] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const [activeTask, setActiveTask] = useState({});
@@ -70,7 +72,6 @@ const TasksPanel = ({
 		// Subtask values
 		...createSubtaskVals(activeTask)
 	});
-
 	const handlePriority = priority => {
 		return setFormState({
 			...formState,
@@ -80,13 +81,16 @@ const TasksPanel = ({
 			}
 		});
 	};
-
 	// open edit task modal
 	// set active task
 	const viewDetails = task => {
 		setShowModal(true);
 		setActiveTask(task);
 	};
+
+	// update task locally before submitting to server.
+	// REQUIREMENTS:
+	const saveTaskLocally = task => {};
 
 	// task updater
 	const saveTaskUpdate = async e => {
@@ -99,10 +103,9 @@ const TasksPanel = ({
 			trackingTasks
 		);
 		// update server-side
-		const success = await updateTrackingTasks(
-			currentResident.token,
+		const success = await updateTrackingTasks(currentUser.token, [
 			updatedRecord
-		);
+		]);
 		if (success) {
 			return dispatch({
 				type: "UPDATE"
@@ -115,6 +118,8 @@ const TasksPanel = ({
 		if (count !== 1) return `${count} task updates are pending`;
 		return `${count} task update is pending`;
 	};
+
+	console.log("currentUser", currentUser);
 
 	return (
 		<>
@@ -164,7 +169,7 @@ const TasksPanel = ({
 				</div>
 				{/* TASKLIST & TASKS ARE PASSED AS CHILDREN */}
 				<section className={styles.TasksPanel_inner}>
-					<TaskList tasks={scheduledTasks} viewDetails={viewDetails} />
+					<TaskList tasks={tasks} viewDetails={viewDetails} />
 				</section>
 			</main>
 			{showModal && (

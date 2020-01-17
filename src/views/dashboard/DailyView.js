@@ -25,6 +25,7 @@ const DailyView = props => {
 	const {
 		state: {
 			app: { isLoading },
+			user,
 			globals: {
 				currentResident,
 				scheduledTasks,
@@ -36,7 +37,7 @@ const DailyView = props => {
 		dispatch
 	} = useContext(GlobalStateContext);
 
-	console.log(scheduledTasks.filter(x => x.ShiftTasks.length > 3));
+	console.log("user", user);
 
 	if (isLoading) {
 		return <Spinner />;
@@ -61,6 +62,7 @@ const DailyView = props => {
 										scheduledTasks,
 										adl.AdlCategoryType
 									)}
+									currentUser={user}
 									dispatch={dispatch}
 									category={adl}
 									trackingTasks={trackingTasks}
