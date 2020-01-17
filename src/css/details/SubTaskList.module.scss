@@ -2,13 +2,29 @@
 @import "../../sass/variables";
 
 .SubtaskList {
-	width: -webkit-max-content;
-	width: -moz-max-content;
-	width: max-content;
+	width: 100%;
 	height: -webkit-max-content;
 	height: -moz-max-content;
 	height: max-content;
-	@include col_start_start;
+	@include row_evenly_center;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+
+	&_title {
+		font-size: 1.3rem;
+		font-weight: 600;
+		color: map-get($map: $blueGreys, $key: "subheadings");
+	}
+
+	&_byShift {
+		width: -webkit-max-content;
+		width: -moz-max-content;
+		width: max-content;
+		height: -webkit-max-content;
+		height: -moz-max-content;
+		height: max-content;
+		@include col_start_start;
+	}
 
 	&_EMPTY {
 		font-weight: 700;

@@ -3,13 +3,7 @@ import styles from "../../css/details/ShiftList.module.scss";
 import { PropTypes } from "prop-types";
 import { isEmptyArray, isEmptyObj } from "../../helpers/utils_types";
 import { handleShiftLabel } from "../../helpers/utils_shifts";
-import sprite from "../../assets/tasks.svg";
-import { getCompletedCount } from "./SubtaskCount";
-import {
-	groupByShift,
-	findSubtasksByShift,
-	countSubtasksByShiftID
-} from "../../helpers/utils_subtasks";
+import { countSubtasksByShiftID } from "../../helpers/utils_subtasks";
 
 // NOTE: IN ORDER TO UPDATE ShiftEntry UPDATE THE "IsCheck" property!!
 // REFACTOR COMPONENT TO SHOW:

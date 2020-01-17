@@ -3,7 +3,6 @@ import { PropTypes } from "prop-types";
 import { format, isPast } from "date-fns";
 
 import { isEmptyObj } from "../../helpers/utils_types";
-import { getCategoryNameFromID } from "../../helpers/utils_categories";
 import {
 	formatDate,
 	formatPastDate,
@@ -15,9 +14,6 @@ import styles from "../../css/details/TaskDetails.module.scss";
 import sprite from "../../assets/tasks.svg";
 
 import StatusBadge from "../shared/StatusBadge"; // updated component
-import Dictaphone from "../shared/Dictaphone";
-import Textarea from "../shared/Textarea";
-import VoiceRecorder from "../shared/VoiceRecorder";
 
 const TaskDetails = ({ task = {}, children }) => {
 	if (isEmptyObj(task)) {
@@ -67,7 +63,10 @@ const TaskDetails = ({ task = {}, children }) => {
 				</div>
 			</main>
 			<hr className={styles.divider} />
-			<section className={styles.TaskDetails_addNote}>{children}</section>
+			<section className={styles.TaskDetails_children}>
+				<h2 className={styles.TaskDetails_children}>Subtasks</h2>
+				{children}
+			</section>
 		</div>
 	);
 };
@@ -78,5 +77,6 @@ TaskDetails.defaultProps = {
 	task: {}
 };
 TaskDetails.propTypes = {
-	task: PropTypes.object
+	task: PropTypes.object,
+	children: PropTypes.any
 };

@@ -185,22 +185,31 @@ const groupByShift = (subtasks, iteratee) => {
 	}, {});
 };
 
-const findSubtasksByShift = (subtasks, shift) => {
+// accepts a string-form shift (ie "AM", "PM", "NOC")
+const countSubtasksByShift = (subtasks, shift) => {
 	if (isEmptyArray(subtasks)) return 0;
 	return subtasks.filter(x => x.AssessmentShiftId === findShiftID(shift))
 		.length;
 };
 
+// accepts a shiftID (ie 1, 2, 3)
 const countSubtasksByShiftID = (subtasks, shiftID) => {
 	if (isEmptyArray(subtasks)) return 0;
 	return subtasks.filter(x => x.AssessmentShiftId === shiftID).length;
 };
 
+// filters by AssessmentShiftId
+const getSubtaskByShiftID = (subtasks, shiftID) => {
+	if (isEmptyArray(subtasks)) return [];
+	return subtasks.filter(subtask => subtask.AssessmentShiftId === shiftID);
+};
+
 export {
 	createSubtaskVals,
 	groupByShift,
-	findSubtasksByShift,
-	countSubtasksByShiftID
+	countSubtasksByShift,
+	countSubtasksByShiftID,
+	getSubtaskByShiftID
 };
 
 // UPDATE FETCH UTILS

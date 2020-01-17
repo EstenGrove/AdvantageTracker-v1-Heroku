@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import { PropTypes } from "prop-types";
 
@@ -6,10 +6,7 @@ import { adlColors } from "../../helpers/utils_styles";
 import { useForm } from "../../utils/useForm";
 import { useCounter } from "../../utils/useCounter";
 import { useSpeechRecognition } from "../../utils/useSpeechRecognition";
-import {
-	updateTrackingTasks,
-	getTrackingTasks
-} from "../../helpers/utils_scheduled";
+import { updateTrackingTasks } from "../../helpers/utils_scheduled";
 import {
 	ScheduledTask,
 	ScheduledTaskShift,
@@ -91,6 +88,7 @@ const DetailsView = props => {
 		setActiveTask(task);
 	};
 
+	// needs to be tested!!!
 	const saveTaskUpdate = async e => {
 		e.persist();
 		e.preventDefault();
@@ -144,6 +142,7 @@ const DetailsView = props => {
 					<TaskDetails task={activeTask}>
 						{/* SUBTASK ITEMS & NOTES */}
 						<SubtaskList task={activeTask} />
+						<hr className="divider" />
 						<EditTaskForm
 							title="Update task"
 							vals={formState.values}
