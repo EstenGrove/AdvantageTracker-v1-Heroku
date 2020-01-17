@@ -1,0 +1,104 @@
+@import "../../sass/mixins";
+@import "../../sass/variables";
+
+.SubtaskItem {
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
+    height: -webkit-max-content;
+    height: -moz-max-content;
+    height: max-content;
+    padding: 1rem 1rem;
+    padding-bottom: .7rem;
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
+    background-color: #ffffff;
+
+    &:hover {
+        cursor: pointer;
+        -webkit-box-shadow: map-get($map: $shadows, $key: "mainOutline");
+        box-shadow: map-get($map: $shadows, $key: "mainOutline");
+    }
+
+    &_icon {
+        width: 1.4rem;
+        height: 1.4rem;
+        fill: #ffffff;
+        margin-right: .5rem;
+    }
+
+    &_inner {
+        width: 100%;
+        height: -webkit-max-content;
+        height: -moz-max-content;
+        height: max-content;
+        @include row_between_start;
+
+        &_delete {
+            width: -webkit-max-content;
+            width: -moz-max-content;
+            width: max-content;
+            height: -webkit-max-content;
+            height: -moz-max-content;
+            height: max-content;
+            margin-left: 1.5rem;
+            padding: .1rem;
+            border-radius: 50%;
+            border: 1px solid map-get($map: $colors, $key: 'mainRed');
+            opacity: .7;
+            @include row_center_all;
+
+            &_icon {
+                width: .8rem;
+                height: .8rem;
+                fill: map-get($map: $colors, $key: 'mainRed');
+            }
+        }
+    }
+
+    &_notesSection {
+        width: -webkit-max-content;
+        width: -moz-max-content;
+        width: max-content;
+        height: auto;
+        padding: .1rem .2rem;
+        border-radius: .5rem;
+        @include row_start_center;
+
+        &>span {
+            font-size: 1.1rem;
+            color: map-get($map: $colors, $key: 'main');
+
+            &:hover {
+                color: map-get($map: $colors, $key: 'main');
+            }
+        }
+
+        &_icon {
+            width: 1.3rem;
+            height: 1.3rem;
+            fill: map-get($map: $colors, $key: 'main');
+        }
+
+        &:hover {
+            -webkit-box-shadow: map-get($map: $shadows, $key: 'mainOutline');
+            box-shadow: map-get($map: $shadows, $key: 'mainOutline');
+        }
+    }
+
+    &_viewNotes {
+        width: 100%;
+        height: auto;
+        padding: .5rem;
+        margin-top: 1.5rem;
+
+        &_header {
+            color: map-get($map: $colors, $key: 'mainBlackBlue');
+        }
+    }
+
+    &_isCompleted {
+        @extend .SubtaskItem;
+        opacity: .6;
+    }
+}

@@ -219,6 +219,11 @@ const {
   reports
 } = endpoints;
 
+const baseParams = {
+  "db-meta": "Advantage",
+  source: ""
+};
+
 export {
   auth,
   generic,

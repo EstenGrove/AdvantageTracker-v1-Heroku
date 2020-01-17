@@ -17,6 +17,7 @@ import {
 	ScheduledTaskNote
 } from "../../helpers/utils_models";
 import { findRecordAndUpdate } from "../../helpers/utils_updates";
+import { createSubtaskVals } from "../../helpers/utils_subtasks";
 
 import styles from "../../css/dashboard/DetailsView.module.scss";
 import PanelLG from "../../components/shared/PanelLG";
@@ -26,6 +27,7 @@ import TaskList from "../../components/details/TaskList";
 import TaskDetails from "../../components/details/TaskDetails";
 import EditTaskForm from "../../components/details/EditTaskForm";
 import CreateTaskForm from "../../components/app/CreateTaskForm";
+import SubtaskList from "../../components/details/SubTaskList";
 
 // **TODOS**:
 // 1. REASSESS NOTES TEXTAREA NOT SHOWING WHEN REASSESS CHECKBOX IS SELECTED
@@ -67,7 +69,9 @@ const DetailsView = props => {
 		newTaskName: "",
 		newTaskADL: "",
 		newTaskNote: "",
-		newTaskShift: ""
+		newTaskShift: "",
+		// Subtask values
+		...createSubtaskVals(activeTask)
 	});
 	const {
 		isSupported,
@@ -91,15 +95,11 @@ const DetailsView = props => {
 		e.persist();
 		e.preventDefault();
 		const { values } = formState;
-
 		const updatedRecord = findRecordAndUpdate(
 			values,
 			activeTask,
 			trackingTasks
 		);
-		console.group("<DetailsView/>: saveTaskUpdate");
-		console.log("matched record (**after** updates)", updatedRecord);
-		console.groupEnd();
 		// update server-side
 		const success = await updateTrackingTasks(
 			currentResident.token,
@@ -134,11 +134,7 @@ const DetailsView = props => {
 				</h1>
 				<PanelLG customStyles={{ backgroundColor: "#ffffff" }}>
 					<TasksPanel>
-						<TaskList
-							tasks={scheduledTasks}
-							viewDetails={viewDetails}
-							handleShiftStatus={handleCheckbox}
-						/>
+						<TaskList tasks={scheduledTasks} viewDetails={viewDetails} />
 					</TasksPanel>
 				</PanelLG>
 			</section>
@@ -146,6 +142,8 @@ const DetailsView = props => {
 			{showModal && (
 				<Modal title="Edit/Update Task" closeModal={() => setShowModal(false)}>
 					<TaskDetails task={activeTask}>
+						{/* SUBTASK ITEMS & NOTES */}
+						<SubtaskList task={activeTask} />
 						<EditTaskForm
 							title="Update task"
 							vals={formState.values}
