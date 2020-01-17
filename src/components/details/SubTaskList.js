@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { PropTypes } from "prop-types";
 import { isEmptyArray } from "../../helpers/utils_types";
 import styles from "../../css/details/SubtaskList.module.scss";
-import ButtonSM from "./shared/ButtonSM";
+import ButtonSM from "../shared/ButtonSM";
 import SubtaskItem from "./SubtaskItem";
 
 const SubtaskList = ({ task = {}, vals, markSubtask, addNewSubtask }) => {
