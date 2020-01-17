@@ -1,36 +1,116 @@
 import React, { useState } from "react";
 import { PropTypes } from "prop-types";
 import { useForm } from "../../utils/useForm";
+import { useCounter } from "../../utils/useCounter";
 import styles from "../../css/details/TasksPanel.module.scss";
 import sprite2 from "../../assets/buttons.svg";
 import StatefulButton from "../shared/StatefulButton";
 import Modal from "../shared/Modal";
 import AppliedFilters from "./AppliedFilters";
 import TaskDetails from "./TaskDetails";
+import TaskList from "./TaskList";
+import SubtaskList from "./SubtaskList";
+import EditTaskForm from "./EditTaskForm";
+import { findRecordAndUpdate } from "../../helpers/utils_updates";
+import { createSubtaskVals } from "../../helpers/utils_subtasks";
+import { updateTrackingTasks } from "../../helpers/utils_scheduled";
 
 const btnStyles = {
 	backgroundColor: "hsla(170, 100%, 39%, 1)",
 	color: "#ffffff"
 };
 
+// PROPS REQUIREMENTS:
+// dispatch: for pushing task updates
+// scheduledTaskUpdateCount: count of tasks to be updated - PROBABLY CAN REMOVE AND MAKE IT LOCAL STATE
+// trackingTasks: used for updates when matching records
+
 const TasksPanel = ({
+	dispatch,
 	scheduledTasksUpdateCount = 0,
-	saveChanges,
-	children
+	scheduledTasks,
+	trackingTasks,
+	currentResident
 }) => {
 	const [showAppliedFilters, setShowAppliedFilters] = useState(false);
-
-	const { formState, handleCheckbox, handleChange } = useForm({
+	const [showModal, setShowModal] = useState(false);
+	const [activeTask, setActiveTask] = useState({});
+	const {
+		count,
+		increment,
+		decrement,
+		handleCountChange,
+		handleCountBlur
+	} = useCounter(0, 120);
+	const { formState, setFormState, handleCheckbox, handleChange } = useForm({
 		unscheduled: true,
 		scheduled: true,
 		am: false,
 		pm: false,
 		noc: false,
 		any: false,
-		search: "" // search by ADL, task description
+		search: "", // search by ADL, task description
+		status: "",
+		shift: "",
+		reason: "",
+		taskNotes: "",
+		signature: "",
+		followUpDate: "",
+		residentUnavailable: false,
+		requiresMedCheck: false,
+		reassess: false,
+		reassessNotes: "",
+		minutes: 0,
+		priority: "",
+		// Create task values
+		newTaskName: "",
+		newTaskADL: "",
+		newTaskNote: "",
+		newTaskShift: "",
+		// Subtask values
+		...createSubtaskVals(activeTask)
 	});
 
-	// displays pending task changes
+	const handlePriority = priority => {
+		return setFormState({
+			...formState,
+			values: {
+				...formState.values,
+				priority: priority
+			}
+		});
+	};
+
+	// open edit task modal
+	// set active task
+	const viewDetails = task => {
+		setShowModal(true);
+		setActiveTask(task);
+	};
+
+	// task updater
+	const saveTaskUpdate = async e => {
+		e.persist();
+		e.preventDefault();
+		const { values } = formState;
+		const updatedRecord = findRecordAndUpdate(
+			values,
+			activeTask,
+			trackingTasks
+		);
+		// update server-side
+		const success = await updateTrackingTasks(
+			currentResident.token,
+			updatedRecord
+		);
+		if (success) {
+			return dispatch({
+				type: "UPDATE"
+			});
+		}
+	};
+
+	// displays pending task changes in count form
 	const changeFormatter = count => {
 		if (count !== 1) return `${count} task updates are pending`;
 		return `${count} task update is pending`;
@@ -77,14 +157,38 @@ const TasksPanel = ({
 								action="Saving task(s)..."
 								text="Save your changes?"
 								customStyles={btnStyles}
-								callback={saveChanges}
+								callback={saveTaskUpdate}
 							/>
 						</section>
 					</section>
 				</div>
 				{/* TASKLIST & TASKS ARE PASSED AS CHILDREN */}
-				<section className={styles.TasksPanel_inner}>{children}</section>
+				<section className={styles.TasksPanel_inner}>
+					<TaskList tasks={scheduledTasks} viewDetails={viewDetails} />
+				</section>
 			</main>
+			{showModal && (
+				<Modal title="Edit/Update Task" closeModal={() => setShowModal(false)}>
+					<TaskDetails task={activeTask}>
+						{/* SUBTASK ITEMS & NOTES */}
+						<SubtaskList task={activeTask} />
+						<hr className="divider" />
+						<EditTaskForm
+							title="Update task"
+							vals={formState.values}
+							handleChange={handleChange}
+							handleCheckbox={handleCheckbox}
+							handlePriority={handlePriority}
+							saveTaskUpdate={saveTaskUpdate}
+							count={count}
+							increment={increment}
+							decrement={decrement}
+							handleCountChange={handleCountChange}
+							handleCountBlur={handleCountBlur}
+						/>
+					</TaskDetails>
+				</Modal>
+			)}
 		</>
 	);
 };
