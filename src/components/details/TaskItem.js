@@ -20,7 +20,7 @@ import ShiftTag from "../shared/ShiftTag";
 import StatusBadge from "../shared/StatusBadge";
 import DropdownSelectSM from "../shared/DropdownSelectSM";
 import SubtaskCount from "./SubtaskCount";
-import TaskShiftList from "./TaskShiftList";
+import ShiftList from "./ShiftList";
 
 // NEW REQUIREMENTS:
 // 1. ADD SHIFTS FOR EACH TASK
@@ -84,8 +84,10 @@ const TaskItem = ({ viewDetails, addNote, task = {}, values = {} }) => {
 				{/* CORRESPONDS TO SHIFTSUBTASK RECORDS */}
 				<article className={styles.TaskItem_inner_bottom}>
 					<section className={styles.TaskItem_inner_bottom_left}>
-						<h2 className={styles.TaskItem_inner_bottom_title}>Shifts</h2>
-						<TaskShiftList task={task} />
+						<h2 className={styles.TaskItem_inner_bottom_title}>
+							Subtasks By Shift
+						</h2>
+						<ShiftList task={task} />
 					</section>
 
 					{/* SUB TASKLIST GOES HERE... */}

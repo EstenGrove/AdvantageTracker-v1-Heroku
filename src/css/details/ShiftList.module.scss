@@ -1,0 +1,27 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+
+.ShiftEntry {
+	width: 100%;
+	height: auto;
+	@include row_between_center;
+
+	&_shift {
+		font-size: 1.2rem;
+		font-weight: 700;
+		color: map-get($map: $colors, $key: "mainBlackBlue");
+	}
+	&_subtaskCount {
+		font-size: 1rem;
+		font-weight: 500;
+		padding: 0.2rem;
+		background-color: map-get($map: $colors, $key: "mainGrey");
+		border-radius: 50%;
+		margin-left: 1rem;
+		justify-self: flex-end;
+	}
+}
+
+.ShiftList {
+	@include fill_container;
+}

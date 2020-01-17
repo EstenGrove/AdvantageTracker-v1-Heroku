@@ -1,12 +1,17 @@
 import React from "react";
-import styles from "../../css/details/TaskShiftList.module.scss";
+import styles from "../../css/details/ShiftList.module.scss";
 import { PropTypes } from "prop-types";
 import { isEmptyArray, isEmptyObj } from "../../helpers/utils_types";
 import { handleShiftLabel } from "../../helpers/utils_shifts";
 import sprite from "../../assets/tasks.svg";
 import { getCompletedCount } from "./SubtaskCount";
+import {
+	groupByShift,
+	findSubtasksByShift,
+	countSubtasksByShiftID
+} from "../../helpers/utils_subtasks";
 
-// NOTE: IN ORDER TO UPDATE TASKSHIFTENTRY UPDATE THE "IsCheck" property!!
+// NOTE: IN ORDER TO UPDATE ShiftEntry UPDATE THE "IsCheck" property!!
 // REFACTOR COMPONENT TO SHOW:
 // AM: # of subtasks
 // PM: # of subtasks
@@ -15,7 +20,13 @@ import { getCompletedCount } from "./SubtaskCount";
 // MAP THRU THE Shifts
 // THEN COUNT THE ShiftTasks for each Shift and display a count.
 
-export const TaskShiftEntry = ({ task, shift = {} }) => {
+export const ShiftEntry = ({ task = {}, shift = {} }) => {
+	console.group("<ShiftEntry/>");
+	console.log("task", task);
+	console.log("subtasks", task.ShiftTasks);
+	console.log("shift", shift);
+	console.groupEnd();
+
 	if (isEmptyArray(task.Shifts)) {
 		return (
 			<div className={styles.EMPTY}>
@@ -24,34 +35,36 @@ export const TaskShiftEntry = ({ task, shift = {} }) => {
 		);
 	}
 	return (
-		<div className={styles.TaskShiftEntry}>
-			<h6 className={styles.TaskShiftEntry_shift}>
+		<div className={styles.ShiftEntry}>
+			<h6 className={styles.ShiftEntry_shift}>
 				{handleShiftLabel(task, shift)}
 			</h6>
-			<p className={styles.TaskShiftEntry_subtaskCount}>
-				{getCompletedCount(task.ShiftTasks)}
+			<p className={styles.ShiftEntry_subtaskCount}>
+				{countSubtasksByShiftID(task.ShiftTasks, shift.AssessmentShiftId)}
 			</p>
 		</div>
 	);
 };
 
-TaskShiftEntry.defaultProps = {
+ShiftEntry.defaultProps = {
+	task: PropTypes.object,
 	shift: {}
 };
 
-TaskShiftEntry.propTypes = {
-	shift: PropTypes.object,
+ShiftEntry.propTypes = {
+	task: PropTypes.object.isRequired,
+	shift: PropTypes.object.isRequired,
 	viewShiftNotes: PropTypes.func
 };
 
-const TaskShiftList = ({ task = {} }) => {
+const ShiftList = ({ task = {} }) => {
 	const { Shifts: shifts } = task;
 	if (isEmptyObj(task)) return;
 	return (
-		<div className={styles.TaskShiftList}>
+		<div className={styles.ShiftList}>
 			{shifts &&
 				shifts.map((shift, index) => (
-					<TaskShiftEntry
+					<ShiftEntry
 						key={`${shift.AssessmentTrackingTaskShiftId}`}
 						shift={shift}
 						task={task}
@@ -61,12 +74,12 @@ const TaskShiftList = ({ task = {} }) => {
 	);
 };
 
-export default TaskShiftList;
+export default ShiftList;
 
-TaskShiftList.defaultProps = {
+ShiftList.defaultProps = {
 	task: {}
 };
 
-TaskShiftList.propTypes = {
+ShiftList.propTypes = {
 	task: PropTypes.object
 };
