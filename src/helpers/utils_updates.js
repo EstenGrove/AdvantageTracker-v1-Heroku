@@ -72,7 +72,7 @@ const determineResolution = vals => {
 	if (isEmptyVal(vals.followUpDate) && !vals.residentUnavailable) {
 		return "TBC-NEXT-SHIFT";
 	}
-	if (vals.requiresMedCheck) {
+	if (vals.requiresMedCheck && !vals.residentUnavailable) {
 		return "TBC-NEXT-SHIFT-NEEDS";
 	}
 	if (vals.reassess) {
