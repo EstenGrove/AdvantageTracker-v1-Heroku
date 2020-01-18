@@ -10,26 +10,26 @@ import Modal from "../shared/Modal";
 // 2. Expands/Collapses based on <Sidebar/> state
 
 const DashboardContainer = ({ state, dispatch, isExpanded, handleSidebar }) => {
-	const [showTaskModal, setShowTaskModal] = useState(false);
-	return (
-		<>
-			<div className={styles.DashboardContainer}>
-				<Sidebar
-					isExpanded={isExpanded}
-					handleSidebar={handleSidebar}
-					setShowTaskModal={setShowTaskModal}
-					state={state}
-					dispatch={dispatch}
-					currentResident={state.globals.currentResident}
-					scheduledTasks={state.globals.scheduledTasks}
-					unscheduledTasks={state.globals.unscheduledTasks}
-					categories={state.globals.categories}
-				/>
-				<Dashboard state={state} dispatch={dispatch} />
-			</div>
-			{/* MODAL AND CREATETETASKFORM WAS HERE PREVIOUSLY */}
-		</>
-	);
+  const [showTaskModal, setShowTaskModal] = useState(false);
+  return (
+    <>
+      <div className={styles.DashboardContainer}>
+        <Sidebar
+          isExpanded={isExpanded}
+          handleSidebar={handleSidebar}
+          setShowTaskModal={setShowTaskModal}
+          state={state}
+          dispatch={dispatch}
+          currentResident={state.globals.currentResident}
+          scheduledTasks={state.globals.scheduledTasks}
+          unscheduledTasks={state.globals.unscheduledTasks}
+          categories={state.globals.categories}
+        />
+        <Dashboard state={state} dispatch={dispatch} />
+      </div>
+      {/* MODAL AND CREATETETASKFORM WAS HERE PREVIOUSLY */}
+    </>
+  );
 };
 
 export default DashboardContainer;
@@ -37,10 +37,10 @@ export default DashboardContainer;
 DashboardContainer.defaultProps = {};
 
 DashboardContainer.propTypes = {
-	state: PropTypes.object,
-	dispatch: PropTypes.func,
-	isExpanded: PropTypes.bool.isRequired,
-	handleSidebar: PropTypes.func.isRequired,
-	customStyles: PropTypes.object,
-	children: PropTypes.any
+  state: PropTypes.object,
+  dispatch: PropTypes.func,
+  isExpanded: PropTypes.bool.isRequired,
+  handleSidebar: PropTypes.func.isRequired,
+  customStyles: PropTypes.object,
+  children: PropTypes.any
 };

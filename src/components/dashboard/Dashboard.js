@@ -20,11 +20,7 @@ const Dashboard = props => {
       <main className={styles.Dashboard}>
         {/* DASHBOARD ROUTES */}
         <Switch>
-          <Route
-            exact
-            path="/dashboard/daily"
-            component={() => <DailyView />}
-          />
+          <Route exact path="/dashboard/daily" component={DailyView} />
           <Route path="/dashboard/daily/details/:id" component={DetailsView} />
           <Route path="/dashboard/calendar" component={CalendarView} />
           <Route path="/dashboard/summary" component={SummaryView} />
@@ -41,7 +37,4 @@ export default Dashboard;
 
 Dashboard.defaultProps = {};
 
-Dashboard.propTypes = {
-  state: PropTypes.object,
-  dispatch: PropTypes.func
-};
+Dashboard.propTypes = {};
