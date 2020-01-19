@@ -118,7 +118,7 @@ const iconChart = {
 	}
 };
 
-const statusReducer = status => {
+const statusReducer = (status = "PENDING") => {
 	switch (status) {
 		case "COMPLETE":
 			return { backgroundColor: themeColors.main.green }; // "hsla(170, 100%, 39%, 1)"

@@ -1,5 +1,5 @@
 import React from "react";
-import { isEmptyObj } from "../../helpers/utils_types";
+import { isEmptyObj, isEmptyArray } from "../../helpers/utils_types";
 import {
 	addEllipsis,
 	replaceNullWithMsg
@@ -12,7 +12,7 @@ import sprite from "../../assets/icon-bar.svg";
 
 const getShiftTaskCount = task => {
 	if (isEmptyObj(task)) return 0;
-	console.log("getShiftTaskCount", task.ShiftTasks);
+	if (isEmptyArray(task.ShiftTasks)) return 0;
 	return task.ShiftTasks.length;
 };
 
@@ -21,14 +21,16 @@ const DailySummaryListItem = ({ task }) => {
 		<li className={styles.DailySummaryListItem} title={task.TaskDescription}>
 			<section className={styles.DailySummaryListItem_details}>
 				<div className={styles.DailySummaryListItem_details_desc}>
-					{!task.TaskDescription ? "NA" : addEllipsis(task.TaskDescription, 40)}
+					{!task.TaskDescription
+						? "No Description"
+						: addEllipsis(task.TaskDescription, 40)}
 				</div>
 			</section>
 			<div className={styles.DailySummaryListItem_item}>
 				<div
 					title={task.TaskStatus}
 					className={styles.DailySummaryListItem_item_status}
-					style={statusReducer(task.TaskStatus)}
+					style={replaceNullWithMsg(statusReducer(task.TaskStatus), "PENDING")}
 				>
 					<div className={styles.DailySummaryListItem_item_status_badge}></div>
 				</div>
@@ -36,7 +38,7 @@ const DailySummaryListItem = ({ task }) => {
 					<use xlinkHref={`${sprite}#icon-access_alarmalarm`}></use>
 				</svg>
 				<span className={styles.DailySummaryListItem_item_count}>
-					{getShiftTaskCount(task)}
+					{task?.ShiftTasks?.length}
 				</span>
 
 				<svg className={styles.DailySummaryListItem_item_icon}>

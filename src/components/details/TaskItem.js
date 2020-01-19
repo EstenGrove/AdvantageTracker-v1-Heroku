@@ -14,7 +14,7 @@ import {
 	formatPastDate,
 	formatTimeToNow
 } from "../../helpers/utils_dates";
-import { isEmptyArray } from "../../helpers/utils_types";
+import { isEmptyArray, isEmptyVal } from "../../helpers/utils_types";
 import { SHIFTS } from "../../helpers/utils_options";
 import ShiftTag from "../shared/ShiftTag";
 import StatusBadge from "../shared/StatusBadge";
@@ -70,8 +70,11 @@ const TaskItem = ({ viewDetails, addNote, task = {}, values = {} }) => {
 				</article>
 				{/* SHIFT - MIDDLE RIGHT */}
 				<article className={styles.TaskItem_inner_middle}>
-					<StatusBadge status={task.TaskStatus} isCompleted={task.IsCompleted}>
-						{task.TaskStatus}
+					<StatusBadge
+						status={replaceNullWithMsg(task.TaskStatus, "PENDING")}
+						isCompleted={task.IsCompleted}
+					>
+						{replaceNullWithMsg(task.TaskStatus, "PENDING")}
 					</StatusBadge>
 					<section className={styles.TaskItem_inner_middle_shift}>
 						<i>

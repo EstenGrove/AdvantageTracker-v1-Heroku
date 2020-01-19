@@ -52,6 +52,17 @@ const getRandomNumArbitrary = (min, max) => {
 	return Math.random() * (max - min) + min;
 };
 
+const groupBy = (list, iteratee) => {
+	return list.reduce((acc, item) => {
+		const keyToSortBy = iteratee(item);
+		if (!acc[keyToSortBy]) {
+			acc[keyToSortBy] = [];
+		}
+		acc[keyToSortBy].push(item);
+		return acc;
+	}, {});
+};
+
 export {
 	getCompletedCount,
 	getPercentage,
@@ -62,5 +73,6 @@ export {
 	addEllipsis,
 	replaceNullWithMsg,
 	getRandomNumArbitrary,
-	getIsCompletedCount
+	getIsCompletedCount,
+	groupBy
 };

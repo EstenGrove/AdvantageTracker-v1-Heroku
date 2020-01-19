@@ -133,7 +133,7 @@ const TasksPanel = ({
 		return `${count} task update is pending`;
 	};
 
-	console.log("currentUser", currentUser);
+	// console.log("dispatch", dispatch);
 
 	return (
 		<>
