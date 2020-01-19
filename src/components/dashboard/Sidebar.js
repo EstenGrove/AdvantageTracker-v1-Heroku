@@ -281,7 +281,6 @@ Sidebar.defaultProps = {};
 Sidebar.propTypes = {
 	isExpanded: PropTypes.bool.isRequired,
 	handleSidebar: PropTypes.func.isRequired,
-	handleNewTaskModal: PropTypes.func.isRequired,
 	state: PropTypes.object,
 	scheduledTasks: PropTypes.arrayOf(PropTypes.object),
 	unscheduledTasks: PropTypes.arrayOf(PropTypes.object),

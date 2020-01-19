@@ -35,6 +35,9 @@ const DetailsView = props => {
 		trackingTasks,
 		currentResident
 	} = props.location.state;
+
+	console.log("<Details/>");
+	console.log("props", props);
 	const { showTaskModal, setShowTaskModal } = props;
 	// useForm: ONLY USED FOR CREATING NEW TASKS,
 	// UPDATING TASKS IS HANDLED INSIDE THE <TasksPanel/>

@@ -30,14 +30,6 @@ const DailyView = props => {
 		categories
 	} = globals;
 
-	console.group("<DailyView/>");
-	console.log("scheduled tasks", scheduledTasks);
-	console.log(
-		"grouped",
-		groupBy(scheduledTasks, x => x.ADLCategory)
-	);
-	console.groupEnd();
-
 	if (isLoading) {
 		return <Spinner />;
 	}
@@ -65,6 +57,7 @@ const DailyView = props => {
 									category={adl}
 									trackingTasks={trackingTasks}
 									day={new Date()}
+									dispatch={dispatch}
 								/>
 							</CardSM>
 						))}

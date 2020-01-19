@@ -1,5 +1,9 @@
 import React from "react";
-import { isEmptyObj, isEmptyArray } from "../../helpers/utils_types";
+import {
+	isEmptyObj,
+	isEmptyArray,
+	isEmptyVal
+} from "../../helpers/utils_types";
 import {
 	addEllipsis,
 	replaceNullWithMsg
@@ -13,7 +17,7 @@ import sprite from "../../assets/icon-bar.svg";
 const getShiftTaskCount = task => {
 	if (isEmptyObj(task)) return 0;
 	if (isEmptyArray(task.ShiftTasks)) return 0;
-	return task.ShiftTasks.length;
+	return task?.ShiftTasks?.length;
 };
 
 const DailySummaryListItem = ({ task }) => {
@@ -38,14 +42,16 @@ const DailySummaryListItem = ({ task }) => {
 					<use xlinkHref={`${sprite}#icon-access_alarmalarm`}></use>
 				</svg>
 				<span className={styles.DailySummaryListItem_item_count}>
-					{task?.ShiftTasks?.length}
+					{getShiftTaskCount(task)}
 				</span>
 
 				<svg className={styles.DailySummaryListItem_item_icon}>
 					<use xlinkHref={`${sprite}#icon-comments2`}></use>
 				</svg>
 				{/* WILL BE THE NUMBER OF NOTES FOR A TASK ITEM */}
-				<span className={styles.DailySummaryListItem_item_count}>{2}</span>
+				<span className={styles.DailySummaryListItem_item_count}>
+					{isEmptyVal(task.TaskNotes) ? 0 : 1}
+				</span>
 			</div>
 		</li>
 	);

@@ -15,22 +15,22 @@ import PastDueView from "../../views/dashboard/PastDueView";
 import Modal from "../shared/Modal";
 
 const Dashboard = props => {
-  return (
-    <>
-      <main className={styles.Dashboard}>
-        {/* DASHBOARD ROUTES */}
-        <Switch>
-          <Route exact path="/dashboard/daily" component={DailyView} />
-          <Route path="/dashboard/daily/details/:id" component={DetailsView} />
-          <Route path="/dashboard/calendar" component={CalendarView} />
-          <Route path="/dashboard/summary" component={SummaryView} />
-          <Route path="/dashboard/pastdue" component={PastDueView} />
-          <Route path="/dashboard/residentinfo" component={ResidentInfoView} />
-          <Route path="/dashboard/settings" component={SettingsView} />
-        </Switch>
-      </main>
-    </>
-  );
+	return (
+		<>
+			<main className={styles.Dashboard}>
+				{/* DASHBOARD ROUTES */}
+				<Switch>
+					<Route exact path="/dashboard/daily" component={DailyView} />
+					<Route path="/dashboard/daily/details/:id" component={DetailsView} />
+					<Route path="/dashboard/calendar" component={CalendarView} />
+					<Route path="/dashboard/summary" component={SummaryView} />
+					<Route path="/dashboard/pastdue" component={PastDueView} />
+					<Route path="/dashboard/residentinfo" component={ResidentInfoView} />
+					<Route path="/dashboard/settings" component={SettingsView} />
+				</Switch>
+			</main>
+		</>
+	);
 };
 
 export default Dashboard;
