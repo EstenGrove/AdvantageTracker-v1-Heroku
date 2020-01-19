@@ -123,7 +123,7 @@ const statusReducer = (status = "PENDING") => {
 		case "COMPLETE":
 			return { backgroundColor: themeColors.main.green }; // "hsla(170, 100%, 39%, 1)"
 		case "NOT-COMPLETE":
-			return { backgroundColor: themeColors.main.charcoal }; // "hsla(268, 10%, 30%, 1)"
+			return { backgroundColor: themeColors.main.charcoal, color: "#ffffff" }; // "hsla(268, 10%, 30%, 1)"
 		case "IN-PROGRESS":
 			return { backgroundColor: themeColors.main.mustard }; // "hsla(39, 100%, 70%, 1)"
 		case "PENDING":

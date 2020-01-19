@@ -133,7 +133,7 @@ const TasksPanel = ({
 		return `${count} task update is pending`;
 	};
 
-	// console.log("dispatch", dispatch);
+	console.log("scheduledTasks", scheduledTasks);
 
 	return (
 		<>

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { withRouter } from "react-router-dom";
 import { PropTypes } from "prop-types";
 
+import { GlobalStateContext } from "../../state/GlobalStateContext";
 import { adlColors } from "../../helpers/utils_styles";
 import { useForm } from "../../utils/useForm";
 import { useCounter } from "../../utils/useCounter";
@@ -27,17 +28,16 @@ import CreateTaskForm from "../../components/app/CreateTaskForm";
 
 // DETAILS VIEW - CHILD ROUTE OF THE <DailyView/> route
 const DetailsView = props => {
+	const { category } = props.location.state;
+	const { state, dispatch } = useContext(GlobalStateContext);
 	const {
-		dispatch,
-		category,
-		currentUser,
-		scheduledTasks,
+		categories,
 		trackingTasks,
-		currentResident
-	} = props.location.state;
+		scheduledTasks,
+		currentResident,
+		user: currentUser
+	} = state.globals;
 
-	console.log("<Details/>");
-	console.log("props", props);
 	const { showTaskModal, setShowTaskModal } = props;
 	// useForm: ONLY USED FOR CREATING NEW TASKS,
 	// UPDATING TASKS IS HANDLED INSIDE THE <TasksPanel/>
@@ -49,7 +49,7 @@ const DetailsView = props => {
 		newTaskShift: ""
 	});
 
-	console.log("dispatch", dispatch);
+	console.log("scheduledTasks", scheduledTasks);
 
 	return (
 		<>
