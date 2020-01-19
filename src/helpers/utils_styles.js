@@ -83,7 +83,7 @@ const statusColors = {
 		border: `1px solid ${themeColors.main.green}`
 	},
 	pending: {
-		backgroundColor: themeColors.flat.orange,
+		backgroundColor: themeColors.main.orange,
 		color: "hsla(218, 17%, 35%, 1)",
 		border: `1px solid ${themeColors.main.orange}`
 	},
@@ -94,7 +94,7 @@ const statusColors = {
 	},
 	notcomplete: {
 		backgroundColor: themeColors.blueGreys.saturated,
-		color: "hsla(218, 17%, 35%, 1)",
+		color: "#ffffff",
 		border: `1px solid ${themeColors.main.charcoal}`
 	},
 	missedevent: {
@@ -131,7 +131,7 @@ const statusReducer = (status = "PENDING") => {
 		case "NOT-COMPLETE":
 			return {
 				backgroundColor: themeColors.main.charcoal,
-				color: "hsla(218, 17%, 35%, 1)",
+				color: "#ffffff",
 				border: `1px solid ${themeColors.main.charcoal}`,
 				fontSize: "1.3rem",
 				fontWeight: "400"

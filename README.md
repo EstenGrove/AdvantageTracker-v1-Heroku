@@ -11,7 +11,10 @@ Working build complete with all views:
 
 ## Current Work
 
-- [ ] Add new <SubtaskList/> & <SubtaskItem/>'s to the <TaskDetails/>
+- [ ] Handle task updates: scheduled & unscheduled
+  - [ ] Formulate the new state object for task updates
+- [ ] Handle notes, and subtask creation
+- [ ] Handle updates for subtasks and notes
 
 ## Todos - categorized
 
