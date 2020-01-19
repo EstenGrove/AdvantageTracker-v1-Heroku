@@ -22,20 +22,20 @@ import PanelLG from "../../components/shared/PanelLG";
 import Modal from "../../components/shared/Modal";
 import TasksPanel from "../../components/details/TasksPanel";
 import CreateTaskForm from "../../components/app/CreateTaskForm";
+import { findTasksByADL } from "../../helpers/utils_tasks";
 
 // **TODOS**:
 // 1. REASSESS NOTES TEXTAREA NOT SHOWING WHEN REASSESS CHECKBOX IS SELECTED
 
 // DETAILS VIEW - CHILD ROUTE OF THE <DailyView/> route
 const DetailsView = props => {
-	const { category } = props.location.state;
+	const { category, currentUser } = props.location.state;
 	const { state, dispatch } = useContext(GlobalStateContext);
 	const {
 		categories,
 		trackingTasks,
 		scheduledTasks,
-		currentResident,
-		user: currentUser
+		currentResident
 	} = state.globals;
 
 	const { showTaskModal, setShowTaskModal } = props;
@@ -49,7 +49,11 @@ const DetailsView = props => {
 		newTaskShift: ""
 	});
 
+	console.group("<DetailsView/>");
+	console.log("category (from props of DailySummarycard)", category);
+	console.log("currentUser (from props)", currentUser);
 	console.log("scheduledTasks", scheduledTasks);
+	console.groupEnd();
 
 	return (
 		<>
@@ -62,7 +66,10 @@ const DetailsView = props => {
 				</h1>
 				<PanelLG customStyles={{ backgroundColor: "#ffffff" }}>
 					<TasksPanel
-						scheduledTasks={scheduledTasks}
+						scheduledTasks={findTasksByADL(
+							scheduledTasks,
+							category.AdlCategoryType
+						)}
 						trackingTasks={trackingTasks}
 						currentResident={currentResident}
 						currentUser={currentUser}

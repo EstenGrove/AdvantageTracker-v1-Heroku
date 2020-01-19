@@ -88,7 +88,7 @@ const statusColors = {
 		border: `1px solid ${themeColors.main.orange}`
 	},
 	inprogress: {
-		backgroundColor: themeColors.flat.yellow,
+		backgroundColor: themeColors.main.altYellow,
 		color: "hsla(218, 17%, 35%, 1)",
 		border: `1px solid ${themeColors.main.charcoal}`
 	},
@@ -121,17 +121,53 @@ const iconChart = {
 const statusReducer = (status = "PENDING") => {
 	switch (status) {
 		case "COMPLETE":
-			return { backgroundColor: themeColors.main.green }; // "hsla(170, 100%, 39%, 1)"
+			return {
+				backgroundColor: themeColors.flat.green,
+				color: "hsla(218, 17%, 35%, 1)",
+				border: `1px solid ${themeColors.main.green}`,
+				fontSize: "1.3rem",
+				fontWeight: "400"
+			}; // "hsla(170, 100%, 39%, 1)"
 		case "NOT-COMPLETE":
-			return { backgroundColor: themeColors.main.charcoal, color: "#ffffff" }; // "hsla(268, 10%, 30%, 1)"
+			return {
+				backgroundColor: themeColors.main.charcoal,
+				color: "hsla(218, 17%, 35%, 1)",
+				border: `1px solid ${themeColors.main.charcoal}`,
+				fontSize: "1.3rem",
+				fontWeight: "400"
+			}; // "hsla(268, 10%, 30%, 1)"
 		case "IN-PROGRESS":
-			return { backgroundColor: themeColors.main.mustard }; // "hsla(39, 100%, 70%, 1)"
+			return {
+				backgroundColor: themeColors.main.mustard,
+				color: "hsla(218, 17%, 35%, 1)",
+				border: `1px solid ${themeColors.main.Green}`,
+				fontSize: "1.3rem",
+				fontWeight: "400"
+			}; // "hsla(39, 100%, 70%, 1)"
 		case "PENDING":
-			return { backgroundColor: themeColors.main.orange }; // "hsla(11, 100%, 75%, 1)"
+			return {
+				backgroundColor: themeColors.flat.orange,
+				color: "hsla(218, 17%, 35%, 1)",
+				border: `1px solid ${themeColors.main.orange}`,
+				fontSize: "1.3rem",
+				fontWeight: "400"
+			}; // "hsla(11, 100%, 75%, 1)"
 		case "MISSED-EVENT":
-			return { backgroundColor: themeColors.main.red }; // "hsla(352, 70%, 50%, 1)"
+			return {
+				backgroundColor: themeColors.flat.red,
+				color: "hsla(218, 17%, 35%, 1)",
+				border: `1px solid ${themeColors.main.charcoal}`,
+				fontSize: "1.3rem",
+				fontWeight: "400"
+			}; // "hsla(352, 70%, 50%, 1)"
 		default:
-			return { backgroundColor: themeColors.main.charcoal }; // "hsla(268, 10%, 30%, 1)"
+			return {
+				backgroundColor: themeColors.main.charcoal,
+				color: "hsla(218, 17%, 35%, 1)",
+				border: `1px solid ${themeColors.main.Green}`,
+				fontSize: "1.3rem",
+				fontWeight: "400"
+			}; // "hsla(268, 10%, 30%, 1)"
 	}
 };
 

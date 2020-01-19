@@ -48,16 +48,13 @@ const DailyView = props => {
 							>
 								<DailySummaryCard
 									key={`${adl.AdlId}_${adl.AdlCategoryId}`}
-									currentResident={currentResident}
 									scheduledTasks={findTasksByADL(
 										scheduledTasks,
 										adl.AdlCategoryType
 									)}
 									currentUser={user}
 									category={adl}
-									trackingTasks={trackingTasks}
 									day={new Date()}
-									dispatch={dispatch}
 								/>
 							</CardSM>
 						))}

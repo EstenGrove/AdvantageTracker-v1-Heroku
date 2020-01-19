@@ -20,23 +20,16 @@ import DailySummaryList from "./DailySummaryList";
 // ADD TOTAL ADL POINTS FROM ADLCARELEVEL array
 
 const DailySummaryCard = ({
-	dispatch,
 	hasBeenUpdated = false,
+	unscheduledTasks = [],
+	scheduledTasks = [],
+	currentUser,
 	category,
 	day,
-	currentUser,
-	currentResident,
-	trackingTasks = [],
-	scheduledTasks = [],
-	unscheduledTasks = [],
 	menu,
 	history
 }) => {
 	const match = useRouteMatch();
-
-	console.log("match", match);
-	console.log("history", history);
-	console.log("dispatch", dispatch);
 
 	const [isOpen, setIsOpen] = useState(false);
 	const [taskCounts, setTaskCounts] = useState({
@@ -127,10 +120,7 @@ const DailySummaryCard = ({
 								pathname: `${match.url}/details/${category.AdlCategoryType}`,
 								state: {
 									currentUser: currentUser,
-									currentResident: currentResident,
-									category: category,
-									scheduledTasks: scheduledTasks,
-									trackingTasks: trackingTasks
+									category: category
 								}
 							}}
 						>
