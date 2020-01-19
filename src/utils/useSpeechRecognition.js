@@ -1,104 +1,54 @@
-import { useEffect, useState } from "react";
-// import { debugWithColor } from "../helpers/utils_logging";
-// cross browser support
+import { useState } from "react";
+// UPDATED: 1/19/2020
+// Tested and working!
+
 window.SpeechRecognition =
 	window.SpeechRecognition || window.webkitSpeechRecognition;
 
-export const useSpeechRecognition = (continuous, interimResults) => {
-	const recog = new window.SpeechRecognition();
-	recog.continuous = continuous;
-	recog.interimResults = interimResults;
-	const { continuous: cont, interimResults: interim } = recog;
-	// debugWithColor("useSpeechRecognition", {
-	// 	cont,
-	// 	interim
-	// });
-	const [dictaphone, setDictaphone] = useState({
-		interimTranscript: [],
-		finalTranscript: "",
-		isSupported: "SpeechRecognition" in window ? true : false
-	});
-	const [isRecording, setIsRecording] = useState(false);
-	const [isPaused, setIsPaused] = useState(false);
-	const [isStopped, setIsStopped] = useState(false);
+const recognition = !window.SpeechRecognition
+	? null
+	: new window.SpeechRecognition();
 
-	const { interimTranscript, finalTranscript, isSupported } = dictaphone;
+// BE SURE TO PASS THE CORRECT OPTIONS:
+// { interimResults: true, continuous: true }
+export const useSpeechRecognition = (options = {}) => {
+	const isSupported = !!window.SpeechRecognition;
+	const [isListening, setIsListening] = useState(false);
+	const [final, setFinal] = useState(""); // final transcript
 
-	const checkForSupport = () => {
-		if ("SpeechRecognition" in window) {
-			return setDictaphone({
-				...dictaphone,
-				isSupported: true
-			});
-		}
-		return setDictaphone({
-			...dictaphone,
-			isSupported: false
+	const processResult = e => {
+		const transcript = Array.from(e.results)
+			.map(result => result[0])
+			.map(result => result.transcript)
+			.join("");
+		return setFinal(transcript);
+	};
+
+	const start = () => {
+		if (isListening) return;
+		const { interimResults, continuous } = options;
+		// SpeechRecognition stops automatically after inactivity
+		// We want it to keep going until we tell it to stop
+		recognition.interimResults = interimResults;
+		recognition.continuous = continuous;
+		setIsListening(true);
+		recognition.start();
+
+		return (recognition.onresult = e => {
+			return processResult(e);
 		});
 	};
 
-	const handleRecording = e => {
-		recog.onresult = e => {
-			let interimResults = "";
-			let finalTranscript = "";
-
-			// const interimText = e.results[0][0].transcript;
-			const isFinal = e.results[0].isFinal;
-
-			for (let i = e.resultIndex, len = e.results.length; i < len; i++) {
-				let transcript = e.results[i][0].transcript;
-
-				if (isFinal) {
-					finalTranscript += transcript;
-					setIsStopped(true);
-					setIsRecording(false);
-					return setDictaphone({
-						...dictaphone,
-						finalTranscript: finalTranscript
-					});
-				} else {
-					interimResults += transcript;
-					return setDictaphone({
-						...dictaphone,
-						interimTranscript: interimResults
-					});
-				}
-			}
-		};
+	const stop = () => {
+		setIsListening(false);
+		return recognition.stop();
 	};
-
-	const startRecording = e => {
-		recog.start();
-		setIsRecording(true);
-
-		return handleRecording(e);
-	};
-
-	const stopRecording = () => {
-		setIsRecording(false);
-		return recog.stop();
-	};
-
-	useEffect(() => {
-		checkForSupport();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
 
 	return {
+		isListening,
 		isSupported,
-		isRecording,
-		setIsRecording,
-		isPaused,
-		setIsPaused,
-		dictaphone,
-		interimTranscript,
-		finalTranscript,
-		setDictaphone,
-		checkForSupport,
-		startRecording,
-		handleRecording,
-		stopRecording,
-		isStopped,
-		setIsStopped
+		start,
+		stop,
+		final
 	};
 };

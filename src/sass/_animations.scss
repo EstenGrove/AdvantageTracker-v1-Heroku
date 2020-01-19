@@ -45,3 +45,7 @@
         opacity: 0;
     }
 }
+
+@mixin pulse {
+    @extend .ping;
+}
