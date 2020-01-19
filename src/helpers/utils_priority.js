@@ -28,4 +28,20 @@ const findPriorityNameFromID = priority => {
 	}
 };
 
-export { findPriorityID, findPriorityNameFromID };
+// handles priority name
+const findCareTaskPriorityName = name => {
+	switch (name) {
+		case "NONE":
+			return "None";
+		case "LOW":
+			return "Low";
+		case "MEDIUM":
+			return "Medium";
+		case "HIGH":
+			return "High";
+		default:
+			return 0; // defaults to 'NONE'
+	}
+};
+
+export { findPriorityID, findPriorityNameFromID, findCareTaskPriorityName };

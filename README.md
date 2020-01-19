@@ -16,6 +16,8 @@ Working build complete with all views:
 - [ ] Handle notes, and subtask creation
 - [ ] Handle updates for subtasks and notes
 
+- [ ] Add "Points" per task for <TaskDetails/> for the <EditTaskForm/>
+
 ## Todos - categorized
 
 **Views**

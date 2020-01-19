@@ -12,6 +12,10 @@ import TaskList from "./TaskList";
 import SubtaskList from "./SubtaskList";
 import EditTaskForm from "./EditTaskForm";
 import { findRecordAndUpdate } from "../../helpers/utils_updates";
+import {
+	updateCareTaskRecord,
+	findCareTaskRecord
+} from "../../helpers/utils_careTasks";
 import { createSubtaskVals } from "../../helpers/utils_subtasks";
 import { updateTrackingTasks } from "../../helpers/utils_scheduled";
 
@@ -53,6 +57,7 @@ const TasksPanel = ({
 		noc: false,
 		any: false,
 		search: "", // search by ADL, task description
+		// ** task update values start here **
 		status: "",
 		shift: "",
 		reason: "",
@@ -65,6 +70,7 @@ const TasksPanel = ({
 		reassessNotes: "",
 		minutes: 0,
 		priority: "",
+		// ** task update values end here **
 		// Create task values
 		newTaskName: "",
 		newTaskADL: "",
@@ -91,19 +97,21 @@ const TasksPanel = ({
 
 	// update task locally before submitting to server.
 	// REQUIREMENTS:
-	const saveTaskLocally = task => {
+	const saveTaskLocally = e => {
 		const { values } = formState;
-		const getNonActiveTasks = tasks.filter(
-			item => item.AssessmentTrackingTaskId !== task.AssessmentTrackingTaskId
-		);
+		const updatedCareTask = updateCareTaskRecord(values, activeTask);
+		console.group("<TasksPanel/>: saveTaskLocally");
+		console.log("activeTask", activeTask);
+		console.log("values", values);
+		console.log("updatedCareTask", updatedCareTask);
+		console.groupEnd();
+		return;
+		// const getNonActiveTasks = tasks.filter(
+		// 	item => item.AssessmentTrackingTaskId !== task.AssessmentTrackingTaskId
+		// );
+		// // UPDATES ADLCARETASK RECORD
+		// const updateCareTask = updateCareTaskRecord(values, task);
 		// updated tracking task record
-		const updatedRecord = findRecordAndUpdate(
-			values,
-			activeTask,
-			trackingTasks
-		);
-		// UPDATE ADLCARETASK RECORD & TRACKINGTASK
-		//
 	};
 
 	// task updater
@@ -132,8 +140,6 @@ const TasksPanel = ({
 		if (count !== 1) return `${count} task updates are pending`;
 		return `${count} task update is pending`;
 	};
-
-	console.log("scheduledTasks", scheduledTasks);
 
 	return (
 		<>
@@ -199,7 +205,7 @@ const TasksPanel = ({
 							handleChange={handleChange}
 							handleCheckbox={handleCheckbox}
 							handlePriority={handlePriority}
-							saveTaskUpdate={saveTaskUpdate}
+							saveTaskUpdate={saveTaskLocally}
 							count={count}
 							increment={increment}
 							decrement={decrement}

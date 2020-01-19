@@ -1,3 +1,5 @@
+import { isEmptyVal } from "./utils_types";
+
 const getResolutionID = resolution => {
 	switch (resolution) {
 		case "COMPLETED":
@@ -40,4 +42,20 @@ const getResolutionNameFromID = id => {
 	}
 };
 
-export { getResolutionID, getResolutionNameFromID };
+const determineResolution = vals => {
+	if (vals.residentUnavailable) {
+		return "RESIDENT-DENIED";
+	}
+	if (isEmptyVal(vals.followUpDate) && !vals.residentUnavailable) {
+		return "TBC-NEXT-SHIFT";
+	}
+	if (vals.requiresMedCheck && !vals.residentUnavailable) {
+		return "TBC-NEXT-SHIFT-NEEDS";
+	}
+	if (vals.reassess) {
+		return "COMPLETED-REASSESSMENT-NEEDED";
+	}
+	return "PENDING";
+};
+
+export { getResolutionID, getResolutionNameFromID, determineResolution };

@@ -49,12 +49,6 @@ const DetailsView = props => {
 		newTaskShift: ""
 	});
 
-	console.group("<DetailsView/>");
-	console.log("category (from props of DailySummarycard)", category);
-	console.log("currentUser (from props)", currentUser);
-	console.log("scheduledTasks", scheduledTasks);
-	console.groupEnd();
-
 	return (
 		<>
 			<section className={styles.DetailsView}>
