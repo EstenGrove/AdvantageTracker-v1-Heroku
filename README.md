@@ -11,20 +11,17 @@ Working build complete with all views:
 
 ## Current Work
 
-- [ ] Handle task updates: scheduled & unscheduled
-  - [ ] Formulate the new state object for task updates
-- [ ] Handle notes, and subtask creation
-- [ ] Handle updates for subtasks and notes
+- [x] Handle task updates: scheduled & unscheduled
+  - [x] Formulate the new state object for task updates
+
+- [ ] Write subtask CRUD functions: CREATE, UPDATE, DELETE (READ is already handled) 
+  - [ ] Handle notes, and subtask creation
+  - [ ] Handle updates for subtasks and notes
 
 - [ ] Add "Points" per task for <TaskDetails/> for the <EditTaskForm/>
 
 ## Todos - categorized
 
-**Views**
-
-- [ ] Update <CalendarView/> with new data structure to include subtasks, shifts and task notes.
-- [ ] Update <SummaryView/> with new data structure to include subtasks, shifts and task notes.
-- [ ] IF TIME PERMITS: Add base structure of <ResidentInfo/> and <Settings/> view.
 
 **Components**
 

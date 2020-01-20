@@ -1,7 +1,13 @@
 import { test } from "./utils_env.js";
 import { scheduledTasks } from "./utils_endpoints.js";
-import { isEmptyArray } from "./utils_types";
+import { isEmptyObj, isEmptyVal, isEmptyArray } from "./utils_types";
 import { findShiftID, findShiftName } from "./utils_shifts";
+import { getReasonID } from "./utils_reasons";
+import { getResolutionID } from "./utils_resolution";
+import { findStatusID } from "./utils_status";
+import { findPriorityID } from "./utils_priority";
+import { format } from "date-fns";
+
 // gets a count of the current ShiftSubTask records
 const getSubtaskCount = async token => {
 	let url = test.base + scheduledTasks.count.shiftSubTask;
@@ -111,6 +117,22 @@ const serializeIDs = (key, params) => {
 	return params.reduce((acc, cur) => acc.concat(`${key}=` + cur), []).join("");
 };
 
+// REQUIRES SERIALIZING AND JOINING THE IDS WITH THEIR QUERY STRING VALUE
+// ie ASSESSMENTTRACKINGTASKSHIFTSUBTASKID=2343
+// &ASSESSMENTTRACKINGTASKSHIFTSUBTASKID=23498
+// &ASSESSMENTTRACKINGTASKSHIFTSUBTASKID=23498
+
+/**
+ * @description - A fetch helper that takes, an auth token and an array of ids to delete several subtasks at once.
+ * @param {string} token - Base-64 encoded auth SecurityToken for the headers
+ * @param {array} ids - An array of AssessmentTrackingTaskShiftSubTaskId(s) used to delete from the database
+ * The query string that's created appears like so:
+ * ASSESSMENTTRACKINGTASKSHIFTSUBTASKID=1238
+ * &ASSESSMENTTRACKINGTASKSHIFTSUBTASKID=8398
+ * &ASSESSMENTTRACKINGTASKSHIFTSUBTASKID=5467
+ * Notice the first item DOES NOT contain the "&" since it's taken care of w/ a hard coded value.
+ */
+
 const deleteSubtaskMany = async (token, ids) => {
 	let url = test.base + scheduledTasks.delete.shiftSubTaskMany;
 	url +=
@@ -119,7 +141,7 @@ const deleteSubtaskMany = async (token, ids) => {
 			"db-meta": "Advantage",
 			source: "AssessmentTrackingTaskShiftSubTask"
 		});
-	url += "&" + serializeIDs("AssessmentTrackingTaskShiftSubTaskId", ids);
+	url += "&" + serializeIDs("ASSESSMENTTRACKINGTASKSHIFTSUBTASKID", ids);
 
 	try {
 		const request = await fetch(url, {
@@ -204,12 +226,93 @@ const getSubtaskByShiftID = (subtasks, shiftID) => {
 	return subtasks.filter(subtask => subtask.AssessmentShiftId === shiftID);
 };
 
+const findSubtaskByID = (active, records) => {
+	if (isEmptyObj(active)) return {};
+	return records.reduce((all, item) => {
+		if (
+			item.AssessmentTrackingTaskShiftSubTaskId ===
+			active.AssessmentTrackingTaskShiftSubTaskId
+		) {
+			all = item;
+			return all;
+		}
+		return all;
+	}, {});
+};
+
+const determineSubtaskResolutionID = vals => {
+	if (!isEmptyVal(vals.followUpDate)) {
+		return 3; // TBC-NEXT-SHIFT
+	}
+	if (vals.isChecked) {
+		return 1; // COMPLETED
+	}
+	return 6; // NOT-COMPLETED
+};
+
+const updateSubtaskRecord = (vals, activeSubtask, records) => {
+	const match = findSubtaskByID(activeSubtask, records);
+	if (vals.isChecked) {
+		return handleSubtaskCompletion(vals, match);
+	}
+	return handleSubtaskException(vals, match);
+};
+
+const handleSubtaskCompletion = (vals, record) => {
+	return {
+		...record,
+		CompletedDate: new Date().toUTCString(),
+		FollowUpDate: isEmptyVal(vals.followUpDate)
+			? ""
+			: format(vals.followUpDate, "MM/DD/YYY h:mm:ss"),
+		SignedBy: vals.signature,
+		Notes: vals.notes,
+		Description: vals.description, // need to add for subtasks,
+		IsChecked: true,
+		IsCompleted: true,
+		IsFinal: false,
+		AssessmentReasonId: getReasonID(vals.reason),
+		AssessmentResolutionId: getResolutionID(vals.resolution),
+		AssessmentTaskStatusId: findStatusID(vals.status),
+		AssessmentPriorityId: findPriorityID(vals.priority)
+	};
+};
+
+const handleSubtaskException = (vals, record) => {
+	return {
+		...record,
+		CompletedDate: "NA",
+		FollowUpDate: isEmptyVal(vals.followUpDate)
+			? ""
+			: format(vals.followUpDate, "MM/DD/YYYY h:mm:ss"),
+		SignedBy: vals.signature,
+		Notes: vals.notes,
+		Description: vals.description, // need to add for subtasks,
+		IsChecked: false,
+		IsCompleted: false,
+		IsFinal: false,
+		AssessmentReasonId: 7, // NOT-COMPLETED
+		AssessmentResolutionId: 6, // PENDING
+		AssessmentTaskStatusId: findStatusID(vals.status),
+		AssessmentPriorityId: findPriorityID(vals.priority)
+	};
+};
+
 export {
 	createSubtaskVals,
 	groupByShift,
 	countSubtasksByShift,
 	countSubtasksByShiftID,
-	getSubtaskByShiftID
+	getSubtaskByShiftID,
+	findSubtaskByID
+};
+
+// RECORD UPDATE UTILS
+export {
+	updateSubtaskRecord,
+	handleSubtaskCompletion,
+	handleSubtaskException,
+	determineSubtaskResolutionID
 };
 
 // UPDATE FETCH UTILS
