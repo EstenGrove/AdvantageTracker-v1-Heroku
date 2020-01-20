@@ -27,16 +27,24 @@ const SubtaskList = ({ task = {}, addNewSubtask, dispatch }) => {
 			[name]: checked
 		});
 		const { ShiftTasks } = task;
-		const activeSubtask = findSubtaskRecord(name, ShiftTasks);
+		const activeSubtask = findSubtaskRecord(name, [...ShiftTasks]);
 
+		console.group("markSubtask");
+		console.log("ShiftTasks", ShiftTasks);
 		console.log("name", name);
 		console.log("<SubtaskList/>: activeSubtask", activeSubtask);
+		console.groupEnd();
+		// return updateState()
+	};
+
+	// accepts the updates sub task record as a param
+	const updateState = updatedSubtask => {
 		return dispatch({
 			type: "MARK_SUBTASK",
 			data: {
 				activeSubtask: {
-					...activeSubtask,
-					IsCompleted: !activeSubtask.IsCompleted
+					...updatedSubtask,
+					IsCompleted: !updatedSubtask.IsCompleted
 				}
 			}
 		});
