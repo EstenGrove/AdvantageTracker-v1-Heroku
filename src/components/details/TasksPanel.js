@@ -107,15 +107,19 @@ const TasksPanel = ({
 		console.log("activeTask", activeTask);
 		console.log("values", values);
 		console.log("updatedCareTask", updatedCareTask);
+		console.log("scheduledTasks", scheduledTasks);
+		console.log("tasks (LOCAL STATE)", tasks);
 		console.groupEnd();
-		return setTasks([
+
+		setTasks([
 			...tasks.filter(
 				task =>
 					task.AssessmentTrackingTaskId !== activeTask.AssessmentTrackingTaskId
 			),
 			updatedCareTask
 		]);
-		// return saveTaskUpdate(e);
+		setShowModal(false);
+		return saveTaskUpdate(e);
 	};
 
 	// task updater
@@ -141,7 +145,7 @@ const TasksPanel = ({
 						...state,
 						globals: {
 							...state.globals,
-							scheduledTasks: ""
+							scheduledTasks: [...tasks]
 						}
 					}
 				}
@@ -155,11 +159,11 @@ const TasksPanel = ({
 		return `${count} task update is pending`;
 	};
 
-	useEffect(() => {
-		if (!isEmptyArray(scheduledTasks)) {
-			tasksRef.current = scheduledTasks;
-		}
-	}, [scheduledTasks]);
+	// useEffect(() => {
+	// 	if (!isEmptyArray(scheduledTasks)) {
+	// 		tasksRef.current = scheduledTasks;
+	// 	}
+	// }, [scheduledTasks]);
 
 	return (
 		<>
