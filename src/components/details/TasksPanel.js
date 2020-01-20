@@ -17,8 +17,12 @@ import {
 	findCareTaskRecord
 } from "../../helpers/utils_careTasks";
 import { createSubtaskVals } from "../../helpers/utils_subtasks";
-import { updateTrackingTasks } from "../../helpers/utils_scheduled";
+import {
+	updateTrackingTasks,
+	findTasksByADL
+} from "../../helpers/utils_scheduled";
 import { isEmptyArray } from "../../helpers/utils_types";
+import { checkLoginStatus } from "../../helpers/utils_auth";
 
 const btnStyles = {
 	backgroundColor: "hsla(170, 100%, 39%, 1)",
@@ -30,17 +34,21 @@ const btnStyles = {
 // [x] scheduledTaskUpdateCount: count of tasks to be updated - PROBABLY CAN REMOVE AND MAKE IT LOCAL STATE
 // [x] trackingTasks: used for updates when matching records
 
+// NOTE: ONLY SHOWS TASKS FOR A SINGLE (1) CATEGORY
+
 const TasksPanel = ({
 	state,
 	dispatch,
 	scheduledTasksUpdateCount = 0, // this will likely be changed.
 	scheduledTasks,
 	trackingTasks,
+	category, // string
 	currentUser,
 	currentResident
 }) => {
-	const tasksRef = useRef();
-	const [tasks, setTasks] = useState([...scheduledTasks]);
+	const [tasks, setTasks] = useState([
+		...findTasksByADL(scheduledTasks, category)
+	]);
 	const [showAppliedFilters, setShowAppliedFilters] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const [activeTask, setActiveTask] = useState({});
@@ -103,14 +111,10 @@ const TasksPanel = ({
 	const saveTaskLocally = e => {
 		const { values } = formState;
 		const updatedCareTask = updateCareTaskRecord(values, activeTask);
-		console.group("<TasksPanel/>: saveTaskLocally");
-		console.log("activeTask", activeTask);
-		console.log("values", values);
-		console.log("updatedCareTask", updatedCareTask);
-		console.log("scheduledTasks", scheduledTasks);
-		console.log("tasks (LOCAL STATE)", tasks);
-		console.groupEnd();
-
+		console.log(
+			"scheduledTasks (before local & server update)",
+			scheduledTasks
+		);
 		setTasks([
 			...tasks.filter(
 				task =>
@@ -119,11 +123,11 @@ const TasksPanel = ({
 			updatedCareTask
 		]);
 		setShowModal(false);
-		return saveTaskUpdate(e);
+		return saveTaskUpdate(e, updatedCareTask);
 	};
 
 	// task updater
-	const saveTaskUpdate = async e => {
+	const saveTaskUpdate = async (e, updateCareTask) => {
 		e.persist();
 		e.preventDefault();
 		const { values } = formState;
@@ -138,6 +142,10 @@ const TasksPanel = ({
 		]);
 		if (success) {
 			console.log("SUCCESS");
+			console.log(
+				"scheduledTasks (after local & before server update)",
+				scheduledTasks
+			);
 			return dispatch({
 				type: "UPDATE",
 				data: {
@@ -145,7 +153,14 @@ const TasksPanel = ({
 						...state,
 						globals: {
 							...state.globals,
-							scheduledTasks: [...tasks]
+							scheduledTasks: [
+								...scheduledTasks.filter(
+									task =>
+										task.AssessmentTrackingTaskId !==
+										activeTask.AssessmentTrackingTaskId
+								),
+								updateCareTask
+							]
 						}
 					}
 				}
@@ -158,12 +173,6 @@ const TasksPanel = ({
 		if (count !== 1) return `${count} task updates are pending`;
 		return `${count} task update is pending`;
 	};
-
-	// useEffect(() => {
-	// 	if (!isEmptyArray(scheduledTasks)) {
-	// 		tasksRef.current = scheduledTasks;
-	// 	}
-	// }, [scheduledTasks]);
 
 	return (
 		<>

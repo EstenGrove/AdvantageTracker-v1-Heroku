@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import styles from "../../css/dashboard/DailyView.module.scss";
 import { PropTypes } from "prop-types";
+import { useHistory } from "react-router-dom";
 
 import { GlobalStateContext } from "../../state/GlobalStateContext";
 import { findTasksByADL } from "../../helpers/utils_scheduled";
@@ -19,6 +20,8 @@ import DailySummaryCard from "../../components/daily/DailySummaryCard";
 // ADD PLACEHOLDER FOR EMPTY DATA
 
 const DailyView = props => {
+	const history = useHistory();
+
 	const { state, dispatch } = useContext(GlobalStateContext);
 	const { app, user, globals } = state;
 	const { isLoading } = app;
@@ -29,6 +32,23 @@ const DailyView = props => {
 		trackingTasks,
 		categories
 	} = globals;
+
+	// RE-FETCH or RE-HYDRATE STATE ON MOUNT
+
+	console.group("<DailyView/>>>");
+	console.log("state", state);
+	console.log("scheduledTasks", scheduledTasks);
+	console.log("props", props);
+	console.log("CURRENT ROUTER: (useHistory)", history.location.pathname);
+	console.log("history (useHistory)", history);
+	console.groupEnd();
+
+	useEffect(() => {
+		if (history.location.pathname.includes("/details")) {
+			return console.log("CAME FROM DETAILS");
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	if (isLoading) {
 		return <Spinner />;

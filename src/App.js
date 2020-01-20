@@ -12,22 +12,22 @@ import ProtectedRoute from "./auth/ProtectedRoute";
 export const history = createBrowserHistory();
 
 function App() {
-  return (
-    <Router history={history}>
-      <AppProviders>
-        <div className="App">
-          <Main>
-            <Switch>
-              <Route exact path="/" component={NonAuthenticatedView} />
-              <Route exact path="/login" component={NonAuthenticatedView} />
-              <ProtectedRoute path="/dashboard" component={AuthenticatedView} />
-              <Route exact path="/" component={PageNotFound} />
-            </Switch>
-          </Main>
-        </div>
-      </AppProviders>
-    </Router>
-  );
+	return (
+		<Router history={history}>
+			<AppProviders>
+				<div className="App">
+					<Main>
+						<Switch>
+							<Route exact path="/" component={NonAuthenticatedView} />
+							<Route exact path="/login" component={NonAuthenticatedView} />
+							<ProtectedRoute path="/dashboard" component={AuthenticatedView} />
+							<Route exact path="/" component={PageNotFound} />
+						</Switch>
+					</Main>
+				</div>
+			</AppProviders>
+		</Router>
+	);
 }
 
 export default App;

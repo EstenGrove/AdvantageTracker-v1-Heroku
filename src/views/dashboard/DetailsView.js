@@ -60,15 +60,13 @@ const DetailsView = props => {
 				</h1>
 				<PanelLG customStyles={{ backgroundColor: "#ffffff" }}>
 					<TasksPanel
-						scheduledTasks={findTasksByADL(
-							scheduledTasks,
-							category.AdlCategoryType
-						)}
+						scheduledTasks={scheduledTasks}
 						trackingTasks={trackingTasks}
 						currentResident={currentResident}
 						currentUser={currentUser}
 						dispatch={dispatch}
 						state={state}
+						category={category.AdlCategoryType}
 					/>
 				</PanelLG>
 			</section>
