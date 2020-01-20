@@ -33,16 +33,6 @@ const DailyView = props => {
 		categories
 	} = globals;
 
-	// RE-FETCH or RE-HYDRATE STATE ON MOUNT
-
-	console.group("<DailyView/>>>");
-	console.log("state", state);
-	console.log("scheduledTasks", scheduledTasks);
-	console.log("props", props);
-	console.log("CURRENT ROUTER: (useHistory)", history.location.pathname);
-	console.log("history (useHistory)", history);
-	console.groupEnd();
-
 	useEffect(() => {
 		if (history.location.pathname.includes("/details")) {
 			return console.log("CAME FROM DETAILS");

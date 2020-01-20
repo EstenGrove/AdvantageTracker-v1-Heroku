@@ -117,11 +117,6 @@ const serializeIDs = (key, params) => {
 	return params.reduce((acc, cur) => acc.concat(`${key}=` + cur), []).join("");
 };
 
-// REQUIRES SERIALIZING AND JOINING THE IDS WITH THEIR QUERY STRING VALUE
-// ie ASSESSMENTTRACKINGTASKSHIFTSUBTASKID=2343
-// &ASSESSMENTTRACKINGTASKSHIFTSUBTASKID=23498
-// &ASSESSMENTTRACKINGTASKSHIFTSUBTASKID=23498
-
 /**
  * @description - A fetch helper that takes, an auth token and an array of ids to delete several subtasks at once.
  * @param {string} token - Base-64 encoded auth SecurityToken for the headers
@@ -298,6 +293,23 @@ const handleSubtaskException = (vals, record) => {
 	};
 };
 
+/**
+ * @description - Helper that finds the current task in the ShiftTasks array, removes it then merges the updated record into the array.
+ * @param {object} activeTask - The current active parent task record (ie ADLCareTask record - used in the UI ONLY)
+ * @param {object} updatedSubtask - The updated active subtask record (ie AssessmentTrackingTaskShiftSubTask record)
+ */
+const mergeUpdatedSubtask = (activeCareTask, updatedSubtask) => {
+	if (isEmptyObj(activeCareTask) || isEmptyArray(activeCareTask.ShiftTasks))
+		return [];
+	// withOut: ShiftTasks array without the active subtask record (ie removed the subtask record)
+	const withOut = activeCareTask.ShiftTasks.filter(
+		x =>
+			x.AssessmentTrackingTaskShiftSubTaskId !==
+			updatedSubtask.AssessmentTrackingTaskShiftSubTaskId
+	);
+	return [...withOut, updatedSubtask];
+};
+
 export {
 	createSubtaskVals,
 	groupByShift,
@@ -307,12 +319,13 @@ export {
 	findSubtaskByID
 };
 
-// RECORD UPDATE UTILS
+// SHIFTTASK RECORD UPDATE UTILS
 export {
 	updateSubtaskRecord,
 	handleSubtaskCompletion,
 	handleSubtaskException,
-	determineSubtaskResolutionID
+	determineSubtaskResolutionID,
+	mergeUpdatedSubtask
 };
 
 // UPDATE FETCH UTILS

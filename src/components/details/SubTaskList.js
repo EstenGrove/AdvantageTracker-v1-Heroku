@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { PropTypes } from "prop-types";
 import { isEmptyArray } from "../../helpers/utils_types";
-import { getSubtaskByShiftID } from "../../helpers/utils_subtasks";
+import {
+	getSubtaskByShiftID,
+	createSubtaskVals
+} from "../../helpers/utils_subtasks";
 import styles from "../../css/details/SubtaskList.module.scss";
 import ButtonSM from "../shared/ButtonSM";
 import SubtaskItem from "./SubtaskItem";
@@ -9,13 +12,20 @@ import SubtaskItem from "./SubtaskItem";
 // CONSIDER DISLAYING THE SUBTASKS BY THEIR SCHEDULED SHIFT
 // ie: "AM" -- "PM" -- "NOC"
 
-const SubtaskList = ({
-	task = {},
-	vals = {},
-	shift,
-	markSubtask,
-	addNewSubtask
-}) => {
+const SubtaskList = ({ task = {}, addNewSubtask }) => {
+	const [subtaskVals, setSubtaskVals] = useState({
+		...createSubtaskVals(task)
+	});
+
+	// handle marking subtask checkbox
+	const markSubtask = e => {
+		const { name, checked } = e.target;
+		return setSubtaskVals({
+			...subtaskVals,
+			[name]: checked
+		});
+	};
+
 	if (isEmptyArray(task.ShiftTasks)) {
 		return (
 			<section className={styles.SubtaskList}>
@@ -37,7 +47,7 @@ const SubtaskList = ({
 							key={`${subtask.AssessmentTrackingTaskShiftSubTaskId}_${index}`}
 							subtask={subtask}
 							markSubtask={markSubtask}
-							val={vals[subtask.AssessmentTrackingTaskShiftSubTaskId]}
+							val={subtaskVals[subtask.AssessmentTrackingTaskShiftSubTaskId]}
 						/>
 					))}
 			</section>
@@ -50,7 +60,7 @@ const SubtaskList = ({
 							key={`${subtask.AssessmentTrackingTaskShiftSubTaskId}_${index}`}
 							subtask={subtask}
 							markSubtask={markSubtask}
-							val={vals[subtask.AssessmentTrackingTaskShiftSubTaskId]}
+							val={subtaskVals[subtask.AssessmentTrackingTaskShiftSubTaskId]}
 						/>
 					))}
 			</section>
@@ -63,7 +73,7 @@ const SubtaskList = ({
 							key={`${subtask.AssessmentTrackingTaskShiftSubTaskId}_${index}`}
 							subtask={subtask}
 							markSubtask={markSubtask}
-							val={vals[subtask.AssessmentTrackingTaskShiftSubTaskId]}
+							val={subtaskVals[subtask.AssessmentTrackingTaskShiftSubTaskId]}
 						/>
 					))}
 			</section>

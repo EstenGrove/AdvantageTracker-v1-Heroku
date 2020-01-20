@@ -28,7 +28,7 @@ const SubtaskItem = ({ val, subtask, markSubtask, deleteSubtask, addNote }) => {
 		<section
 			className={val ? styles.SubtaskItem_isCompleted : styles.SubtaskItem}
 		>
-			<div className={styles.SubtaskItem_inner}>
+			<div className={styles.SubtaskItem_inner} onClick={markSubtask}>
 				<Checkbox
 					name={subtask.AssessmentTrackingTaskShiftSubTaskId}
 					id={subtask.AssessmentTrackingTaskShiftSubTaskId}

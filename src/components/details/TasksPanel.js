@@ -21,7 +21,7 @@ import {
 	updateTrackingTasks,
 	findTasksByADL
 } from "../../helpers/utils_scheduled";
-import { isEmptyArray } from "../../helpers/utils_types";
+import { isEmptyArray, isEmptyObj } from "../../helpers/utils_types";
 import { checkLoginStatus } from "../../helpers/utils_auth";
 
 const btnStyles = {
@@ -29,11 +29,9 @@ const btnStyles = {
 	color: "#ffffff"
 };
 
-// PROPS REQUIREMENTS:
-// [x] dispatch: for pushing task updates
-// [x] scheduledTaskUpdateCount: count of tasks to be updated - PROBABLY CAN REMOVE AND MAKE IT LOCAL STATE
-// [x] trackingTasks: used for updates when matching records
-
+// ## TODOS ##
+// [ ] Solve creating subtask values for useForm
+//    - Consider just using a single value for the current subtask
 // NOTE: ONLY SHOWS TASKS FOR A SINGLE (1) CATEGORY
 
 const TasksPanel = ({
@@ -52,6 +50,8 @@ const TasksPanel = ({
 	const [showAppliedFilters, setShowAppliedFilters] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const [activeTask, setActiveTask] = useState({});
+	const [activeSubtask, setActiveSubtask] = useState({});
+
 	// CUSTOM HOOKS: useCounter(minutes hook), useForm(form handler)
 	const {
 		count,
@@ -90,6 +90,7 @@ const TasksPanel = ({
 		// Subtask values
 		...createSubtaskVals(activeTask)
 	});
+
 	const handlePriority = priority => {
 		return setFormState({
 			...formState,
@@ -107,14 +108,9 @@ const TasksPanel = ({
 	};
 
 	// update task locally before submitting to server.
-	// REQUIREMENTS:
 	const saveTaskLocally = e => {
 		const { values } = formState;
 		const updatedCareTask = updateCareTaskRecord(values, activeTask);
-		console.log(
-			"scheduledTasks (before local & server update)",
-			scheduledTasks
-		);
 		setTasks([
 			...tasks.filter(
 				task =>

@@ -9,7 +9,6 @@ import Badge from "./Badge";
 const StatusBadge = ({ size = "SM", status = "PENDING", children }) => {
 	// const custom = statusColors[status.toLowerCase()];
 	const custom = statusReducer(status);
-	console.log("status", status);
 	return (
 		<Badge size={size} customStyles={custom}>
 			{children}
