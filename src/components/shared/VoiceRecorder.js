@@ -1,57 +1,52 @@
 import React from "react";
-import { PropTypes } from "prop-types";
+import { main } from "../../helpers/utils_styles";
 import styles from "../../css/shared/VoiceRecorder.module.scss";
-import MicButton from "./MicButton";
-import StopButton from "./StopButton";
-import Textarea from "./Textarea";
+import ButtonSM from "./ButtonSM";
 
-const customStyles = {
-	backgroundColor: "#eaecef"
+const startBtn = {
+	backgroundColor: main.green,
+	color: "#ffffff",
+	borderRadius: "5rem"
+};
+const stopBtn = {
+	backgroundColor: main.red,
+	color: "#ffffff",
+	borderRadius: "5rem"
 };
 
 const VoiceRecorder = ({
-	// recordingVal, not needed???
-	handleRecording,
-	dictaphone,
+	isListening,
 	isSupported,
-	isRecording,
-	isStopped,
-	startRecording,
-	stopRecording,
-	finalTranscript,
-	interimTranscript
+	recording,
+	start,
+	stop,
+	children
 }) => {
+	const withProps = React.Children.map(children, child => {
+		return React.cloneElement(child, {
+			val: recording
+		});
+	});
+
 	if (!isSupported) {
 		return null;
 	}
 	return (
-		<aside className={styles.VoiceRecorder}>
-			<div className={styles.VoiceRecorder_input}>
-				<Textarea
-					maxChar={200}
-					enableCharCount={true}
-					val={isStopped ? finalTranscript : interimTranscript}
-					label="Record a note (Speech-to-text)"
-					name="voiceNote"
-					id="voiceNote"
-					handleChange={handleRecording}
-					customStyles={customStyles}
-				/>
-			</div>
-			<div className={styles.VoiceRecorder_controls}>
-				<MicButton isRecording={isRecording} startRecording={startRecording} />
-				<StopButton
-					isRecording={isRecording}
-					isStopped={isStopped}
-					stopRecording={stopRecording}
-				/>
-			</div>
-		</aside>
+		<article className={styles.VoiceRecorder}>
+			<section className={styles.VoiceRecorder_input}>
+				{withProps}
+				{isListening && <div className={styles.VoiceRecorder_input_pulse} />}
+			</section>
+			<section className={styles.VoiceRecorder_controls}>
+				<ButtonSM handleClick={start} customStyles={startBtn}>
+					Start Recording
+				</ButtonSM>
+				<ButtonSM handleClick={stop} customStyles={stopBtn}>
+					Stop Recording
+				</ButtonSM>
+			</section>
+		</article>
 	);
 };
 
 export default VoiceRecorder;
-
-VoiceRecorder.propTypes = {
-	recordingHandler: PropTypes.func
-};
