@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { PropTypes } from "prop-types";
 import { useForm } from "../../utils/useForm";
 import { useCounter } from "../../utils/useCounter";
@@ -18,6 +18,7 @@ import {
 } from "../../helpers/utils_careTasks";
 import { createSubtaskVals } from "../../helpers/utils_subtasks";
 import { updateTrackingTasks } from "../../helpers/utils_scheduled";
+import { isEmptyArray } from "../../helpers/utils_types";
 
 const btnStyles = {
 	backgroundColor: "hsla(170, 100%, 39%, 1)",
@@ -30,6 +31,7 @@ const btnStyles = {
 // [x] trackingTasks: used for updates when matching records
 
 const TasksPanel = ({
+	state,
 	dispatch,
 	scheduledTasksUpdateCount = 0, // this will likely be changed.
 	scheduledTasks,
@@ -37,6 +39,7 @@ const TasksPanel = ({
 	currentUser,
 	currentResident
 }) => {
+	const tasksRef = useRef();
 	const [tasks, setTasks] = useState([...scheduledTasks]);
 	const [showAppliedFilters, setShowAppliedFilters] = useState(false);
 	const [showModal, setShowModal] = useState(false);
@@ -105,13 +108,14 @@ const TasksPanel = ({
 		console.log("values", values);
 		console.log("updatedCareTask", updatedCareTask);
 		console.groupEnd();
-		return;
-		// const getNonActiveTasks = tasks.filter(
-		// 	item => item.AssessmentTrackingTaskId !== task.AssessmentTrackingTaskId
-		// );
-		// // UPDATES ADLCARETASK RECORD
-		// const updateCareTask = updateCareTaskRecord(values, task);
-		// updated tracking task record
+		return setTasks([
+			...tasks.filter(
+				task =>
+					task.AssessmentTrackingTaskId !== activeTask.AssessmentTrackingTaskId
+			),
+			updatedCareTask
+		]);
+		// return saveTaskUpdate(e);
 	};
 
 	// task updater
@@ -129,8 +133,18 @@ const TasksPanel = ({
 			updatedRecord
 		]);
 		if (success) {
+			console.log("SUCCESS");
 			return dispatch({
-				type: "UPDATE"
+				type: "UPDATE",
+				data: {
+					newState: {
+						...state,
+						globals: {
+							...state.globals,
+							scheduledTasks: ""
+						}
+					}
+				}
 			});
 		}
 	};
@@ -140,6 +154,12 @@ const TasksPanel = ({
 		if (count !== 1) return `${count} task updates are pending`;
 		return `${count} task update is pending`;
 	};
+
+	useEffect(() => {
+		if (!isEmptyArray(scheduledTasks)) {
+			tasksRef.current = scheduledTasks;
+		}
+	}, [scheduledTasks]);
 
 	return (
 		<>

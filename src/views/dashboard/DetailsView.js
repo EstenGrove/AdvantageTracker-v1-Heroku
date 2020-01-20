@@ -68,6 +68,7 @@ const DetailsView = props => {
 						currentResident={currentResident}
 						currentUser={currentUser}
 						dispatch={dispatch}
+						state={state}
 					/>
 				</PanelLG>
 			</section>

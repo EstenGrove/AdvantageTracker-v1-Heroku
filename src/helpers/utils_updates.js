@@ -114,7 +114,7 @@ const handleCompletion = (vals, record) => {
 		Notes: handleTaskNotes(vals),
 		IsCompleted: true,
 		IsFinal: true,
-		IsActive: false,
+		IsActive: true,
 		AssessmentReasonId: getReasonID("COMPLETED-AS-SCHEDULED"),
 		CompletedAssessmentShiftId: findShiftID(vals.shift),
 		AssessmentResolutionId: getResolutionID(
