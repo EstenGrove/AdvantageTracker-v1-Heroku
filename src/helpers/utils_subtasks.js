@@ -220,7 +220,7 @@ const getSubtaskByShiftID = (subtasks, shiftID) => {
 	if (isEmptyArray(subtasks)) return [];
 	return subtasks.filter(subtask => subtask.AssessmentShiftId === shiftID);
 };
-
+// active subtask and subtask records
 const findSubtaskByID = (active, records) => {
 	if (isEmptyObj(active)) return {};
 	return records.reduce((all, item) => {
@@ -228,6 +228,17 @@ const findSubtaskByID = (active, records) => {
 			item.AssessmentTrackingTaskShiftSubTaskId ===
 			active.AssessmentTrackingTaskShiftSubTaskId
 		) {
+			all = item;
+			return all;
+		}
+		return all;
+	}, {});
+};
+
+const findSubtaskRecord = (activeID, records) => {
+	if (isEmptyVal(activeID)) return {};
+	return records.reduce((all, item) => {
+		if (item.AssessmentTrackingTaskShiftSubTaskId === activeID) {
 			all = item;
 			return all;
 		}
@@ -310,13 +321,47 @@ const mergeUpdatedSubtask = (activeCareTask, updatedSubtask) => {
 	return [...withOut, updatedSubtask];
 };
 
+// updating subtasks in state
+// 1. UPDATE ADLCARETASK LOCALLY (LOCAL STATE)
+// 2. DISPATCH ACTION AND PASS UPDATED ADLCARETASK RECORD (WITH SUBTASKRECORD)
+// 3. FILTER STATE TASKS AND REMOVE EXISTING ADLCARETASK
+// 4. MERGE UPDATED ADLCARETASK INTO PLACE
+
+const taskID = "AssessmentTrackingTaskId";
+const subtaskID = "AssessmentTrackingTaskShiftSubTaskId";
+
+const findAndUpdateSubtask = (subtask, careTasks) => {
+	const matchingCareTask = careTasks((all, item) => {
+		if (item[taskID] === subtask[taskID]) {
+			all = item;
+			return all;
+		}
+		return all;
+	});
+	return matchingCareTask.ShiftTasks.map(item => {
+		if (item[subtaskID] === subtask[subtaskID]) {
+			return {
+				...item,
+				IsCompleted: !item.IsCompleted
+			};
+		}
+	});
+};
+
+const removeItemByProp = (id, records, prop) => {
+	return records.filter(item => item[prop] !== id);
+};
+
 export {
 	createSubtaskVals,
 	groupByShift,
 	countSubtasksByShift,
 	countSubtasksByShiftID,
 	getSubtaskByShiftID,
-	findSubtaskByID
+	findSubtaskByID,
+	findAndUpdateSubtask,
+	findSubtaskRecord,
+	removeItemByProp
 };
 
 // SHIFTTASK RECORD UPDATE UTILS

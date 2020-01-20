@@ -137,11 +137,6 @@ const TasksPanel = ({
 			updatedRecord
 		]);
 		if (success) {
-			console.log("SUCCESS");
-			console.log(
-				"scheduledTasks (after local & before server update)",
-				scheduledTasks
-			);
 			return dispatch({
 				type: "UPDATE",
 				data: {
@@ -226,7 +221,7 @@ const TasksPanel = ({
 				<Modal title="Edit/Update Task" closeModal={() => setShowModal(false)}>
 					<TaskDetails task={activeTask}>
 						{/* SUBTASK ITEMS & NOTES */}
-						<SubtaskList task={activeTask} />
+						<SubtaskList task={activeTask} dispatch={dispatch} />
 						<hr className="divider" />
 						<EditTaskForm
 							title="Update task"

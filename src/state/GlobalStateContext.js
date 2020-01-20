@@ -1,4 +1,6 @@
 import React, { createContext, useReducer } from "react";
+import { removeItemByProp, findSubtaskByID } from "../helpers/utils_subtasks";
+import { findTaskRecordByID } from "../helpers/utils_tasks";
 
 const initialGlobalState = {
 	app: {
@@ -100,6 +102,40 @@ const reducer = (state, action) => {
 					isLoading: false,
 					isError: false,
 					hasCache: false
+				}
+			};
+		}
+		case "MARK_SUBTASK": {
+			const { scheduledTasks } = state.globals;
+			const { activeSubtask } = action.data;
+			const matchingTask = findTaskRecordByID(activeSubtask, scheduledTasks);
+			console.group("MARK_SUBTASK");
+			console.log("activeSubtask (updated)", activeSubtask);
+			console.log("matchingTask (adlcaretask)", matchingTask);
+			// subtasks WITHOUT the active subtask
+			const removedStaleSubtask = removeItemByProp(
+				activeSubtask.AssessmentTrackingTaskShiftSubTaskId,
+				matchingTask.ShiftTasks,
+				"AssessmentTrackingTaskShiftSubTaskId"
+			);
+			const updatedCareTask = {
+				...matchingTask,
+				ShiftTasks: [...removedStaleSubtask, activeSubtask]
+			};
+			console.log("updatedCareTask", updatedCareTask);
+			console.groupEnd();
+			return {
+				...state,
+				globals: {
+					...state.globals,
+					scheduledTasks: [
+						...state.globals.scheduledTasks.filter(
+							x =>
+								x.AssessmentTrackingTaskId !==
+								activeSubtask.AssessmentTrackingTaskId
+						),
+						updatedCareTask
+					]
 				}
 			};
 		}

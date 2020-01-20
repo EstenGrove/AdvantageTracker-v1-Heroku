@@ -3,7 +3,9 @@ import { PropTypes } from "prop-types";
 import { isEmptyArray } from "../../helpers/utils_types";
 import {
 	getSubtaskByShiftID,
-	createSubtaskVals
+	createSubtaskVals,
+	findAndUpdateSubtask,
+	findSubtaskRecord
 } from "../../helpers/utils_subtasks";
 import styles from "../../css/details/SubtaskList.module.scss";
 import ButtonSM from "../shared/ButtonSM";
@@ -12,7 +14,7 @@ import SubtaskItem from "./SubtaskItem";
 // CONSIDER DISLAYING THE SUBTASKS BY THEIR SCHEDULED SHIFT
 // ie: "AM" -- "PM" -- "NOC"
 
-const SubtaskList = ({ task = {}, addNewSubtask }) => {
+const SubtaskList = ({ task = {}, addNewSubtask, dispatch }) => {
 	const [subtaskVals, setSubtaskVals] = useState({
 		...createSubtaskVals(task)
 	});
@@ -20,9 +22,23 @@ const SubtaskList = ({ task = {}, addNewSubtask }) => {
 	// handle marking subtask checkbox
 	const markSubtask = e => {
 		const { name, checked } = e.target;
-		return setSubtaskVals({
+		setSubtaskVals({
 			...subtaskVals,
 			[name]: checked
+		});
+		const { ShiftTasks } = task;
+		const activeSubtask = findSubtaskRecord(name, ShiftTasks);
+
+		console.log("name", name);
+		console.log("<SubtaskList/>: activeSubtask", activeSubtask);
+		return dispatch({
+			type: "MARK_SUBTASK",
+			data: {
+				activeSubtask: {
+					...activeSubtask,
+					IsCompleted: !activeSubtask.IsCompleted
+				}
+			}
 		});
 	};
 
