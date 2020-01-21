@@ -36,12 +36,7 @@ const SubtaskList = ({ task = {}, dispatch }) => {
 		});
 		const { ShiftTasks } = task;
 		const activeSubtask = findSubtaskRecord(name, [...ShiftTasks]);
-
-		console.group("markSubtask");
-		console.log("ShiftTasks", ShiftTasks);
-		console.log("name", name);
-		console.log("<SubtaskList/>: activeSubtask", activeSubtask);
-		console.groupEnd();
+		return;
 		// return updateState()
 	};
 
@@ -76,6 +71,7 @@ const SubtaskList = ({ task = {}, dispatch }) => {
 				{!isEmptyArray(getSubtaskByShiftID(task.ShiftTasks, 1)) &&
 					getSubtaskByShiftID(task.ShiftTasks, 1).map((subtask, index) => (
 						<SubtaskItem
+							dispatch={dispatch}
 							key={`${subtask.AssessmentTrackingTaskShiftSubTaskId}_${index}`}
 							subtask={subtask}
 							markSubtask={markSubtask}
@@ -89,6 +85,7 @@ const SubtaskList = ({ task = {}, dispatch }) => {
 				{!isEmptyArray(getSubtaskByShiftID(task.ShiftTasks, 2)) &&
 					getSubtaskByShiftID(task.ShiftTasks, 2).map((subtask, index) => (
 						<SubtaskItem
+							dispatch={dispatch}
 							key={`${subtask.AssessmentTrackingTaskShiftSubTaskId}_${index}`}
 							subtask={subtask}
 							markSubtask={markSubtask}
@@ -102,6 +99,7 @@ const SubtaskList = ({ task = {}, dispatch }) => {
 				{!isEmptyArray(getSubtaskByShiftID(task.ShiftTasks, 3)) &&
 					getSubtaskByShiftID(task.ShiftTasks, 3).map((subtask, index) => (
 						<SubtaskItem
+							dispatch={dispatch}
 							key={`${subtask.AssessmentTrackingTaskShiftSubTaskId}_${index}`}
 							subtask={subtask}
 							markSubtask={markSubtask}

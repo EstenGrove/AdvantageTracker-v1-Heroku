@@ -8,6 +8,9 @@ import { findStatusID } from "./utils_status";
 import { findPriorityID } from "./utils_priority";
 import { format } from "date-fns";
 
+const taskID = "AssessmentTrackingTaskId";
+const subtaskID = "AssessmentTrackingTaskShiftSubTaskId";
+
 // gets a count of the current ShiftSubTask records
 const getSubtaskCount = async token => {
 	let url = test.base + scheduledTasks.count.shiftSubTask;
@@ -304,52 +307,40 @@ const handleSubtaskException = (vals, record) => {
 	};
 };
 
-/**
- * @description - Helper that finds the current task in the ShiftTasks array, removes it then merges the updated record into the array.
- * @param {object} activeTask - The current active parent task record (ie ADLCareTask record - used in the UI ONLY)
- * @param {object} updatedSubtask - The updated active subtask record (ie AssessmentTrackingTaskShiftSubTask record)
- */
-const mergeUpdatedSubtask = (activeCareTask, updatedSubtask) => {
-	if (isEmptyObj(activeCareTask) || isEmptyArray(activeCareTask.ShiftTasks))
-		return [];
-	// withOut: ShiftTasks array without the active subtask record (ie removed the subtask record)
-	const withOut = activeCareTask.ShiftTasks.filter(
-		x =>
-			x.AssessmentTrackingTaskShiftSubTaskId !==
-			updatedSubtask.AssessmentTrackingTaskShiftSubTaskId
-	);
-	return [...withOut, updatedSubtask];
-};
-
 // updating subtasks in state
 // 1. UPDATE ADLCARETASK LOCALLY (LOCAL STATE)
 // 2. DISPATCH ACTION AND PASS UPDATED ADLCARETASK RECORD (WITH SUBTASKRECORD)
 // 3. FILTER STATE TASKS AND REMOVE EXISTING ADLCARETASK
 // 4. MERGE UPDATED ADLCARETASK INTO PLACE
 
-const taskID = "AssessmentTrackingTaskId";
-const subtaskID = "AssessmentTrackingTaskShiftSubTaskId";
-
-const findAndUpdateSubtask = (subtask, careTasks) => {
-	const matchingCareTask = careTasks((all, item) => {
-		if (item[taskID] === subtask[taskID]) {
-			all = item;
-			return all;
-		}
-		return all;
-	});
-	return matchingCareTask.ShiftTasks.map(item => {
-		if (item[subtaskID] === subtask[subtaskID]) {
-			return {
-				...item,
-				IsCompleted: !item.IsCompleted
-			};
-		}
-	});
-};
-
 const removeItemByProp = (id, records, prop) => {
 	return records.filter(item => item[prop] !== id);
+};
+
+const removeStaleSubtask = (subtasks, id) => {
+	return subtasks.filter(x => x.AssessmentTrackingTaskShiftSubTaskId !== id);
+};
+
+/**
+ * @description - Takes an updated subtask record and an array of tasks and
+ * finds the matching subtask record and replaces it with the updated record (ie * * newSubtask)
+ * @param {object} newSubtask - An updated subtask record
+ * @param {array} tasks - An array of ADLCareTasks used in the UI
+ */
+const subtaskUpdater = (newSubtask, tasks) => {
+	return tasks.map((task, i) => {
+		if (task[taskID] === newSubtask[taskID]) {
+			const newTask = {
+				...task,
+				ShiftTasks: [
+					...removeStaleSubtask(task.ShiftTasks, newSubtask[subtaskID]),
+					newSubtask
+				]
+			};
+			return newTask;
+		}
+		return task;
+	});
 };
 
 export {
@@ -359,7 +350,6 @@ export {
 	countSubtasksByShiftID,
 	getSubtaskByShiftID,
 	findSubtaskByID,
-	findAndUpdateSubtask,
 	findSubtaskRecord,
 	removeItemByProp
 };
@@ -370,7 +360,7 @@ export {
 	handleSubtaskCompletion,
 	handleSubtaskException,
 	determineSubtaskResolutionID,
-	mergeUpdatedSubtask
+	subtaskUpdater // used in the state updater in GlobalStateContext
 };
 
 // UPDATE FETCH UTILS

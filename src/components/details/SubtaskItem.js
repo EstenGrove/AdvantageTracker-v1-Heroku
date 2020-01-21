@@ -18,7 +18,13 @@ import Checkbox from "../shared/Checkbox";
 // - [ ] ADD "DELETE NOTES" FEATURE
 //      - PASS THE SUBTASK ID AND CLEAR THE "NOTES" FIELD
 
-const SubtaskItem = ({ val, subtask, markSubtask, deleteSubtask }) => {
+const SubtaskItem = ({
+	val,
+	subtask,
+	markSubtask,
+	deleteSubtask,
+	dispatch
+}) => {
 	const notesRef = useRef();
 	const [hasNote, setHasNote] = useState(!isEmptyVal(subtask?.Notes));
 	const [viewingNotes, setViewingNotes] = useState(false);
@@ -27,7 +33,6 @@ const SubtaskItem = ({ val, subtask, markSubtask, deleteSubtask }) => {
 
 	const handleChange = e => {
 		const { value } = e.target;
-		console.log("value");
 		return setSubtaskNote(value);
 	};
 
@@ -36,14 +41,19 @@ const SubtaskItem = ({ val, subtask, markSubtask, deleteSubtask }) => {
 	};
 
 	const handleSaveNote = e => {
-		// e.preventDefault();
 		if (e.key === "Enter" || e.key === "Tab") {
-			subtask = {
+			const updatedSubtask = {
 				...subtask,
 				Notes: subtaskNote
 			};
 			setHasNote(true);
-			return setIsEditing(false);
+			setIsEditing(false);
+			return dispatch({
+				type: "UPDATE_SUBTASK",
+				data: {
+					updatedSubtask: { ...updatedSubtask }
+				}
+			});
 		}
 		return;
 	};
@@ -102,7 +112,7 @@ const SubtaskItem = ({ val, subtask, markSubtask, deleteSubtask }) => {
 			{viewingNotes && (
 				<div className={styles.SubtaskItem_viewNotes}>
 					<h4 className={styles.SubtaskItem_viewNotes_header}>Notes</h4>
-					<p className={styles.Subtaskitem_viewNotes_text}>
+					<p className={styles.SubtaskItem_viewNotes_text}>
 						{isEmptyVal(subtask.Notes) ? subtaskNote : subtask.Notes}
 					</p>
 				</div>

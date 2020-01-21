@@ -1,5 +1,10 @@
 import React, { createContext, useReducer } from "react";
-import { removeItemByProp, findSubtaskByID } from "../helpers/utils_subtasks";
+import {
+	removeItemByProp,
+	findSubtaskByID,
+	updateSubtask,
+	subtaskUpdater
+} from "../helpers/utils_subtasks";
 import { findTaskRecordByID } from "../helpers/utils_tasks";
 
 const initialGlobalState = {
@@ -136,6 +141,21 @@ const reducer = (state, action) => {
 						),
 						updatedCareTask
 					]
+				}
+			};
+		}
+		case "UPDATE_SUBTASK": {
+			const { updatedSubtask } = action.data;
+			const newTasks = subtaskUpdater(
+				updatedSubtask,
+				state.globals.scheduledTasks
+			);
+
+			return {
+				...state,
+				globals: {
+					...state.globals,
+					scheduledTasks: [...newTasks]
 				}
 			};
 		}

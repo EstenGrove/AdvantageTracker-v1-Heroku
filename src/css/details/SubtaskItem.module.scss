@@ -94,6 +94,13 @@
 
         &_header {
             color: map-get($map: $colors, $key: 'mainBlackBlue');
+            margin-bottom: .2rem;
+        }
+
+        &_text {
+            font-size: .8rem;
+            font-weight: 300;
+            color: map-get($map: $blueGreys, $key: 'headings');
         }
     }
 
