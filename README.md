@@ -13,15 +13,13 @@ Working build complete with all views:
 
 - [x] Handle task updates: scheduled & unscheduled
   - [x] Formulate the new state object for task updates
-
-- [ ] Write subtask CRUD functions: CREATE, UPDATE, DELETE (READ is already handled) 
+- [ ] Write subtask CRUD functions: CREATE, UPDATE, DELETE (READ is already handled)
   - [ ] Handle notes, and subtask creation
   - [ ] Handle updates for subtasks and notes
-
 - [ ] Add "Points" per task for <TaskDetails/> for the <EditTaskForm/>
+- [ ] Allow loading different resident on <DetailsView/>
 
 ## Todos - categorized
-
 
 **Components**
 
@@ -57,6 +55,13 @@ Working build complete with all views:
 
 - [ ] Fix <DashboardNav/>
   - Add "back arrow" to upper left, next to <Sidebar/> and make it larger!
+
+---
+
+## v2 Features
+
+- [ ] Enable quick ADL Category change from the <DetailsView/>
+  - Consider having an ADL Category Dropdown menu to switch categories.
 
 ---
 

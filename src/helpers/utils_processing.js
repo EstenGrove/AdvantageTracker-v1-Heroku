@@ -1,4 +1,4 @@
-import { isEmptyArray } from "./utils_types";
+import { isEmptyObj, isEmptyArray } from "./utils_types";
 
 // #CALCULATIONS
 const getPercentage = (count, completed) => {
@@ -52,6 +52,7 @@ const getRandomNumArbitrary = (min, max) => {
 	return Math.random() * (max - min) + min;
 };
 
+// SORTING, MATCHING AND FILTERING //
 const groupBy = (list, iteratee) => {
 	return list.reduce((acc, item) => {
 		const keyToSortBy = iteratee(item);
@@ -61,6 +62,58 @@ const groupBy = (list, iteratee) => {
 		acc[keyToSortBy].push(item);
 		return acc;
 	}, {});
+};
+
+/**
+ * @description - Match an object to an object by id
+ * @param {object} item - The current item in an array to be checked/tested
+ * @param {string} id - A unique identifier to test for.
+ * @param {object} comparator - The base object to match 'to'
+ * @example matchByID({id: 1}, 'id', {id: 1})
+ * returns [{id: 1}]
+ * NOTE: result can be destructured out of the array.
+ */
+const matchByID = (item, id, comparator) => {
+	if (item[id] === comparator[id]) {
+		return item;
+	}
+	return;
+};
+
+/**
+ * @description - Locate the object that has the same id as the "comparator"
+ * @param {array} items - An array of items to test for a match
+ * @param {string} id - A unique identifier to test for.
+ * @param {object} comparator - The base object to find a match for (ie "to compare against")
+ */
+const getMatch = (items, id, comparator) => {
+	if (isEmptyArray(items)) return {};
+	if (isEmptyObj(comparator)) return {};
+	return items.reduce((all, item) => {
+		if (item[id] === comparator[id]) {
+			all = item;
+			return all;
+		}
+		return all;
+	});
+};
+
+// 1. loops thru an array of objects,
+// 2. finds match by firstID in top-level array
+// 3. loops thru matching items' array
+// 4. finds child match by secondID
+// NOTE: USED FOR FINDING THE MATCHING SUBTASK RECORD FROM A LIST OF ADLCARETASK RECORDS.
+const getNestedMatch = (items, firstID, comparator, secondID) => {
+	if (isEmptyArray(items)) return {};
+	if (isEmptyObj(comparator)) return {};
+	const initialMatch = items.reduce((all, item) => {
+		if (item[firstID] === comparator[firstID]) {
+			all = item;
+			return all;
+		}
+		return all;
+	});
+	return getMatch(initialMatch?.ShiftTasks, secondID, comparator);
 };
 
 export {
@@ -73,6 +126,8 @@ export {
 	addEllipsis,
 	replaceNullWithMsg,
 	getRandomNumArbitrary,
-	getIsCompletedCount,
-	groupBy
+	getIsCompletedCount
 };
+
+// SORTING & FILTERING UTILS
+export { groupBy, matchByID, getMatch, getNestedMatch };

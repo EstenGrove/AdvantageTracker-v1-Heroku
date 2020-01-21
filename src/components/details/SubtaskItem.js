@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { PropTypes } from "prop-types";
 import { isEmptyVal } from "../../helpers/utils_types";
 import styles from "../../css/details/SubtaskItem.module.scss";
@@ -18,17 +18,41 @@ import Checkbox from "../shared/Checkbox";
 // - [ ] ADD "DELETE NOTES" FEATURE
 //      - PASS THE SUBTASK ID AND CLEAR THE "NOTES" FIELD
 
-const SubtaskItem = ({ val, subtask, markSubtask, deleteSubtask, addNote }) => {
+const SubtaskItem = ({ val, subtask, markSubtask, deleteSubtask }) => {
+	const notesRef = useRef();
 	const [hasNote, setHasNote] = useState(!isEmptyVal(subtask?.Notes));
 	const [viewingNotes, setViewingNotes] = useState(false);
-	// NOT IMPLEMENTED YET...
+	const [subtaskNote, setSubtaskNote] = useState("");
 	const [isEditing, setIsEditing] = useState(false);
+
+	const handleChange = e => {
+		const { value } = e.target;
+		console.log("value");
+		return setSubtaskNote(value);
+	};
+
+	const addNote = () => {
+		return setIsEditing(true);
+	};
+
+	const handleSaveNote = e => {
+		// e.preventDefault();
+		if (e.key === "Enter" || e.key === "Tab") {
+			subtask = {
+				...subtask,
+				Notes: subtaskNote
+			};
+			setHasNote(true);
+			return setIsEditing(false);
+		}
+		return;
+	};
 
 	return (
 		<section
 			className={val ? styles.SubtaskItem_isCompleted : styles.SubtaskItem}
 		>
-			<div className={styles.SubtaskItem_inner} onClick={markSubtask}>
+			<div className={styles.SubtaskItem_inner}>
 				<Checkbox
 					name={subtask.AssessmentTrackingTaskShiftSubTaskId}
 					id={subtask.AssessmentTrackingTaskShiftSubTaskId}
@@ -58,21 +82,29 @@ const SubtaskItem = ({ val, subtask, markSubtask, deleteSubtask, addNote }) => {
 					<span>{viewingNotes ? "Hide" : "View"} Notes</span>
 				</div>
 			)}
-			{!hasNote && (
-				<div
-					className={styles.SubtaskItem_notesSection}
-					onClick={() => addNote(subtask)}
-				>
+			{!hasNote && !isEditing && (
+				<div className={styles.SubtaskItem_notesSection} onClick={addNote}>
 					<svg className={styles.SubtaskItem_notesSection_icon}>
 						<use xlinkHref={`${sprite}#icon-plus21`}></use>
 					</svg>
 					<span>Add Notes</span>
 				</div>
 			)}
+			{isEditing && (
+				<input
+					type="text"
+					value={subtaskNote}
+					onKeyDown={handleSaveNote}
+					onChange={e => handleChange(e)}
+					placeholder="Enter a note..."
+				/>
+			)}
 			{viewingNotes && (
 				<div className={styles.SubtaskItem_viewNotes}>
 					<h4 className={styles.SubtaskItem_viewNotes_header}>Notes</h4>
-					<p className={styles.Subtaskitem_viewNotes_text}>{subtask.Notes}</p>
+					<p className={styles.Subtaskitem_viewNotes_text}>
+						{isEmptyVal(subtask.Notes) ? subtaskNote : subtask.Notes}
+					</p>
 				</div>
 			)}
 		</section>

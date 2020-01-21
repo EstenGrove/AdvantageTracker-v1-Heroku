@@ -21,6 +21,7 @@ const SubtaskList = ({ task = {}, dispatch }) => {
 	const [subtaskVals, setSubtaskVals] = useState({
 		...createSubtaskVals(task)
 	});
+	const [subtaskNotes, setSubtaskNotes] = useState({});
 
 	const addNewSubtask = () => {
 		console.log("Adding new subtask");
