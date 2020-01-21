@@ -6,6 +6,7 @@ import sprite from "../../assets/tasks.svg";
 import sprite2 from "../../assets/notes.svg";
 import sprite3 from "../../assets/buttons.svg";
 import Checkbox from "../shared/Checkbox";
+import { replaceNullWithMsg } from "../../helpers/utils_processing";
 
 // REQUIREMENTS:
 // - [x] IF HAS "NOTES" THEN SHOW "NOTES ICON"
@@ -19,9 +20,11 @@ import Checkbox from "../shared/Checkbox";
 //      - PASS THE SUBTASK ID AND CLEAR THE "NOTES" FIELD
 
 const SubtaskItem = ({ subtask, deleteSubtask, dispatch }) => {
-	const [hasNote, setHasNote] = useState(!isEmptyVal(subtask?.Notes));
+	const [hasNote, setHasNote] = useState(!isEmptyVal(subtask.Notes));
 	const [viewingNotes, setViewingNotes] = useState(false);
-	const [subtaskNote, setSubtaskNote] = useState("");
+	const [subtaskNote, setSubtaskNote] = useState(
+		isEmptyVal(subtask.Notes) ? "" : subtask.Notes
+	);
 	const [isEditing, setIsEditing] = useState(false);
 	const [isChecked, setIsChecked] = useState(subtask.IsCheck);
 
@@ -32,7 +35,17 @@ const SubtaskItem = ({ subtask, deleteSubtask, dispatch }) => {
 
 	const markSubtask = e => {
 		const { checked } = e.target;
-		return setIsChecked(checked);
+		setIsChecked(checked);
+		return dispatch({
+			type: "UPDATE_SUBTASK",
+			data: {
+				updatedSubtask: {
+					...subtask,
+					IsCheck: isChecked,
+					IsCompleted: isChecked
+				}
+			}
+		});
 	};
 
 	// enables showing the text input
@@ -53,36 +66,17 @@ const SubtaskItem = ({ subtask, deleteSubtask, dispatch }) => {
 			return dispatch({
 				type: "UPDATE_SUBTASK",
 				data: {
-					updatedSubtask: { ...updatedSubtask }
+					updatedSubtask: {
+						...updatedSubtask
+					}
 				}
 			});
 		}
 		return;
 	};
 
-	useEffect(() => {
-		let isMounted = true;
-		if (!isMounted) {
-			return;
-		}
-		dispatch({
-			type: "UPDATE_SUBTASK",
-			data: {
-				updatedSubtask: {
-					...subtask,
-					IsCheck: isChecked,
-					IsCompleted: isChecked
-				}
-			}
-		});
-		console.log("(useEffect): isChecked", isChecked);
-		return () => {
-			isMounted = false;
-		};
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isChecked]);
-
+	console.log("(useEffect): subtaskNote", subtaskNote);
+	console.log("(useEffect): subtask.Notes", subtask.Notes);
 	return (
 		<section
 			className={
@@ -139,9 +133,7 @@ const SubtaskItem = ({ subtask, deleteSubtask, dispatch }) => {
 			{viewingNotes && (
 				<div className={styles.SubtaskItem_viewNotes}>
 					<h4 className={styles.SubtaskItem_viewNotes_header}>Notes</h4>
-					<p className={styles.SubtaskItem_viewNotes_text}>
-						{isEmptyVal(subtask.Notes) ? subtaskNote : subtask.Notes}
-					</p>
+					<p className={styles.SubtaskItem_viewNotes_text}>{subtaskNote}</p>
 				</div>
 			)}
 		</section>

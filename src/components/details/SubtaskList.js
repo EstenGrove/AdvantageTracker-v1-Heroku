@@ -4,7 +4,6 @@ import { isEmptyArray } from "../../helpers/utils_types";
 import {
 	getSubtaskByShiftID,
 	createSubtaskVals,
-	findAndUpdateSubtask,
 	findSubtaskRecord
 } from "../../helpers/utils_subtasks";
 import styles from "../../css/details/SubtaskList.module.scss";
@@ -19,39 +18,8 @@ import SubtaskItem from "./SubtaskItem";
 // 2. ANY SUBTASKITEM LEVEL UPDATES SHOULD BE PUSHED TO THE <SUBTASKITEM/>
 
 const SubtaskList = ({ task = {}, dispatch }) => {
-	const [subtaskVals, setSubtaskVals] = useState({
-		...createSubtaskVals(task)
-	});
-	const [subtaskNotes, setSubtaskNotes] = useState({});
-
 	const addNewSubtask = () => {
 		console.log("Adding new subtask");
-	};
-
-	// handle marking subtask checkbox
-	const markSubtask = e => {
-		const { name, checked } = e.target;
-		setSubtaskVals({
-			...subtaskVals,
-			[name]: checked
-		});
-		const { ShiftTasks } = task;
-		const activeSubtask = findSubtaskRecord(name, [...ShiftTasks]);
-		return;
-		// return updateState()
-	};
-
-	// accepts the updated sub task record as a param
-	const updateState = updatedSubtask => {
-		return dispatch({
-			type: "MARK_SUBTASK",
-			data: {
-				activeSubtask: {
-					...updatedSubtask,
-					IsCompleted: !updatedSubtask.IsCompleted
-				}
-			}
-		});
 	};
 
 	if (isEmptyArray(task.ShiftTasks)) {
@@ -75,7 +43,6 @@ const SubtaskList = ({ task = {}, dispatch }) => {
 							dispatch={dispatch}
 							key={`${subtask.AssessmentTrackingTaskShiftSubTaskId}_${index}`}
 							subtask={subtask}
-							val={subtaskVals[subtask.AssessmentTrackingTaskShiftSubTaskId]}
 						/>
 					))}
 			</section>
@@ -88,7 +55,6 @@ const SubtaskList = ({ task = {}, dispatch }) => {
 							dispatch={dispatch}
 							key={`${subtask.AssessmentTrackingTaskShiftSubTaskId}_${index}`}
 							subtask={subtask}
-							val={subtaskVals[subtask.AssessmentTrackingTaskShiftSubTaskId]}
 						/>
 					))}
 			</section>
@@ -101,7 +67,6 @@ const SubtaskList = ({ task = {}, dispatch }) => {
 							dispatch={dispatch}
 							key={`${subtask.AssessmentTrackingTaskShiftSubTaskId}_${index}`}
 							subtask={subtask}
-							val={subtaskVals[subtask.AssessmentTrackingTaskShiftSubTaskId]}
 						/>
 					))}
 			</section>

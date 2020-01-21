@@ -318,6 +318,7 @@ const removeItemByProp = (id, records, prop) => {
 	return records.filter(item => item[prop] !== id);
 };
 
+// filters thru array of subtasks and removes matching item by ID
 const removeStaleSubtask = (subtasks, id) => {
 	return subtasks.filter(x => x.AssessmentTrackingTaskShiftSubTaskId !== id);
 };
