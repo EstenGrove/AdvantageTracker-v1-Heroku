@@ -15,7 +15,8 @@ import SubtaskItem from "./SubtaskItem";
 // IE. IsCheck, IsCompleted, adding Notes
 
 // CONSIDERATIONS:
-// 1. CONSIDER CREATING NEW SUBTASKS WITHIN THE LIST AND DISPATCHING TO STATE
+// 1. DELETING AND CREATING A SUBTASK SHOULD ONLY BE IN THIS COMPONENT
+// 2. ANY SUBTASKITEM LEVEL UPDATES SHOULD BE PUSHED TO THE <SUBTASKITEM/>
 
 const SubtaskList = ({ task = {}, dispatch }) => {
 	const [subtaskVals, setSubtaskVals] = useState({
@@ -74,7 +75,6 @@ const SubtaskList = ({ task = {}, dispatch }) => {
 							dispatch={dispatch}
 							key={`${subtask.AssessmentTrackingTaskShiftSubTaskId}_${index}`}
 							subtask={subtask}
-							markSubtask={markSubtask}
 							val={subtaskVals[subtask.AssessmentTrackingTaskShiftSubTaskId]}
 						/>
 					))}
@@ -88,7 +88,6 @@ const SubtaskList = ({ task = {}, dispatch }) => {
 							dispatch={dispatch}
 							key={`${subtask.AssessmentTrackingTaskShiftSubTaskId}_${index}`}
 							subtask={subtask}
-							markSubtask={markSubtask}
 							val={subtaskVals[subtask.AssessmentTrackingTaskShiftSubTaskId]}
 						/>
 					))}
@@ -102,7 +101,6 @@ const SubtaskList = ({ task = {}, dispatch }) => {
 							dispatch={dispatch}
 							key={`${subtask.AssessmentTrackingTaskShiftSubTaskId}_${index}`}
 							subtask={subtask}
-							markSubtask={markSubtask}
 							val={subtaskVals[subtask.AssessmentTrackingTaskShiftSubTaskId]}
 						/>
 					))}

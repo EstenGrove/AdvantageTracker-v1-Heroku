@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PropTypes } from "prop-types";
 import { isEmptyVal } from "../../helpers/utils_types";
 import styles from "../../css/details/SubtaskItem.module.scss";
@@ -18,28 +18,30 @@ import Checkbox from "../shared/Checkbox";
 // - [ ] ADD "DELETE NOTES" FEATURE
 //      - PASS THE SUBTASK ID AND CLEAR THE "NOTES" FIELD
 
-const SubtaskItem = ({
-	val,
-	subtask,
-	markSubtask,
-	deleteSubtask,
-	dispatch
-}) => {
-	const notesRef = useRef();
+const SubtaskItem = ({ subtask, deleteSubtask, dispatch }) => {
 	const [hasNote, setHasNote] = useState(!isEmptyVal(subtask?.Notes));
 	const [viewingNotes, setViewingNotes] = useState(false);
 	const [subtaskNote, setSubtaskNote] = useState("");
 	const [isEditing, setIsEditing] = useState(false);
+	const [isChecked, setIsChecked] = useState(subtask.IsCheck);
 
 	const handleChange = e => {
 		const { value } = e.target;
 		return setSubtaskNote(value);
 	};
 
+	const markSubtask = e => {
+		const { checked } = e.target;
+		return setIsChecked(checked);
+	};
+
+	// enables showing the text input
+	// to add a subtask note
 	const addNote = () => {
 		return setIsEditing(true);
 	};
 
+	// saves subtask note locally and to global app state.
 	const handleSaveNote = e => {
 		if (e.key === "Enter" || e.key === "Tab") {
 			const updatedSubtask = {
@@ -58,15 +60,40 @@ const SubtaskItem = ({
 		return;
 	};
 
+	useEffect(() => {
+		let isMounted = true;
+		if (!isMounted) {
+			return;
+		}
+		dispatch({
+			type: "UPDATE_SUBTASK",
+			data: {
+				updatedSubtask: {
+					...subtask,
+					IsCheck: isChecked,
+					IsCompleted: isChecked
+				}
+			}
+		});
+		console.log("(useEffect): isChecked", isChecked);
+		return () => {
+			isMounted = false;
+		};
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isChecked]);
+
 	return (
 		<section
-			className={val ? styles.SubtaskItem_isCompleted : styles.SubtaskItem}
+			className={
+				isChecked ? styles.SubtaskItem_isCompleted : styles.SubtaskItem
+			}
 		>
 			<div className={styles.SubtaskItem_inner}>
 				<Checkbox
 					name={subtask.AssessmentTrackingTaskShiftSubTaskId}
 					id={subtask.AssessmentTrackingTaskShiftSubTaskId}
-					val={val}
+					val={isChecked}
 					defaultVal={subtask.IsCheck}
 					label={subtask.Description}
 					handleCheckbox={markSubtask}
@@ -127,6 +154,5 @@ SubtaskItem.defaultProps = {};
 
 SubtaskItem.propTypes = {
 	subtask: PropTypes.object,
-	markSubtask: PropTypes.func.isRequired,
 	addNote: PropTypes.func
 };
