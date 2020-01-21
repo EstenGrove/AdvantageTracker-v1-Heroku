@@ -24,13 +24,13 @@ const EditTaskForm = ({
 	count,
 	increment,
 	decrement,
+	saveTaskUpdate,
 	handleCountChange,
 	handleCountBlur,
 	handleChange,
 	handleCheckbox,
-	handlePriority,
-	handleBlur,
-	saveTaskUpdate
+	handlePriority, // TBA - TO-BE-ADDED
+	handleBlur // TBA - TO-BE-ADDED
 }) => {
 	// handles hidden sections: additional options/reassess notes
 	const [taskFormSections, setTaskFormSections] = useState({
@@ -202,11 +202,21 @@ const EditTaskForm = ({
 		</article>
 	);
 };
-
 export default EditTaskForm;
 
 EditTaskForm.defaultProps = {};
 
 EditTaskForm.propTypes = {
-	saveTaskForm: PropTypes.func.isRequired
+	title: PropTypes.string.isRequired,
+	vals: PropTypes.object.isRequired,
+	count: PropTypes.number.isRequired,
+	increment: PropTypes.func.isRequired,
+	decrement: PropTypes.func.isRequired,
+	saveTaskUpdate: PropTypes.func.isRequired,
+	handleCountChange: PropTypes.func.isRequired,
+	handleCountBlur: PropTypes.func.isRequired,
+	handleChange: PropTypes.func.isRequired,
+	handleCheckbox: PropTypes.func.isRequired,
+	handlePriority: PropTypes.func,
+	handleBlur: PropTypes.func
 };

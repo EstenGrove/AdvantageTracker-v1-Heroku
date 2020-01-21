@@ -11,13 +11,20 @@ import styles from "../../css/details/SubtaskList.module.scss";
 import ButtonSM from "../shared/ButtonSM";
 import SubtaskItem from "./SubtaskItem";
 
-// CONSIDER DISLAYING THE SUBTASKS BY THEIR SCHEDULED SHIFT
-// ie: "AM" -- "PM" -- "NOC"
+// FINISH HANDLING SUBTASK UPDATES
+// IE. IsCheck, IsCompleted, adding Notes
 
-const SubtaskList = ({ task = {}, addNewSubtask, dispatch }) => {
+// CONSIDERATIONS:
+// 1. CONSIDER CREATING NEW SUBTASKS WITHIN THE LIST AND DISPATCHING TO STATE
+
+const SubtaskList = ({ task = {}, dispatch }) => {
 	const [subtaskVals, setSubtaskVals] = useState({
 		...createSubtaskVals(task)
 	});
+
+	const addNewSubtask = () => {
+		console.log("Adding new subtask");
+	};
 
 	// handle marking subtask checkbox
 	const markSubtask = e => {
@@ -37,7 +44,7 @@ const SubtaskList = ({ task = {}, addNewSubtask, dispatch }) => {
 		// return updateState()
 	};
 
-	// accepts the updates sub task record as a param
+	// accepts the updated sub task record as a param
 	const updateState = updatedSubtask => {
 		return dispatch({
 			type: "MARK_SUBTASK",
@@ -108,14 +115,11 @@ const SubtaskList = ({ task = {}, addNewSubtask, dispatch }) => {
 export default SubtaskList;
 
 SubtaskList.defaultProps = {
-	vals: {},
 	task: {}
 };
 
 SubtaskList.propTypes = {
 	task: PropTypes.object,
-	vals: PropTypes.object,
-	shift: PropTypes.string.isRequired,
-	addNewSubtask: PropTypes.func, // create new Subtask
-	markSubtask: PropTypes.func.isRequired // status a subtask via <CheckboxSM/>
+	dispatch: PropTypes.func,
+	addNewSubtask: PropTypes.func // create new Subtask, consider handling locally instead of lifting up into parent
 };

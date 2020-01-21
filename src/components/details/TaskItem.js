@@ -3,7 +3,7 @@ import { PropTypes } from "prop-types";
 import styles from "../../css/details/TaskItem.module.scss";
 import sprite from "../../assets/tasks.svg";
 
-import { iconsReducer, adlIcons } from "../../helpers/utils_styles";
+import { adlIcons } from "../../helpers/utils_styles";
 import {
 	replaceNullWithMsg,
 	addEllipsis
@@ -11,14 +11,12 @@ import {
 import {
 	formatDate,
 	isPastDue,
-	formatPastDate,
 	formatTimeToNow
 } from "../../helpers/utils_dates";
 import { isEmptyArray, isEmptyVal } from "../../helpers/utils_types";
-import { SHIFTS } from "../../helpers/utils_options";
+
 import ShiftTag from "../shared/ShiftTag";
 import StatusBadge from "../shared/StatusBadge";
-import DropdownSelectSM from "../shared/DropdownSelectSM";
 import SubtaskCount from "./SubtaskCount";
 import ShiftList from "./ShiftList";
 
@@ -121,7 +119,7 @@ const TaskItem = ({ viewDetails, addNote, task = {}, values = {} }) => {
 							)}
 						</div>
 						<div className={styles.TaskItem_inner_bottom_right_menu}>
-							<div>
+							<div onClick={() => addNote(task)}>
 								<svg className={styles.TaskItem_inner_bottom_right_menu_icon}>
 									<use xlinkHref={`${sprite}#icon-plus21`}></use>
 								</svg>
@@ -143,9 +141,8 @@ TaskItem.defaultProps = {
 };
 
 TaskItem.propTypes = {
-	markComplete: PropTypes.func.isRequired,
+	// markComplete: PropTypes.func.isRequired, // NO LONGER NEEDED???
 	addNote: PropTypes.func.isRequired,
-	handleSubtask: PropTypes.func.isRequired,
 	task: PropTypes.object.isRequired,
 	values: PropTypes.object.isRequired
 };

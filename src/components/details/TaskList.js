@@ -11,6 +11,11 @@ const TaskList = ({
 	handleSubtask,
 	handleShiftStatus
 }) => {
+	// CONSIDER LIFTING THIS UP INTO <TasksPanel/>
+	const addNote = task => {
+		console.log("adding note...");
+	};
+
 	if (isEmptyArray(tasks)) {
 		return (
 			<article className={styles.EMPTY}>
@@ -29,6 +34,7 @@ const TaskList = ({
 						handleSubtask={handleSubtask}
 						handleShiftStatus={handleShiftStatus}
 						viewDetails={() => viewDetails(task)}
+						addNote={() => addNote(task)}
 					/>
 				))}
 		</article>
@@ -45,4 +51,5 @@ TaskList.propTypes = {
 	tasks: PropTypes.arrayOf(PropTypes.object),
 	vals: PropTypes.object,
 	handleSubtask: PropTypes.func
+	// addNote: PropTypes.func.isRequired // NO LONGER NEEDED???
 };
