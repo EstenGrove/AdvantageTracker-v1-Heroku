@@ -7,7 +7,6 @@
 	height: -moz-max-content;
 	height: max-content;
 	@include row_evenly_center;
-	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
 
 	&_title {
