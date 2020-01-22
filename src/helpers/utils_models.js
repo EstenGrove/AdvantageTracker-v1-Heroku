@@ -2,7 +2,7 @@
 ////////////// UNSCHEDULED TASKS //////////////
 ///////////////////////////////////////////////
 
-class UnscheduledTask {
+class UnscheduledTaskModel {
 	constructor() {
 		this._model = {
 			AssessmentUnscheduleTaskId: 0,
@@ -49,7 +49,7 @@ class UnscheduledTask {
 }
 
 // UNSCHEDULED SHIFT
-class UnscheduledTaskShift {
+class UnscheduledTaskShiftModel {
 	constructor() {
 		this._model = {
 			AssessmentUnscheduleTaskShiftId: 0,
@@ -80,7 +80,7 @@ class UnscheduledTaskShift {
 }
 
 // UNSCHEDULED SHIFT SUB TASK
-class UnscheduledShiftSubTask {
+class UnscheduledSubTask {
 	constructor() {
 		this._model = {
 			AssessmentUnscheduleTaskShiftSubTaskId: 0,
@@ -126,7 +126,7 @@ class UnscheduledShiftSubTask {
 }
 
 // UNSCHEDULED NOTE
-class UnscheduledTaskNote {
+class UnscheduledTaskNoteModel {
 	constructor() {
 		this._model = {
 			AssessmentUnscheduleTaskNoteId: 0,
@@ -162,7 +162,7 @@ class UnscheduledTaskNote {
 ///////////////////////////////////////////////
 
 // SCHEDULED TASK
-class ScheduledTask {
+class ScheduledTaskModel {
 	constructor() {
 		this.model = {
 			AssessmentTrackingTaskId: 0,
@@ -208,7 +208,7 @@ class ScheduledTask {
 }
 
 // SCHEDULED SHIFT
-class ScheduledTaskShift {
+class ScheduledTaskShiftModel {
 	constructor() {
 		this._model = {
 			AssessmentTrackingTaskShiftId: 0,
@@ -240,7 +240,7 @@ class ScheduledTaskShift {
 }
 
 // SCHEDULED SHIFT SUB TASK
-class ScheduledShiftSubTask {
+class ScheduledSubtaskModel {
 	constructor() {
 		this._model = {
 			AssessmentTrackingTaskShiftSubTaskId: 0,
@@ -286,7 +286,7 @@ class ScheduledShiftSubTask {
 }
 
 // SCHEDULED NOTE
-class ScheduledTaskNote {
+class ScheduledTaskNoteModel {
 	constructor() {
 		this._model = {
 			AssessmentTrackingTaskNoteId: 0,
@@ -320,13 +320,13 @@ class ScheduledTaskNote {
 
 export {
 	// UNSCHEDULED
-	UnscheduledTask,
-	UnscheduledTaskShift,
-	UnscheduledShiftSubTask,
-	UnscheduledTaskNote,
+	UnscheduledTaskModel,
+	UnscheduledTaskShiftModel,
+	UnscheduledSubTask,
+	UnscheduledTaskNoteModel,
 	// SCHEDULED
-	ScheduledTask,
-	ScheduledTaskShift,
-	ScheduledShiftSubTask,
-	ScheduledTaskNote
+	ScheduledTaskModel,
+	ScheduledTaskShiftModel,
+	ScheduledSubtaskModel,
+	ScheduledTaskNoteModel
 };

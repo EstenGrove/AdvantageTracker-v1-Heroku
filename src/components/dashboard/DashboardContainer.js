@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { PropTypes } from "prop-types";
 import { useForm } from "../../utils/useForm";
+import {
+	ScheduledTaskModel,
+	ScheduledSubtaskModel
+} from "../../helpers/utils_models";
 import styles from "../../css/dashboard/DashboardContainer.module.scss";
 import Dashboard from "./Dashboard";
 import Sidebar from "./Sidebar";
@@ -21,6 +25,14 @@ const DashboardContainer = ({ state, dispatch, isExpanded, handleSidebar }) => {
 		newTaskNote: "",
 		newTaskShift: ""
 	});
+
+	const createNewTask = e => {
+		e.preventDefault();
+		const { newTaskADL, newTaskName, newTaskNote, newTaskShift } = formState;
+		return console.log("Creating new task...");
+	};
+
+	const addChecklist = e => {};
 
 	return (
 		<>
