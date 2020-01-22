@@ -1,10 +1,5 @@
 import React, { createContext, useReducer } from "react";
-import {
-	removeItemByProp,
-	findSubtaskByID,
-	updateSubtask,
-	subtaskUpdater
-} from "../helpers/utils_subtasks";
+import { subtaskUpdater } from "../helpers/utils_subtasks";
 import { findTaskRecordByID } from "../helpers/utils_tasks";
 
 const initialGlobalState = {
@@ -12,7 +7,8 @@ const initialGlobalState = {
 		isLoading: false,
 		hasLoaded: false,
 		isError: false,
-		hasCache: false
+		hasCache: false,
+		hasUpdated: false
 	},
 	user: {
 		firstName: null,
@@ -118,6 +114,10 @@ const reducer = (state, action) => {
 			);
 			return {
 				...state,
+				app: {
+					...state.app,
+					hasUpdated: true
+				},
 				globals: {
 					...state.globals,
 					scheduledTasks: [...newTasks]
@@ -133,6 +133,10 @@ const reducer = (state, action) => {
 
 			return {
 				...state,
+				app: {
+					...state.app,
+					hasUpdated: true
+				},
 				globals: {
 					...state.globals,
 					scheduledTasks: [...newTasks]

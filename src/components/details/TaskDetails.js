@@ -1,13 +1,9 @@
 import React from "react";
 import { PropTypes } from "prop-types";
-import { format, isPast } from "date-fns";
+import { isPast } from "date-fns";
 
 import { isEmptyObj } from "../../helpers/utils_types";
-import {
-	formatDate,
-	formatPastDate,
-	checkForPastDue
-} from "../../helpers/utils_dates";
+import { checkForPastDue } from "../../helpers/utils_dates";
 import { isScheduledTask } from "../../helpers/utils_scheduled";
 import { findStatusNameFromID } from "../../helpers/utils_status";
 import styles from "../../css/details/TaskDetails.module.scss";

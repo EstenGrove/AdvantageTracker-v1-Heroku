@@ -1,11 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PropTypes } from "prop-types";
 import { isEmptyArray } from "../../helpers/utils_types";
-import {
-	getSubtaskByShiftID,
-	createSubtaskVals,
-	findSubtaskRecord
-} from "../../helpers/utils_subtasks";
+import { getSubtaskByShiftID } from "../../helpers/utils_subtasks";
 import styles from "../../css/details/SubtaskList.module.scss";
 import ButtonSM from "../shared/ButtonSM";
 import SubtaskItem from "./SubtaskItem";
@@ -16,11 +12,20 @@ import SubtaskItem from "./SubtaskItem";
 // CONSIDERATIONS:
 // 1. DELETING AND CREATING A SUBTASK SHOULD ONLY BE IN THIS COMPONENT
 // 2. ANY SUBTASKITEM LEVEL UPDATES SHOULD BE PUSHED TO THE <SUBTASKITEM/>
+// 3. DESPITE ALL OF THE ABOVE THERE ARE INTERDEPENDENCIES
+// 4. CONSIDER LIFTING SUBTASK UDPATES FROM <SUBTASKITEM/> IN TO <SUBTASKLIST/>
 
-const SubtaskList = ({ task = {}, dispatch }) => {
+const SubtaskList = ({ task = {}, subtasks = [], dispatch }) => {
 	const addNewSubtask = () => {
 		console.log("Adding new subtask");
 	};
+
+	useEffect(() => {
+		console.group("<SubtaskList/>");
+		console.log("task", task);
+		console.log("subtasks", subtasks);
+		console.groupEnd();
+	}, [subtasks, task]);
 
 	if (isEmptyArray(task.ShiftTasks)) {
 		return (

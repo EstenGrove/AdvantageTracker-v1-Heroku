@@ -12,8 +12,6 @@ import SummaryView from "../../views/dashboard/SummaryView";
 import SettingsView from "../../views/dashboard/SettingsView";
 import PastDueView from "../../views/dashboard/PastDueView";
 
-import Modal from "../shared/Modal";
-
 const Dashboard = props => {
 	return (
 		<>

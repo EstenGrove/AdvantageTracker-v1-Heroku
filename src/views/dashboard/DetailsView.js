@@ -31,6 +31,7 @@ import { findTasksByADL } from "../../helpers/utils_tasks";
 const DetailsView = props => {
 	const { category, currentUser } = props.location.state;
 	const { state, dispatch } = useContext(GlobalStateContext);
+	const { hasUpdated } = state.app;
 	const {
 		categories,
 		trackingTasks,
@@ -67,6 +68,7 @@ const DetailsView = props => {
 						dispatch={dispatch}
 						state={state}
 						category={category.AdlCategoryType}
+						hasUpdated={hasUpdated}
 					/>
 				</PanelLG>
 			</section>

@@ -8,16 +8,11 @@ import sprite3 from "../../assets/buttons.svg";
 import Checkbox from "../shared/Checkbox";
 import { replaceNullWithMsg } from "../../helpers/utils_processing";
 
-// REQUIREMENTS:
-// - [x] IF HAS "NOTES" THEN SHOW "NOTES ICON"
-// - [x] IF DOES NOT HAVE NOTES, THEN SHOW "ADD NOTE" BUTTON
-// - [x] ADD "DELETE/REMOVE" ICON
-// - [ ] EDIT TEXT LABEL FEATURE - IE EDIT <Checkbox/> LABEL (DESCRIPTION PROPERTY)
-//      - [ ] CONSIDER EDITING THE SHIFTTASK "DESCRIPTION" PROPERTY
-// - [ ] CHANGE "NOTES" ICON
-// - [ ] ADD "DELETE NOTES" ICON
-// - [ ] ADD "DELETE NOTES" FEATURE
-//      - PASS THE SUBTASK ID AND CLEAR THE "NOTES" FIELD
+// CURRENT WORK (WIP):
+// - [ ] GLOBAL STATE UPDATES ARE WORKING, BUT ARE BEING OVERWRITTEN ON RE-RENDER
+
+// NOTES: NOTE & CHECKBOX UPDATES LAST "AFTER" MODAL IS CLOSED, BUT WHEN MODAL IS RE-RENDERED THEY ARE WIPED OUT.
+// --- <TASKSPANEL/> IS SHOWING THE UPDATE --- BUT <TASKLIST/> & <TASKITEM/> IS NOT GETTING THE UPDATE, NEED TO ADD SIDEEFFECT "WATCHER"
 
 const SubtaskItem = ({ subtask, deleteSubtask, dispatch }) => {
 	const [hasNote, setHasNote] = useState(!isEmptyVal(subtask.Notes));
@@ -34,18 +29,9 @@ const SubtaskItem = ({ subtask, deleteSubtask, dispatch }) => {
 	};
 
 	const markSubtask = e => {
+		e.persist();
 		const { checked } = e.target;
-		setIsChecked(checked);
-		return dispatch({
-			type: "UPDATE_SUBTASK",
-			data: {
-				updatedSubtask: {
-					...subtask,
-					IsCheck: isChecked,
-					IsCompleted: isChecked
-				}
-			}
-		});
+		return setIsChecked(checked);
 	};
 
 	// enables showing the text input
@@ -59,24 +45,36 @@ const SubtaskItem = ({ subtask, deleteSubtask, dispatch }) => {
 		if (e.key === "Enter" || e.key === "Tab") {
 			const updatedSubtask = {
 				...subtask,
-				Notes: subtaskNote
+				Notes: subtaskNote,
+				IsCheck: isChecked,
+				IsCompleted: isChecked
 			};
 			setHasNote(true);
 			setIsEditing(false);
 			return dispatch({
 				type: "UPDATE_SUBTASK",
 				data: {
-					updatedSubtask: {
-						...updatedSubtask
-					}
+					updatedSubtask: { ...updatedSubtask }
 				}
 			});
 		}
 		return;
 	};
 
-	console.log("(useEffect): subtaskNote", subtaskNote);
-	console.log("(useEffect): subtask.Notes", subtask.Notes);
+	useEffect(() => {
+		dispatch({
+			type: "UPDATE_SUBTASK",
+			data: {
+				updatedSubtask: {
+					...subtask,
+					IsCheck: isChecked,
+					IsCompleted: isChecked,
+					Notes: subtaskNote
+				}
+			}
+		});
+	}, [isChecked, dispatch, subtask, subtaskNote]);
+
 	return (
 		<section
 			className={

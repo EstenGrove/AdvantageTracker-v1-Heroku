@@ -11,18 +11,15 @@ import TaskDetails from "./TaskDetails";
 import TaskList from "./TaskList";
 import SubtaskList from "./SubtaskList";
 import EditTaskForm from "./EditTaskForm";
+import { findTaskRecordByID } from "../../helpers/utils_tasks";
 import { findRecordAndUpdate } from "../../helpers/utils_updates";
-import {
-	updateCareTaskRecord,
-	findCareTaskRecord
-} from "../../helpers/utils_careTasks";
+import { updateCareTaskRecord } from "../../helpers/utils_careTasks";
 import { createSubtaskVals } from "../../helpers/utils_subtasks";
 import {
 	updateTrackingTasks,
 	findTasksByADL
 } from "../../helpers/utils_scheduled";
 import { isEmptyArray, isEmptyObj } from "../../helpers/utils_types";
-import { checkLoginStatus } from "../../helpers/utils_auth";
 
 const btnStyles = {
 	backgroundColor: "hsla(170, 100%, 39%, 1)",
@@ -37,6 +34,7 @@ const btnStyles = {
 const TasksPanel = ({
 	state,
 	dispatch,
+	hasUpdated,
 	scheduledTasksUpdateCount = 0, // this will likely be changed.
 	scheduledTasks,
 	trackingTasks,
@@ -44,13 +42,13 @@ const TasksPanel = ({
 	currentUser,
 	currentResident
 }) => {
+	// tasks is receiving subtask updates, but not activeTask
 	const [tasks, setTasks] = useState([
 		...findTasksByADL(scheduledTasks, category)
 	]);
 	const [showAppliedFilters, setShowAppliedFilters] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const [activeTask, setActiveTask] = useState({});
-	const [activeSubtask, setActiveSubtask] = useState({});
 
 	// CUSTOM HOOKS: useCounter(minutes hook), useForm(form handler)
 	const {
@@ -221,7 +219,12 @@ const TasksPanel = ({
 				<Modal title="Edit/Update Task" closeModal={() => setShowModal(false)}>
 					<TaskDetails task={activeTask}>
 						{/* SUBTASK ITEMS & NOTES */}
-						<SubtaskList task={activeTask} dispatch={dispatch} />
+						<SubtaskList
+							task={activeTask}
+							subtasks={activeTask.ShiftTasks}
+							dispatch={dispatch}
+							hasUpdated={hasUpdated}
+						/>
 						<hr className="divider" />
 						<EditTaskForm
 							title="Update task"
