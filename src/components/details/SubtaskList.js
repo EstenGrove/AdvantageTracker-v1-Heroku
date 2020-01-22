@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { PropTypes } from "prop-types";
-import { isEmptyArray } from "../../helpers/utils_types";
+import { isEmptyArray, isEmptyObj } from "../../helpers/utils_types";
 import { getSubtaskByShiftID } from "../../helpers/utils_subtasks";
+import { findTaskRecordByProp } from "../../helpers/utils_tasks";
 import styles from "../../css/details/SubtaskList.module.scss";
 import ButtonSM from "../shared/ButtonSM";
 import SubtaskItem from "./SubtaskItem";
+import { deepDiff } from "../../helpers/utils_updates";
 
 // FINISH HANDLING SUBTASK UPDATES
 // IE. IsCheck, IsCompleted, adding Notes
@@ -15,19 +17,14 @@ import SubtaskItem from "./SubtaskItem";
 // 3. DESPITE ALL OF THE ABOVE THERE ARE INTERDEPENDENCIES
 // 4. CONSIDER LIFTING SUBTASK UDPATES FROM <SUBTASKITEM/> IN TO <SUBTASKLIST/>
 
-const SubtaskList = ({ task = {}, subtasks = [], dispatch }) => {
+const SubtaskList = ({ subtasks = [], dispatch }) => {
+	const [subtaskList, setSubtaskList] = useState([...subtasks]);
+
 	const addNewSubtask = () => {
 		console.log("Adding new subtask");
 	};
 
-	useEffect(() => {
-		console.group("<SubtaskList/>");
-		console.log("task", task);
-		console.log("subtasks", subtasks);
-		console.groupEnd();
-	}, [subtasks, task]);
-
-	if (isEmptyArray(task.ShiftTasks)) {
+	if (isEmptyArray(subtasks)) {
 		return (
 			<section className={styles.SubtaskList}>
 				<h4 className={styles.SubtaskList_EMPTY}>No subtasks</h4>
@@ -42,8 +39,8 @@ const SubtaskList = ({ task = {}, subtasks = [], dispatch }) => {
 			{/* AM */}
 			<section className={styles.SubtaskList_byShift}>
 				<h4 className={styles.SubtaskList_title}>AM</h4>
-				{!isEmptyArray(getSubtaskByShiftID(task.ShiftTasks, 1)) &&
-					getSubtaskByShiftID(task.ShiftTasks, 1).map((subtask, index) => (
+				{!isEmptyArray(getSubtaskByShiftID(subtaskList, 1)) &&
+					getSubtaskByShiftID(subtaskList, 1).map((subtask, index) => (
 						<SubtaskItem
 							dispatch={dispatch}
 							key={`${subtask.AssessmentTrackingTaskShiftSubTaskId}_${index}`}
@@ -54,8 +51,8 @@ const SubtaskList = ({ task = {}, subtasks = [], dispatch }) => {
 			{/* PM */}
 			<section className={styles.SubtaskList_byShift}>
 				<h4 className={styles.SubtaskList_title}>PM</h4>
-				{!isEmptyArray(getSubtaskByShiftID(task.ShiftTasks, 2)) &&
-					getSubtaskByShiftID(task.ShiftTasks, 2).map((subtask, index) => (
+				{!isEmptyArray(getSubtaskByShiftID(subtaskList, 2)) &&
+					getSubtaskByShiftID(subtaskList, 2).map((subtask, index) => (
 						<SubtaskItem
 							dispatch={dispatch}
 							key={`${subtask.AssessmentTrackingTaskShiftSubTaskId}_${index}`}
@@ -66,8 +63,8 @@ const SubtaskList = ({ task = {}, subtasks = [], dispatch }) => {
 			{/* NOC */}
 			<section className={styles.SubtaskList_byShift}>
 				<h4 className={styles.SubtaskList_title}>NOC</h4>
-				{!isEmptyArray(getSubtaskByShiftID(task.ShiftTasks, 3)) &&
-					getSubtaskByShiftID(task.ShiftTasks, 3).map((subtask, index) => (
+				{!isEmptyArray(getSubtaskByShiftID(subtaskList, 3)) &&
+					getSubtaskByShiftID(subtaskList, 3).map((subtask, index) => (
 						<SubtaskItem
 							dispatch={dispatch}
 							key={`${subtask.AssessmentTrackingTaskShiftSubTaskId}_${index}`}

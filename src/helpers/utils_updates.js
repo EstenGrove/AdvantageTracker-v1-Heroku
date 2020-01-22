@@ -143,12 +143,25 @@ const handlePending = (vals, record) => {
 	};
 };
 
+// takes 2 items of any type and stringifies them then compares
+// if the same (does NOT check referential equality) then returns true
+// if not the same returns false
+// ONLY TESTS THE VALUES, NOT THE REFERENCE!!!
+const deepDiff = (item1, item2) => {
+	const string1 = JSON.stringify(item1);
+	const string2 = JSON.stringify(item2);
+	if (string1 !== string2) return false;
+	if (typeof string1 !== typeof string2) return false;
+	return true;
+};
+
 export {
 	determineResolution,
 	handleTaskNotes,
 	handleException,
 	handleCompletion,
-	handlePending
+	handlePending,
+	deepDiff
 };
 
 export { updateTaskRecord, findRecordAndUpdate };

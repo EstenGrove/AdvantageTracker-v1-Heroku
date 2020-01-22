@@ -1,7 +1,14 @@
-import { hasProperty, isEmptyArray, isEmptyVal } from "./utils_types";
+import {
+	hasProperty,
+	isEmptyArray,
+	isEmptyVal,
+	isEmptyObj
+} from "./utils_types";
 import { format } from "date-fns";
 
 const findTaskRecordByProp = (task, taskRecords, prop) => {
+	if (isEmptyObj(task)) return {};
+	if (isEmptyArray(taskRecords)) return {};
 	return taskRecords.reduce((acc, cur) => {
 		if (cur[prop] === task[prop]) {
 			acc = cur;

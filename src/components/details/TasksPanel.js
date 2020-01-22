@@ -11,8 +11,11 @@ import TaskDetails from "./TaskDetails";
 import TaskList from "./TaskList";
 import SubtaskList from "./SubtaskList";
 import EditTaskForm from "./EditTaskForm";
-import { findTaskRecordByID } from "../../helpers/utils_tasks";
-import { findRecordAndUpdate } from "../../helpers/utils_updates";
+import {
+	findTaskRecordByID,
+	findTaskRecordByProp
+} from "../../helpers/utils_tasks";
+import { findRecordAndUpdate, deepDiff } from "../../helpers/utils_updates";
 import { updateCareTaskRecord } from "../../helpers/utils_careTasks";
 import { createSubtaskVals } from "../../helpers/utils_subtasks";
 import {
@@ -50,7 +53,6 @@ const TasksPanel = ({
 	const [showModal, setShowModal] = useState(false);
 	const [activeTask, setActiveTask] = useState({});
 
-	// CUSTOM HOOKS: useCounter(minutes hook), useForm(form handler)
 	const {
 		count,
 		increment,
@@ -224,6 +226,7 @@ const TasksPanel = ({
 							subtasks={activeTask.ShiftTasks}
 							dispatch={dispatch}
 							hasUpdated={hasUpdated}
+							state={state}
 						/>
 						<hr className="divider" />
 						<EditTaskForm

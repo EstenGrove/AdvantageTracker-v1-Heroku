@@ -318,14 +318,18 @@ const removeItemByProp = (id, records, prop) => {
 	return records.filter(item => item[prop] !== id);
 };
 
-// filters thru array of subtasks and removes matching item by ID
+/**
+ * @description - Subtask filter function that will map thru the subtasks and return an array WITHOUT the subtask matching the passed id.
+ * @param {array} subtasks - An array of subtask records (ie. AssessmentTrackingTaskShiftSubTask records)
+ * @param {number} id - A unique id to use to filter for. Typically an "AssessmentTrackingTaskShiftSubTask"
+ */
 const removeStaleSubtask = (subtasks, id) => {
 	return subtasks.filter(x => x.AssessmentTrackingTaskShiftSubTaskId !== id);
 };
 
 /**
- * @description - Takes an updated subtask record and an array of tasks and
- * finds the matching subtask record and replaces it with the updated record (ie * * newSubtask)
+ * @description - Takes an updated subtask record and an array of tasks(ADLCareTask(s)) and
+ * finds the matching subtask record and replaces it with the updated record (ie newSubtask)
  * @param {object} newSubtask - An updated subtask record
  * @param {array} tasks - An array of ADLCareTasks used in the UI
  */

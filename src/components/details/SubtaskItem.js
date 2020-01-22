@@ -14,6 +14,11 @@ import { replaceNullWithMsg } from "../../helpers/utils_processing";
 // NOTES: NOTE & CHECKBOX UPDATES LAST "AFTER" MODAL IS CLOSED, BUT WHEN MODAL IS RE-RENDERED THEY ARE WIPED OUT.
 // --- <TASKSPANEL/> IS SHOWING THE UPDATE --- BUT <TASKLIST/> & <TASKITEM/> IS NOT GETTING THE UPDATE, NEED TO ADD SIDEEFFECT "WATCHER"
 
+// 3 OPTIONS FOR FIXING THE OUT-OF-SYNC SUBTASK UPDATES BUG:
+// 1. PUSH THE "activeTask" from <TasksPanel/> to global state and use context in <SubtaskList/> to access it
+// 2. Lift state up for <SubtaskItem/> and move all subtask updates/changes to <SubtaskItem/>
+// 3.
+
 const SubtaskItem = ({ subtask, deleteSubtask, dispatch }) => {
 	const [hasNote, setHasNote] = useState(!isEmptyVal(subtask.Notes));
 	const [viewingNotes, setViewingNotes] = useState(false);

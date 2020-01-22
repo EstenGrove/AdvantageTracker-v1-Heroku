@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import { PropTypes } from "prop-types";
 
@@ -32,12 +32,7 @@ const DetailsView = props => {
 	const { category, currentUser } = props.location.state;
 	const { state, dispatch } = useContext(GlobalStateContext);
 	const { hasUpdated } = state.app;
-	const {
-		categories,
-		trackingTasks,
-		scheduledTasks,
-		currentResident
-	} = state.globals;
+	const { trackingTasks, scheduledTasks, currentResident } = state.globals;
 
 	const { showTaskModal, setShowTaskModal } = props;
 	// useForm: ONLY USED FOR CREATING NEW TASKS,
