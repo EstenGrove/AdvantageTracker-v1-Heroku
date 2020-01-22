@@ -79,3 +79,15 @@ Working build complete with all views:
                                                         Views
 
 ```
+
+#### <DetailsView> Children Structure
+
+```
+                                      <DetailsView>
+                                    /             \
+                                                  
+
+
+
+
+```

@@ -34,17 +34,6 @@ const DetailsView = props => {
 	const { hasUpdated } = state.app;
 	const { trackingTasks, scheduledTasks, currentResident } = state.globals;
 
-	const { showTaskModal, setShowTaskModal } = props;
-	// useForm: ONLY USED FOR CREATING NEW TASKS,
-	// UPDATING TASKS IS HANDLED INSIDE THE <TasksPanel/>
-	const { formState, handleChange, handleCheckbox } = useForm({
-		// Create task values
-		newTaskName: "",
-		newTaskADL: "",
-		newTaskNote: "",
-		newTaskShift: ""
-	});
-
 	return (
 		<>
 			<section className={styles.DetailsView}>
@@ -67,16 +56,6 @@ const DetailsView = props => {
 					/>
 				</PanelLG>
 			</section>
-
-			{showTaskModal && (
-				<Modal title="Create Task" closeModal={() => setShowTaskModal(false)}>
-					<CreateTaskForm
-						vals={formState.values}
-						handleChange={handleChange}
-						handleCheckbox={handleCheckbox}
-					/>
-				</Modal>
-			)}
 		</>
 	);
 };

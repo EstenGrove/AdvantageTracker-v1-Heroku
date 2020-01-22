@@ -7,17 +7,9 @@ import sprite from "../../assets/sidebar.svg";
 // **IMPLEMENT MOBILE SIDEBAR**
 // PASS STATE (ie resident, tasks via routes)
 
-const Sidebar = ({
-	isExpanded,
-	handleSidebar,
-	setShowTaskModal,
-	state,
-	scheduledTasks,
-	unscheduledTasks,
-	currentResident,
-	categories
-}) => {
+const Sidebar = ({ isExpanded, handleSidebar, setShowModal, state }) => {
 	const match = useRouteMatch(); // required for nested routes & link
+
 	const expandedSidebar = (
 		<aside className={styles.Sidebar}>
 			<section className={styles.Sidebar_top}>
@@ -30,7 +22,7 @@ const Sidebar = ({
 					<li className={styles.Sidebar_inner_list_newTask}>
 						<button
 							className={styles.Sidebar_inner_list_newTask_btn}
-							onClick={() => setShowTaskModal(true)}
+							onClick={() => setShowModal(true)}
 						>
 							Create Task
 						</button>
@@ -138,7 +130,7 @@ const Sidebar = ({
 					<li className={styles.CollapsedSidebar_inner_list_newTask}>
 						<button
 							className={styles.CollapsedSidebar_inner_list_newTask_btn}
-							onClick={() => setShowTaskModal(true)}
+							onClick={() => setShowModal(true)}
 						>
 							<svg
 								className={styles.CollapsedSidebar_inner_list_newTask_btn_icon}
@@ -236,7 +228,7 @@ const Sidebar = ({
 				<li className={styles.MobileSidebar_inner_item} title="Create a task">
 					<svg
 						className={styles.MobileSidebar_inner_item_newTask}
-						onClick={() => setShowTaskModal(true)}
+						onClick={() => setShowModal(true)}
 					>
 						<use xlinkHref={`${sprite}#icon-plus21`}></use>
 					</svg>
