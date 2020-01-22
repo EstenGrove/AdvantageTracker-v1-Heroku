@@ -25,6 +25,7 @@ const CreateTaskForm = ({
 	handleChange,
 	handleCheckbox,
 	createNewTask,
+	addChecklist,
 	isSupported,
 	...rest
 }) => {
@@ -32,11 +33,6 @@ const CreateTaskForm = ({
 		showAdditional: false,
 		addChecklist: false
 	});
-
-	// CREATE CUSTOM COMPONENT ABSTRACTION ??????
-	const addChecklist = () => {
-		console.log("Create a checklist...");
-	};
 
 	return (
 		<article className={styles.CreateTaskForm}>
@@ -117,9 +113,13 @@ const CreateTaskForm = ({
 						>
 							<b>+</b> Add Checklist
 						</ButtonSM>
-						{/* ADD CHECKLIST, SUBTASK ETC... */}
-						{/* ADD CHECKLIST, SUBTASK ETC... */}
-						{/* ADD CHECKLIST, SUBTASK ETC... */}
+						<div
+							className={styles.CreateTaskForm_form_moreOptions_addChecklist}
+						>
+							{/*  */}
+							{/*  */}
+							{/*  */}
+						</div>
 					</section>
 				)}
 			</form>

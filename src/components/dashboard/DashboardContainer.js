@@ -18,6 +18,7 @@ import CreateTaskForm from "../app/CreateTaskForm";
 
 const DashboardContainer = ({ state, dispatch, isExpanded, handleSidebar }) => {
 	const [showModal, setShowModal] = useState(false);
+	const [checklist, setChecklist] = useState([]);
 	const { formState, handleChange, handleCheckbox } = useForm({
 		// Create task values
 		newTaskName: "",
@@ -26,13 +27,21 @@ const DashboardContainer = ({ state, dispatch, isExpanded, handleSidebar }) => {
 		newTaskShift: ""
 	});
 
+	const addDataToTaskModel = (vals, model) => {
+		const initModel = new ScheduledTaskModel();
+		const taskModel = initModel.getModel();
+	};
+
 	const createNewTask = e => {
 		e.preventDefault();
 		const { newTaskADL, newTaskName, newTaskNote, newTaskShift } = formState;
 		return console.log("Creating new task...");
 	};
 
-	const addChecklist = e => {};
+	const addChecklist = e => {
+		e.preventDefault();
+		return console.log("Adding checklist...");
+	};
 
 	return (
 		<>
@@ -58,6 +67,7 @@ const DashboardContainer = ({ state, dispatch, isExpanded, handleSidebar }) => {
 						vals={formState.values}
 						handleChange={handleChange}
 						handleCheckbox={handleCheckbox}
+						addChecklist={addChecklist}
 					/>
 				</Modal>
 			)}
