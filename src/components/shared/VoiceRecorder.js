@@ -20,13 +20,13 @@ const VoiceRecorder = ({
 	recording,
 	start,
 	stop,
-	handleEdit,
+	handleChange,
 	children
 }) => {
 	const withProps = React.Children.map(children, child => {
 		return React.cloneElement(child, {
 			val: recording,
-			handleChange: handleEdit
+			handleChange: handleChange
 		});
 	});
 

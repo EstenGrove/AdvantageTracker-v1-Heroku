@@ -80,13 +80,12 @@ const CreateTaskForm = ({
 						start={start}
 						stop={stop}
 						recording={final}
-						handleEdit={handleChange}
+						handleChange={handleChange}
 					>
 						<Textarea
 							name="newTaskVoiceNote"
 							id="newTaskVoiceNote"
-							defaultVal={vals.newTaskVoiceNote}
-							val={vals.newTaskVoiceNote}
+							val={final}
 							placeholder={`Click 'Start Recording' to record a note \nClick 'Stop Recording' to stop.`}
 							label="Notes/Comments"
 							addRequiredFlag={true}
@@ -148,39 +147,42 @@ const CreateTaskForm = ({
 				{/* ADDITIONAL OPTIONS */}
 				{/* ADD CHECKLIST/SUBTASK */}
 				{/* ADD NOTES/COMMENTS */}
-				<hr className="divider" />
 				{formSections.showAdditional && (
-					<section className={styles.CreateTaskForm_form_moreOptions}>
-						<div className={styles.CreateTaskForm_form_moreOptions_priority}>
-							<h4
-								className={
-									styles.CreateTaskForm_form_moreOptions_priority_title
-								}
-							>
-								Set a Priority
-							</h4>
-							<PriorityButtonGroup
-								val={vals.newTaskPriority}
-								handleClick={handlePriority}
-							/>
-						</div>
+					<>
+						<hr className="divider" />
+						<section className={styles.CreateTaskForm_form_moreOptions}>
+							<div className={styles.CreateTaskForm_form_moreOptions_priority}>
+								<h4
+									className={
+										styles.CreateTaskForm_form_moreOptions_priority_title
+									}
+								>
+									Set a Priority
+								</h4>
+								<PriorityButtonGroup
+									val={vals.newTaskPriority}
+									handleClick={handlePriority}
+								/>
+							</div>
 
-						<ButtonSM
-							handleClick={addChecklist}
-							customStyles={{ backgroundColor: themeColors.main.green }}
-						>
-							<b>+</b> Add Checklist
-						</ButtonSM>
-						<div
-							className={styles.CreateTaskForm_form_moreOptions_addChecklist}
-						>
-							{/*  */}
-							{/*  */}
-							{/*  */}
-						</div>
-					</section>
+							<ButtonSM
+								handleClick={addChecklist}
+								customStyles={{ backgroundColor: themeColors.main.green }}
+							>
+								<b>+</b> Add Checklist
+							</ButtonSM>
+							<div
+								className={styles.CreateTaskForm_form_moreOptions_addChecklist}
+							>
+								{/*  */}
+								{/*  */}
+								{/*  */}
+							</div>
+						</section>
+						<hr className="divider" />
+					</>
 				)}
-				<hr className="divider" />
+
 				<TextInput
 					val={vals.newTaskSignature}
 					name="newTaskSignature"

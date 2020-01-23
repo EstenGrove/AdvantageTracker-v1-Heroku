@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import { PropTypes } from "prop-types";
 import { useForm } from "../../utils/useForm";
@@ -30,12 +30,13 @@ const DashboardContainer = ({
 	const [showModal, setShowModal] = useState(false);
 	const [checklist, setChecklist] = useState([]); // for subtasks
 	const {
-		formState,
-		setFormState,
-		handleChange,
-		handleKeyDown,
-		handleCheckbox
-	} = useForm({
+		isListening,
+		isSupported,
+		start,
+		stop,
+		final
+	} = useSpeechRecognition({ continuous: true, interimResults: true });
+	const { formState, setFormState, handleChange, handleCheckbox } = useForm({
 		// Create task values
 		newTaskCategory: "",
 		newTaskName: "",
@@ -47,17 +48,6 @@ const DashboardContainer = ({
 		newTaskFollowUpDate: "",
 		newTaskSignature: ""
 	});
-	const {
-		isListening,
-		isSupported,
-		start,
-		stop,
-		final
-	} = useSpeechRecognition({ continuous: true, interimResults: true });
-
-	console.group("<DashboardContainer/>");
-	console.log("history", history);
-	console.groupEnd();
 
 	const addDataToTaskModel = (vals, model) => {
 		const initModel = new ScheduledTaskModel();
@@ -91,8 +81,6 @@ const DashboardContainer = ({
 			}
 		});
 	};
-
-	console.log(getRoute(history.location.pathname));
 
 	return (
 		<>
