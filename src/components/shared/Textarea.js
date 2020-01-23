@@ -16,8 +16,7 @@ const Textarea = ({
 	disabled = false,
 	addRequiredFlag = false,
 	enableCharCount = false,
-	customStyles = {},
-	...rest
+	customStyles = {}
 }) => {
 	const [charCount, setCharCount] = useState(0);
 
@@ -45,7 +44,6 @@ const Textarea = ({
 				className={styles.Textarea_input}
 				maxLength={maxChar}
 				required={required}
-				{...rest}
 			/>
 			{enableCharCount && (
 				<div

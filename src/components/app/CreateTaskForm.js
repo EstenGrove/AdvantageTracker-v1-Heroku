@@ -27,8 +27,8 @@ const CreateTaskForm = ({
 	title,
 	vals,
 	categories,
-	activeCategory,
 	handleChange,
+	handleKeyDown,
 	handleCheckbox,
 	handlePriority,
 	createNewTask,
@@ -80,17 +80,18 @@ const CreateTaskForm = ({
 						start={start}
 						stop={stop}
 						recording={final}
+						handleEdit={handleChange}
 					>
 						<Textarea
 							name="newTaskVoiceNote"
 							id="newTaskVoiceNote"
+							defaultVal={vals.newTaskVoiceNote}
 							val={vals.newTaskVoiceNote}
 							placeholder={`Click 'Start Recording' to record a note \nClick 'Stop Recording' to stop.`}
 							label="Notes/Comments"
 							addRequiredFlag={true}
 							maxChar={250}
 							enableCharCount={true}
-							handleChange={handleEditTranscript}
 						/>
 					</VoiceRecorder>
 				)}
@@ -147,6 +148,7 @@ const CreateTaskForm = ({
 				{/* ADDITIONAL OPTIONS */}
 				{/* ADD CHECKLIST/SUBTASK */}
 				{/* ADD NOTES/COMMENTS */}
+				<hr className="divider" />
 				{formSections.showAdditional && (
 					<section className={styles.CreateTaskForm_form_moreOptions}>
 						<div className={styles.CreateTaskForm_form_moreOptions_priority}>
@@ -178,6 +180,7 @@ const CreateTaskForm = ({
 						</div>
 					</section>
 				)}
+				<hr className="divider" />
 				<TextInput
 					val={vals.newTaskSignature}
 					name="newTaskSignature"

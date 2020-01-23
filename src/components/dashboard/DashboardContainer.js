@@ -29,7 +29,13 @@ const DashboardContainer = ({
 	const { currentResident } = state.globals;
 	const [showModal, setShowModal] = useState(false);
 	const [checklist, setChecklist] = useState([]); // for subtasks
-	const { formState, setFormState, handleChange, handleCheckbox } = useForm({
+	const {
+		formState,
+		setFormState,
+		handleChange,
+		handleKeyDown,
+		handleCheckbox
+	} = useForm({
 		// Create task values
 		newTaskCategory: "",
 		newTaskName: "",
@@ -116,7 +122,6 @@ const DashboardContainer = ({
 						handlePriority={handlePriority}
 						addChecklist={addChecklist}
 						saveNewTask={saveNewTask}
-						handleEditTranscript={handleChange}
 						// {...rest} for <VoiceRecorder/>
 						isListening={isListening}
 						isSupported={isSupported}

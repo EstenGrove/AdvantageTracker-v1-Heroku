@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { main } from "../../helpers/utils_styles";
 import styles from "../../css/shared/VoiceRecorder.module.scss";
 import ButtonSM from "./ButtonSM";
@@ -20,19 +20,13 @@ const VoiceRecorder = ({
 	recording,
 	start,
 	stop,
+	handleEdit,
 	children
 }) => {
-	console.group("<VoiceRecorder/>");
-	console.log("isSupported", isSupported);
-	console.log("isListening", isListening);
-	console.log("recording", recording);
-	console.log("start", start);
-	console.log("stop", stop);
-	console.groupEnd();
-
 	const withProps = React.Children.map(children, child => {
 		return React.cloneElement(child, {
-			val: recording
+			val: recording,
+			handleChange: handleEdit
 		});
 	});
 
