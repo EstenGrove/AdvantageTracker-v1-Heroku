@@ -12,6 +12,10 @@ import sprite from "../../assets/tasks.svg";
 import StatusBadge from "../shared/StatusBadge"; // updated component
 import { replaceNullWithMsg } from "../../helpers/utils_processing";
 
+// NEW REQUIREMENTS (AS 1/23/2020):
+// 1. ADD VIEWING OF EXISTING TASK NOTES
+// 2. ADD OPTION TO CREATE, EDIT AND DELETE NEW & EXISTING NOTES
+
 const TaskDetails = ({ task = {}, children }) => {
 	if (isEmptyObj(task)) {
 		return <h1>No task found</h1>;

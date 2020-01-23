@@ -19,14 +19,32 @@ import ShiftTag from "../shared/ShiftTag";
 import StatusBadge from "../shared/StatusBadge";
 import SubtaskCount from "./SubtaskCount";
 import ShiftList from "./ShiftList";
+import { isScheduledTask } from "../../helpers/utils_tasks";
+import { getCategoryNameFromID } from "../../helpers/utils_categories";
 
 // NEW REQUIREMENTS:
-// 1. ADD SHIFTS FOR EACH TASK
-// 2. ADD AN "ADD SUBTASK" BUTTON/ICON
-// 3. ENABLE SUBTASKS TO BE SCHEDULED PER SHIFT
-// 4. WRITE FUNCTION TO JOIN SUBTASKS WITH TASK RECORDS (IE ADLCARETASK)
-// 5. WRITE CONDITIONAL FOR HANDLING SHIFTS
-//    5A. IF SHIFTS, THEN LOAD <ShiftList/>, ELSE LOAD <DropdownSelectSM/>
+// 1. HANDLES BOTH SCHEDULED AND UNSCHEDULED TASK ITEMS
+// 2. LEVERAGE NULLISH COALESCING AND OPTIONAL CHAINING TO HANDLE SWITCHING BETWEEN BOTH
+
+// checks if scheduled or unscheduled task
+// then returns the formatted ADL Category
+const getTaskCategory = task => {
+	if (isScheduledTask(task)) {
+		return replaceNullWithMsg(task.ADLCategory, "None");
+	}
+	return replaceNullWithMsg(
+		getCategoryNameFromID(task.AssessmentCategoryId),
+		"None"
+	);
+};
+
+// returns the task description regardless whether it's a scheduled|unscheduled task item
+const getTaskDescription = task => {
+	return (
+		task?.Description ??
+		addEllipsis(replaceNullWithMsg(task.Notes, "No description"), 40)
+	);
+};
 
 const TaskItem = ({ viewDetails, addNote, task = {}, values = {} }) => {
 	const [isCompleted, setIsCompleted] = useState(task.IsCompleted);
@@ -49,8 +67,9 @@ const TaskItem = ({ viewDetails, addNote, task = {}, values = {} }) => {
 							xlinkHref={`${sprite}#icon-${adlIcons[task.ADLCategory].icon}`}
 						></use>
 					</svg>
+					{/* --- ADL CATEGORY HEADING --- */}
 					<h2 className={styles.TaskItem_inner_category_title}>
-						{replaceNullWithMsg(task.ADLCategory, "None")}
+						{getTaskCategory(task)}
 					</h2>
 				</header>
 				{/* ADL TASK DESCRIPTION - MIDDLE LEFT */}
@@ -58,12 +77,9 @@ const TaskItem = ({ viewDetails, addNote, task = {}, values = {} }) => {
 					<h2 className={styles.TaskItem_inner_desc_title}>Description</h2>
 					<p
 						className={styles.TaskItem_inner_desc_text}
-						title={task.TaskDescription}
+						title={getTaskDescription(task)}
 					>
-						{addEllipsis(
-							replaceNullWithMsg(task.TaskDescription, "No description"),
-							40
-						)}
+						{addEllipsis(getTaskDescription(task), 40)}
 					</p>
 				</article>
 				{/* SHIFT - MIDDLE RIGHT */}

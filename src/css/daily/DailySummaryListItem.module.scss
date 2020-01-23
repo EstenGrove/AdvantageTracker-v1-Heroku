@@ -8,14 +8,14 @@
 	border: 1px solid map-get($map: $colors, $key: "mainGrey");
 	border-radius: 0.5rem;
 	background-color: #ffffff;
+	-webkit-box-shadow: map-get($map: $shadows, $key: "subtleInset");
+	box-shadow: map-get($map: $shadows, $key: "subtleInset");
 	z-index: 1;
 	-webkit-transition: all 0.2s ease-in-out;
 	transition: all 0.2s ease-in-out;
 
 	&:hover {
 		cursor: pointer;
-		-webkit-box-shadow: map-get($map: $shadows, $key: "subtleInset");
-		box-shadow: map-get($map: $shadows, $key: "subtleInset");
 	}
 
 	&:hover &_item_icon,

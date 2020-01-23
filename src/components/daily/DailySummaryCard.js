@@ -39,7 +39,7 @@ const DailySummaryCard = ({
 		missedEvent: getCount(scheduledTasks, "MISSED-EVENT"),
 		notComplete: getCount(scheduledTasks, "NOT-COMPLETE"),
 		inProgress: getCount(scheduledTasks, "IN-PROGRESS"),
-		remaining: getRemaining(scheduledTasks, "COMPLETE")
+		remaining: getRemaining(scheduledTasks, "COMPLETE") // counts all tasks that are either pending or in-progress
 	});
 
 	const [percentages, setPercentages] = useState({

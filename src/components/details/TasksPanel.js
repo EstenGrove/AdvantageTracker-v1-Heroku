@@ -82,7 +82,7 @@ const TasksPanel = ({
 		minutes: 0,
 		priority: "",
 		// ** task update values end here **
-		// Create task values
+		// Create task values - **REMOVE THESE VALUES**
 		newTaskName: "",
 		newTaskADL: "",
 		newTaskNote: "",
@@ -214,6 +214,15 @@ const TasksPanel = ({
 				{/* TASKLIST & TASKS ARE PASSED AS CHILDREN */}
 				<section className={styles.TasksPanel_inner}>
 					<TaskList tasks={tasks} viewDetails={viewDetails} />
+					<h4 className={styles.TasksPanel_inner_tasksTitle}>
+						Unscheduled Tasks
+					</h4>
+					<hr className="divider" />
+					{/* UNSCHEDULED TASKS GO HERE... */}
+					{/* UNSCHEDULED TASKS GO HERE... */}
+					{/* UNSCHEDULED TASKS GO HERE... */}
+					{/* UNSCHEDULED TASKS GO HERE... */}
+					{/* UNSCHEDULED TASKS GO HERE... */}
 				</section>
 			</main>
 			{/* EDIT/UPDATE TASK MODAL */}
