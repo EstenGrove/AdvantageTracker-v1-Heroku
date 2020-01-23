@@ -1,5 +1,19 @@
 import { isEmptyObj, isEmptyArray } from "./utils_types";
 
+const isCompleted = task => {
+	if (task?.IsCompleted) return true;
+	if (task?.TaskStatus === "COMPLETE") return true;
+	if (task?.AssessmentTaskStatusId === 2) return true;
+	return false;
+};
+
+const isMissedEvent = task => {
+	if (task?.TaskStatus === "MISSED-EVENT") return true;
+	if (task?.AssessmentTaskStatusId === 3) return true;
+	if (task?.Resolution === "MISSED-FORGOTTEN") return true;
+	return false;
+};
+
 // #CALCULATIONS
 const getPercentage = (count, completed) => {
 	return Math.round(((completed / count) * 100).toFixed(2)) + "%";
@@ -28,11 +42,27 @@ const getRemaining = (list, condition) => {
 	return list.filter((item, index) => item.TaskStatus !== condition).length;
 };
 
+// gets the number of completed tasks (scheduled tasks)
 const getCompletedCount = tasks => {
 	if (isEmptyArray(tasks)) return 0;
 	return tasks.filter(
-		task => task.IsCompleted || task.TaskStatus === "COMPLETE"
+		task =>
+			task.IsCompleted ||
+			(!(task?.TaskStatus === "COMPLETE") ?? task.AssessmentTaskStatusId === 2)
 	).length;
+};
+
+const mergeCompletedCounts = (scheduledTasks, unscheduledTasks) => {
+	if (isEmptyArray(scheduledTasks) && isEmptyArray(unscheduledTasks))
+		return { scheduled: 0, unscheduled: 0, total: 0 };
+
+	return {
+		scheduled: scheduledTasks.filter(task => isCompleted(task)).length,
+		unscheduled: unscheduledTasks.filter(task => isCompleted(task)).length,
+		total:
+			parseInt(scheduledTasks.filter(task => isCompleted(task)).length, 10) +
+			parseInt(unscheduledTasks.filter(task => isCompleted(task)).length, 10)
+	};
 };
 
 //  #STRING HELPERS
@@ -124,7 +154,11 @@ const getRoute = route => {
 	return split[length - 1];
 };
 
+// checking status's for scheduled, unscheduled and subtasks.
+export { isCompleted, isMissedEvent };
+
 export {
+	mergeCompletedCounts,
 	getCompletedCount,
 	getPercentage,
 	getAvg,

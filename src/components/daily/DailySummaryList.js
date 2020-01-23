@@ -5,30 +5,30 @@ import styles from "../../css/daily/DailySummaryList.module.scss";
 import DailySummaryListItem from "./DailySummaryListItem";
 
 const DailySummaryList = ({ tasks = [] }) => {
-  if (isEmptyArray(tasks)) {
-    return <span>No tasks today</span>;
-  }
-  return (
-    <ul className={styles.DailySummaryList}>
-      {tasks &&
-        tasks.length &&
-        tasks.map((task, index) => (
-          <DailySummaryListItem
-            task={task}
-            key={task.AssessmentTrackingTaskId}
-          />
-        ))}
-    </ul>
-  );
+	if (isEmptyArray(tasks)) {
+		return <span>No tasks today</span>;
+	}
+	return (
+		<ul className={styles.DailySummaryList}>
+			{tasks &&
+				tasks.length &&
+				tasks.map((task, index) => (
+					<DailySummaryListItem
+						task={task}
+						key={task.AssessmentTrackingTaskId}
+					/>
+				))}
+		</ul>
+	);
 };
 
 export default DailySummaryList;
 
 DailySummaryList.defaultProps = {
-  tasks: []
+	tasks: []
 };
 
 DailySummaryList.propTypes = {
-  tasks: PropTypes.array,
-  category: PropTypes.object
+	tasks: PropTypes.array,
+	category: PropTypes.object
 };

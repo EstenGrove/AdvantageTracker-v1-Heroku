@@ -5,6 +5,8 @@ import {
 	isEmptyVal
 } from "../../helpers/utils_types";
 import {
+	isCompleted,
+	isMissedEvent,
 	addEllipsis,
 	replaceNullWithMsg
 } from "../../helpers/utils_processing";
@@ -13,8 +15,9 @@ import styles from "../../css/daily/DailySummaryListItem.module.scss";
 import sprite from "../../assets/icon-bar.svg";
 
 // COUNT: should be the # of notes/comments for a given task
+// CONSIDER ADDING HELPER FOR GRAB THE TASK NOTES
 
-const getShiftTaskCount = task => {
+const getSubtaskCount = task => {
 	if (isEmptyObj(task)) return 0;
 	if (isEmptyArray(task.ShiftTasks)) return 0;
 	return task?.ShiftTasks?.length;
@@ -22,7 +25,14 @@ const getShiftTaskCount = task => {
 
 const DailySummaryListItem = ({ task }) => {
 	return (
-		<li className={styles.DailySummaryListItem} title={task.TaskDescription}>
+		<li
+			className={
+				isCompleted(task)
+					? styles.DailySummaryListItem_isCompleted
+					: styles.DailySummaryListItem
+			}
+			title={task.TaskDescription}
+		>
 			<section className={styles.DailySummaryListItem_details}>
 				<div className={styles.DailySummaryListItem_details_desc}>
 					{!task.TaskDescription
@@ -38,14 +48,24 @@ const DailySummaryListItem = ({ task }) => {
 				>
 					<div className={styles.DailySummaryListItem_item_status_badge}></div>
 				</div>
-				<svg className={styles.DailySummaryListItem_item_icon}>
-					<use xlinkHref={`${sprite}#icon-access_alarmalarm`}></use>
+				{/* # OF SUBTASKS - CHECKMARK ICON */}
+				<svg
+					className={styles.DailySummaryListItem_item_icon}
+					title={`${getSubtaskCount(task)} scheduled subtasks`}
+				>
+					<use xlinkHref={`${sprite}#icon-check_box`}></use>
 				</svg>
-				<span className={styles.DailySummaryListItem_item_count}>
-					{getShiftTaskCount(task)}
+				<span
+					className={styles.DailySummaryListItem_item_count}
+					title={`${getSubtaskCount(task)} scheduled subtasks`}
+				>
+					{getSubtaskCount(task)}
 				</span>
 
-				<svg className={styles.DailySummaryListItem_item_icon}>
+				<svg
+					className={styles.DailySummaryListItem_item_icon}
+					title={`${isEmptyVal(task.TaskNotes) ? 0 : 1} notes`}
+				>
 					<use xlinkHref={`${sprite}#icon-comments2`}></use>
 				</svg>
 				{/* WILL BE THE NUMBER OF NOTES FOR A TASK ITEM */}
