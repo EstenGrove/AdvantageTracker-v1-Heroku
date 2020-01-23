@@ -11,11 +11,14 @@ import DropdownSelectSM from "../shared/DropdownSelectSM";
 import ButtonSM from "../shared/ButtonSM";
 import { themeColors } from "../../helpers/utils_styles";
 import VoiceRecorder from "../shared/VoiceRecorder";
+import StatefulButton from "../shared/StatefulButton";
+import PriorityButtonGroup from "../shared/PriorityButtonGroup";
 
 // ##TODOS:
 // 1. CONSIDER ADDING "RECURRING TASK" AS AN OPTION
 //  1A. ENABLES CREATING A RECURRING TASK FOR A SPECIFIC TIME/DAY/CATEGORY
 //  2A. ENABLE RANGE FOR RECURRING TASK TO RE-OCCUR (IE, OCCURS DAILY FOR A WEEK ETC.)
+// 3. ADD FOLLOWUPDATE
 
 const CreateTaskForm = ({
 	title,
@@ -24,8 +27,10 @@ const CreateTaskForm = ({
 	activeCategory,
 	handleChange,
 	handleCheckbox,
+	handlePriority,
 	createNewTask,
 	addChecklist,
+	saveNewTask,
 	isSupported,
 	...rest
 }) => {
@@ -57,7 +62,18 @@ const CreateTaskForm = ({
 				/>
 				{/* PICK A DATE FOR THE TASK - DEFAULTS TO TODAY - (IE FOLLOWUP DATE) */}
 				{/* IF "NOT" BROWSER SUPPORT FOR VOICE RECORDER FALLBACK TO TEXTAREA FOR NOTES */}
-				{isSupported && <VoiceRecorder {...rest} />}
+				{isSupported && (
+					<VoiceRecorder isSupported={isSupported}>
+						<Textarea
+							name="newTaskVoiceNote"
+							id="newTaskVoiceNote"
+							val={vals.newTaskVoiceNote}
+							placeholder={`Click 'Start Recording' to record a note \nClick 'Stop Recording' to stop.`}
+							label="Notes/Comments"
+							handleChange={handleChange}
+						/>
+					</VoiceRecorder>
+				)}
 				{!isSupported && (
 					<Textarea
 						label="Add a Note"
@@ -81,6 +97,12 @@ const CreateTaskForm = ({
 					handleChange={handleChange}
 					options={SHIFTS}
 				/>
+
+				{/* ADD FOLLOW-UP DATE */}
+				{/* ADD FOLLOW-UP DATE */}
+				{/* ADD FOLLOW-UP DATE */}
+				{/* ADD FOLLOW-UP DATE */}
+
 				{/* TOGGLE - MORE OPTIONS */}
 				<section className={styles.CreateTaskForm_form_toggleOptions}>
 					<div
@@ -107,6 +129,20 @@ const CreateTaskForm = ({
 				{/* ADD NOTES/COMMENTS */}
 				{formSections.showAdditional && (
 					<section className={styles.CreateTaskForm_form_moreOptions}>
+						<div className={styles.CreateTaskForm_form_moreOptions_priority}>
+							<h4
+								className={
+									styles.CreateTaskForm_form_moreOptions_priority_title
+								}
+							>
+								Set a Priority
+							</h4>
+							<PriorityButtonGroup
+								val={vals.newTaskPriority}
+								handleClick={handlePriority}
+							/>
+						</div>
+
 						<ButtonSM
 							handleClick={addChecklist}
 							customStyles={{ backgroundColor: themeColors.main.green }}
@@ -122,6 +158,19 @@ const CreateTaskForm = ({
 						</div>
 					</section>
 				)}
+				<TextInput
+					val={vals.newTaskSignature}
+					name="newTaskSignature"
+					id="newTaskSignature"
+					handleChange={handleChange}
+					label="Signature"
+					placeholder="Please sign your name..."
+				/>
+				<StatefulButton
+					text="Save New Task"
+					action="Saving task..."
+					callback={saveNewTask}
+				/>
 			</form>
 		</article>
 	);

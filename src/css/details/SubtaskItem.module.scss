@@ -64,7 +64,7 @@
 		border-radius: 0.5rem;
 		@include row_start_center;
 
-		&>span {
+		& > span {
 			font-size: 1.1rem;
 			color: map-get($map: $colors, $key: "main");
 

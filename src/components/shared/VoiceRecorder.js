@@ -6,12 +6,12 @@ import ButtonSM from "./ButtonSM";
 const startBtn = {
 	backgroundColor: main.green,
 	color: "#ffffff",
-	borderRadius: "5rem"
+	borderRadius: ".5rem"
 };
 const stopBtn = {
 	backgroundColor: main.red,
 	color: "#ffffff",
-	borderRadius: "5rem"
+	borderRadius: ".5rem"
 };
 
 const VoiceRecorder = ({
@@ -22,6 +22,14 @@ const VoiceRecorder = ({
 	stop,
 	children
 }) => {
+	console.group("<VoiceRecorder/>");
+	console.log("isSupported", isSupported);
+	console.log("isListening", isListening);
+	console.log("recording", recording);
+	console.log("start", start);
+	console.log("stop", stop);
+	console.groupEnd();
+
 	const withProps = React.Children.map(children, child => {
 		return React.cloneElement(child, {
 			val: recording

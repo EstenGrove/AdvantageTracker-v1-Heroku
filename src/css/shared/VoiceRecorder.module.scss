@@ -4,6 +4,7 @@
 
 .VoiceRecorder {
 	@include fill_container;
+	margin-bottom: 4rem;
 
 	&_input {
 		@include fill_container;
@@ -24,5 +25,9 @@
 
 	&_controls {
 		@include row_start_center;
+
+		& > * {
+			margin: 0 1rem;
+		}
 	}
 }

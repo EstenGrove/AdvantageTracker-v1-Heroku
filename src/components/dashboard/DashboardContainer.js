@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { PropTypes } from "prop-types";
 import { useForm } from "../../utils/useForm";
+import { useSpeechRecognition } from "../../utils/useSpeechRecognition";
 import {
 	ScheduledTaskModel,
 	ScheduledSubtaskModel
@@ -18,18 +19,31 @@ import CreateTaskForm from "../app/CreateTaskForm";
 
 const DashboardContainer = ({ state, dispatch, isExpanded, handleSidebar }) => {
 	const [showModal, setShowModal] = useState(false);
-	const [checklist, setChecklist] = useState([]);
-	const { formState, handleChange, handleCheckbox } = useForm({
+	const [checklist, setChecklist] = useState([]); // for subtasks
+	const { formState, setFormState, handleChange, handleCheckbox } = useForm({
 		// Create task values
+		newTaskCategory: "",
 		newTaskName: "",
 		newTaskADL: "",
 		newTaskNote: "",
-		newTaskShift: ""
+		newTaskVoiceNote: "",
+		newTaskShift: "",
+		newTaskPriority: "NONE",
+		newTaskFollowUpDate: "",
+		newTaskSignature: ""
 	});
+	const {
+		isListening,
+		isSupported,
+		start,
+		stop,
+		final
+	} = useSpeechRecognition({ continuous: true, interimResults: true });
 
 	const addDataToTaskModel = (vals, model) => {
 		const initModel = new ScheduledTaskModel();
 		const taskModel = initModel.getModel();
+		initModel.setProperty("AssessmentCategoryId");
 	};
 
 	const createNewTask = e => {
@@ -41,6 +55,16 @@ const DashboardContainer = ({ state, dispatch, isExpanded, handleSidebar }) => {
 	const addChecklist = e => {
 		e.preventDefault();
 		return console.log("Adding checklist...");
+	};
+
+	const handlePriority = priority => {
+		return setFormState({
+			...formState,
+			values: {
+				...formState.values,
+				newTaskPriority: priority
+			}
+		});
 	};
 
 	return (
@@ -67,7 +91,13 @@ const DashboardContainer = ({ state, dispatch, isExpanded, handleSidebar }) => {
 						vals={formState.values}
 						handleChange={handleChange}
 						handleCheckbox={handleCheckbox}
+						handlePriority={handlePriority}
 						addChecklist={addChecklist}
+						isListening={isListening}
+						isSupported={isSupported}
+						start={start}
+						stop={stop}
+						final={final}
 					/>
 				</Modal>
 			)}
