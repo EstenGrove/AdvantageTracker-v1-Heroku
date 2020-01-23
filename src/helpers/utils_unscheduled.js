@@ -1,5 +1,10 @@
 import { test } from "./utils_env";
 import { unscheduledTasks } from "./utils_endpoints";
+// helpers
+import { isEmptyObj } from "./utils_types";
+import { getCategoryID } from "./utils_categories";
+import { replaceNullWithMsg } from "./utils_processing";
+import { findPriorityID } from "./utils_priority";
 
 /**
  * @description "CREATE" request to create and save one or more new task records
@@ -8,25 +13,25 @@ import { unscheduledTasks } from "./utils_endpoints";
  * @param {array} tasks array of AssessmentUnscheduleTask models with updated values to save to database
  */
 const saveUnscheduledTasks = async (token, params, tasks) => {
-  let url = test.base + unscheduledTasks.save.task;
-  if (params) url += "?" + new URLSearchParams(params);
+	let url = test.base + unscheduledTasks.save.task;
+	if (params) url += "?" + new URLSearchParams(params);
 
-  try {
-    const request = await fetch(url, {
-      method: "POST",
-      headers: {
-        Authorization: "Basic " + btoa(test.user + ":" + test.password),
-        SecurityToken: token,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(tasks)
-    });
-    const response = await request.json();
-    return response;
-  } catch (err) {
-    console.log("An error occurred", err);
-    return err.message;
-  }
+	try {
+		const request = await fetch(url, {
+			method: "POST",
+			headers: {
+				Authorization: "Basic " + btoa(test.user + ":" + test.password),
+				SecurityToken: token,
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(tasks)
+		});
+		const response = await request.json();
+		return response;
+	} catch (err) {
+		console.log("An error occurred", err);
+		return err.message;
+	}
 };
 
 /**
@@ -36,78 +41,107 @@ const saveUnscheduledTasks = async (token, params, tasks) => {
  * @param {number} residentID - numeric resident id
  */
 const getUnscheduledTasks = async (token, residentID) => {
-  let url = test.base + unscheduledTasks.get.task;
-  url +=
-    "?" +
-    new URLSearchParams({
-      "db-meta": "Advantage",
-      source: "AssessmentUnscheduleTask"
-    });
-  url += "&residentId=" + residentID;
+	let url = test.base + unscheduledTasks.get.task;
+	url +=
+		"?" +
+		new URLSearchParams({
+			"db-meta": "Advantage",
+			source: "AssessmentUnscheduleTask"
+		});
+	url += "&residentId=" + residentID;
 
-  try {
-    const request = await fetch(url, {
-      method: "GET",
-      headers: {
-        Authorization: "Basic " + btoa(test.user + ":" + test.password),
-        SecurityToken: token,
-        "Content-Type": "application/json"
-      }
-    });
-    const response = await request.json();
-    return response.Data;
-  } catch (err) {
-    console.log("An error occurred", err);
-    return err.message;
-  }
+	try {
+		const request = await fetch(url, {
+			method: "GET",
+			headers: {
+				Authorization: "Basic " + btoa(test.user + ":" + test.password),
+				SecurityToken: token,
+				"Content-Type": "application/json"
+			}
+		});
+		const response = await request.json();
+		return response.Data;
+	} catch (err) {
+		console.log("An error occurred", err);
+		return err.message;
+	}
 };
 
 // returns the AssessmentUnscheduleTaskId
 const updateUnscheduledTask = async (token, params, tasks) => {
-  let url = test.base + unscheduledTasks.update.task;
-  url += "?" + new URLSearchParams(params);
+	let url = test.base + unscheduledTasks.update.task;
+	url += "?" + new URLSearchParams(params);
 
-  try {
-    const request = await fetch(url, {
-      method: "POST",
-      headers: {
-        Authorization: "Basic " + btoa(test.user + ":" + test.password),
-        SecurityToken: token,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(tasks)
-    });
-    const response = await request.json();
-    return response.Data;
-  } catch (err) {}
+	try {
+		const request = await fetch(url, {
+			method: "POST",
+			headers: {
+				Authorization: "Basic " + btoa(test.user + ":" + test.password),
+				SecurityToken: token,
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(tasks)
+		});
+		const response = await request.json();
+		return response.Data;
+	} catch (err) {}
 };
 
 const deleteUnscheduledTask = async (token, params, tasks) => {
-  let url = test.base + unscheduledTasks.delete.task;
-  url += "?" + new URLSearchParams(params);
+	let url = test.base + unscheduledTasks.delete.task;
+	url += "?" + new URLSearchParams(params);
 
-  try {
-    const request = await fetch(url, {
-      method: "DELETE",
-      headers: {
-        Authorization: "Basic " + btoa(test.user + ":" + test.password),
-        SecurityToken: token,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(tasks)
-    });
+	try {
+		const request = await fetch(url, {
+			method: "DELETE",
+			headers: {
+				Authorization: "Basic " + btoa(test.user + ":" + test.password),
+				SecurityToken: token,
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(tasks)
+		});
 
-    const response = await request.json();
-    return response;
-  } catch (err) {
-    console.log("An error occurred " + err.message);
-    return err;
-  }
+		const response = await request.json();
+		return response;
+	} catch (err) {
+		console.log("An error occurred " + err.message);
+		return err;
+	}
+};
+
+// populate AssessmentUnscheduleTask model for new unscheduled task
+const populateUnscheduledModel = (vals, model) => {
+	if (isEmptyObj(vals)) return alert("Please complete form.");
+	const base = new model();
+	const taskModel = base.getModel();
+	return {
+		...taskModel,
+		AssessmentUnscheduleTaskId: "",
+		AssessmentCategoryId: getCategoryID(vals.newTaskCategory),
+		AssessmentReasonId: 9, // defaults to "FORGOTTEN"
+		AssessmentResolutionId: 6, // defaults to "PENDING"
+		AssessmentPriorityId: findPriorityID(vals.newTaskPriority),
+		AssessmentTaskStatusId: 1, // defaults to "PENDING"
+		CompletedAssessmentShiftId: 0,
+		FollowUpDate: replaceNullWithMsg(vals.newTaskFollowUpDate, ""),
+		EntryDate: new Date().toUTCString(),
+		SignedBy: vals.newTaskSignature,
+		InitialBy: "",
+		Notes: replaceNullWithMsg(vals.newTaskVoiceNote, ""),
+		CompletedDate: null,
+		ResidentId: "", // get from global state or props
+		UserId: "", // get from global state or props
+		IsCompleted: false,
+		IsFinal: false,
+		IsActive: true,
+		CreatedDate: new Date().toUTCString()
+	};
 };
 
 export {
-  saveUnscheduledTasks,
-  getUnscheduledTasks,
-  updateUnscheduledTask,
-  deleteUnscheduledTask
+	saveUnscheduledTasks,
+	getUnscheduledTasks,
+	updateUnscheduledTask,
+	deleteUnscheduledTask
 };

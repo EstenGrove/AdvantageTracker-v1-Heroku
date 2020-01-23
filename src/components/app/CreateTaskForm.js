@@ -13,6 +13,8 @@ import { themeColors } from "../../helpers/utils_styles";
 import VoiceRecorder from "../shared/VoiceRecorder";
 import StatefulButton from "../shared/StatefulButton";
 import PriorityButtonGroup from "../shared/PriorityButtonGroup";
+import Placeholder from "../shared/Placeholder";
+import { isEmptyObj, isEmptyVal } from "../../helpers/utils_types";
 
 // ##TODOS:
 // 1. CONSIDER ADDING "RECURRING TASK" AS AN OPTION
@@ -21,6 +23,7 @@ import PriorityButtonGroup from "../shared/PriorityButtonGroup";
 // 3. ADD FOLLOWUPDATE
 
 const CreateTaskForm = ({
+	currentResident,
 	title,
 	vals,
 	categories,
@@ -31,17 +34,25 @@ const CreateTaskForm = ({
 	createNewTask,
 	addChecklist,
 	saveNewTask,
+	// voice recorder props
+	handleEditTranscript,
 	isSupported,
-	...rest
+	isListening,
+	start,
+	stop,
+	final
 }) => {
 	const [formSections, setFormSections] = useState({
 		showAdditional: false,
 		addChecklist: false
 	});
 
+	if (isEmptyVal(currentResident.FirstName)) {
+		return <Placeholder size="MD" color="red" msg="No Selected Resident" />;
+	}
 	return (
 		<article className={styles.CreateTaskForm}>
-			<form className={styles.CreateTaskForm_form}>
+			<form className={styles.CreateTaskForm_form} onSubmit={saveNewTask}>
 				<h2 className={styles.CreateTaskForm_form_title}>{title}</h2>
 				{/* PICK AN ADL CATEGORY - DEFAULTS TO CURRENT CATEGORY */}
 				<TextInput
@@ -63,14 +74,23 @@ const CreateTaskForm = ({
 				{/* PICK A DATE FOR THE TASK - DEFAULTS TO TODAY - (IE FOLLOWUP DATE) */}
 				{/* IF "NOT" BROWSER SUPPORT FOR VOICE RECORDER FALLBACK TO TEXTAREA FOR NOTES */}
 				{isSupported && (
-					<VoiceRecorder isSupported={isSupported}>
+					<VoiceRecorder
+						isSupported={isSupported}
+						isListening={isListening}
+						start={start}
+						stop={stop}
+						recording={final}
+					>
 						<Textarea
 							name="newTaskVoiceNote"
 							id="newTaskVoiceNote"
 							val={vals.newTaskVoiceNote}
 							placeholder={`Click 'Start Recording' to record a note \nClick 'Stop Recording' to stop.`}
 							label="Notes/Comments"
-							handleChange={handleChange}
+							addRequiredFlag={true}
+							maxChar={250}
+							enableCharCount={true}
+							handleChange={handleEditTranscript}
 						/>
 					</VoiceRecorder>
 				)}

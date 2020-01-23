@@ -18,6 +18,7 @@ import CreateTaskForm from "../app/CreateTaskForm";
 // 3. CREATE TASK MODAL *HAS* TO BE HERE OTHER WISE YOU CAN'T CREATE A TASK FROM ANY VIEW (ROUTE)
 
 const DashboardContainer = ({ state, dispatch, isExpanded, handleSidebar }) => {
+	const { currentResident } = state.globals;
 	const [showModal, setShowModal] = useState(false);
 	const [checklist, setChecklist] = useState([]); // for subtasks
 	const { formState, setFormState, handleChange, handleCheckbox } = useForm({
@@ -50,6 +51,11 @@ const DashboardContainer = ({ state, dispatch, isExpanded, handleSidebar }) => {
 		e.preventDefault();
 		const { newTaskADL, newTaskName, newTaskNote, newTaskShift } = formState;
 		return console.log("Creating new task...");
+	};
+
+	const saveNewTask = e => {
+		e.preventDefault();
+		console.log("saveNewTask was invoked...");
 	};
 
 	const addChecklist = e => {
@@ -88,11 +94,15 @@ const DashboardContainer = ({ state, dispatch, isExpanded, handleSidebar }) => {
 			{showModal && (
 				<Modal title="Create Task" closeModal={() => setShowModal(false)}>
 					<CreateTaskForm
+						currentResident={currentResident}
 						vals={formState.values}
 						handleChange={handleChange}
 						handleCheckbox={handleCheckbox}
 						handlePriority={handlePriority}
 						addChecklist={addChecklist}
+						saveNewTask={saveNewTask}
+						handleEditTranscript={handleChange}
+						// {...rest} for <VoiceRecorder/>
 						isListening={isListening}
 						isSupported={isSupported}
 						start={start}

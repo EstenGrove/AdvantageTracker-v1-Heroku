@@ -1,8 +1,12 @@
-@import '../../sass/variables';
-@import '../../sass/mixins';
+@import "../../sass/mixins";
+@import "../../sass/variables";
 
 .Placeholder {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: map-get($map: $colors, $key: 'headings');
+	width: max-content;
+	height: max-content;
+	text-align: center;
+
+	&_msg {
+		font-family: map-get($map: $fonts, $key: "mainSans");
+	}
 }
