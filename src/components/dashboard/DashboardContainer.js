@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
 import { PropTypes } from "prop-types";
 import { useForm } from "../../utils/useForm";
 import { useSpeechRecognition } from "../../utils/useSpeechRecognition";
@@ -6,6 +7,7 @@ import {
 	ScheduledTaskModel,
 	ScheduledSubtaskModel
 } from "../../helpers/utils_models";
+import { getRoute } from "../../helpers/utils_processing";
 import styles from "../../css/dashboard/DashboardContainer.module.scss";
 import Dashboard from "./Dashboard";
 import Sidebar from "./Sidebar";
@@ -17,7 +19,13 @@ import CreateTaskForm from "../app/CreateTaskForm";
 // 2. Expands/Collapses based on <Sidebar/> state
 // 3. CREATE TASK MODAL *HAS* TO BE HERE OTHER WISE YOU CAN'T CREATE A TASK FROM ANY VIEW (ROUTE)
 
-const DashboardContainer = ({ state, dispatch, isExpanded, handleSidebar }) => {
+const DashboardContainer = ({
+	state,
+	dispatch,
+	isExpanded,
+	handleSidebar,
+	history
+}) => {
 	const { currentResident } = state.globals;
 	const [showModal, setShowModal] = useState(false);
 	const [checklist, setChecklist] = useState([]); // for subtasks
@@ -41,15 +49,20 @@ const DashboardContainer = ({ state, dispatch, isExpanded, handleSidebar }) => {
 		final
 	} = useSpeechRecognition({ continuous: true, interimResults: true });
 
+	console.group("<DashboardContainer/>");
+	console.log("history", history);
+	console.groupEnd();
+
 	const addDataToTaskModel = (vals, model) => {
 		const initModel = new ScheduledTaskModel();
 		const taskModel = initModel.getModel();
-		initModel.setProperty("AssessmentCategoryId");
+		initModel.setProperty("AssessmentCategoryId", "");
 	};
 
 	const createNewTask = e => {
 		e.preventDefault();
 		const { newTaskADL, newTaskName, newTaskNote, newTaskShift } = formState;
+
 		return console.log("Creating new task...");
 	};
 
@@ -72,6 +85,8 @@ const DashboardContainer = ({ state, dispatch, isExpanded, handleSidebar }) => {
 			}
 		});
 	};
+
+	console.log(getRoute(history.location.pathname));
 
 	return (
 		<>
@@ -115,7 +130,7 @@ const DashboardContainer = ({ state, dispatch, isExpanded, handleSidebar }) => {
 	);
 };
 
-export default DashboardContainer;
+export default withRouter(DashboardContainer);
 
 DashboardContainer.defaultProps = {};
 

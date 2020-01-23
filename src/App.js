@@ -10,6 +10,15 @@ import PageNotFound from "./components/pages/PageNotFound";
 import ProtectedRoute from "./auth/ProtectedRoute";
 
 export const history = createBrowserHistory();
+history.listen((location, action) => {
+	// location is an object like window.location
+	console.group("<App/>: history listener");
+	console.log("action", action);
+	console.log("location", location);
+	console.log("location.pathname", location.pathname);
+	console.log("location.state", location.state);
+	console.groupEnd();
+});
 
 function App() {
 	return (

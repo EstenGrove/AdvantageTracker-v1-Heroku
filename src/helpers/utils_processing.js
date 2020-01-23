@@ -116,6 +116,14 @@ const getNestedMatch = (items, firstID, comparator, secondID) => {
 	return getMatch(initialMatch?.ShiftTasks, secondID, comparator);
 };
 
+// accepts the current route as a string and finds the last entry
+// ie "dashboard/daily/details/Ambulation" will return "Ambulation"
+const getRoute = route => {
+	const split = route.split("/");
+	const { length } = split;
+	return split[length - 1];
+};
+
 export {
 	getCompletedCount,
 	getPercentage,
@@ -126,7 +134,8 @@ export {
 	addEllipsis,
 	replaceNullWithMsg,
 	getRandomNumArbitrary,
-	getIsCompletedCount
+	getIsCompletedCount,
+	getRoute
 };
 
 // SORTING & FILTERING UTILS
