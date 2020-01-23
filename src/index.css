@@ -1,7 +1,6 @@
 *,
 *::after,
 *::before {
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -14,7 +13,6 @@ html {
 body {
   margin: 0;
   padding: 0;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   font-family: 'Raleway', 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
