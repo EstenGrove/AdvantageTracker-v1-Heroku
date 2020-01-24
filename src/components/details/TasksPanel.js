@@ -23,6 +23,7 @@ import {
 	findTasksByADL
 } from "../../helpers/utils_scheduled";
 import { isEmptyArray, isEmptyObj } from "../../helpers/utils_types";
+import { unscheduledTasks } from "../../helpers/utils_endpoints";
 
 const btnStyles = {
 	backgroundColor: "hsla(170, 100%, 39%, 1)",
@@ -40,6 +41,7 @@ const TasksPanel = ({
 	hasUpdated,
 	scheduledTasksUpdateCount = 0, // this will likely be changed.
 	scheduledTasks,
+	unscheduledTasks,
 	trackingTasks,
 	category, // string
 	currentUser,
@@ -83,10 +85,10 @@ const TasksPanel = ({
 		priority: "",
 		// ** task update values end here **
 		// Create task values - **REMOVE THESE VALUES**
-		newTaskName: "",
-		newTaskADL: "",
-		newTaskNote: "",
-		newTaskShift: "",
+		newTaskName: "", // ** remove - has been lifted up **
+		newTaskADL: "", // ** remove - has been lifted up **
+		newTaskNote: "", // ** remove - has been lifted up **
+		newTaskShift: "", // ** remove - has been lifted up **
 		// Subtask values
 		...createSubtaskVals(activeTask)
 	});
@@ -220,7 +222,7 @@ const TasksPanel = ({
 					<hr className="divider" />
 					{/* UNSCHEDULED TASKS GO HERE... */}
 					{/* UNSCHEDULED TASKS GO HERE... */}
-					{/* UNSCHEDULED TASKS GO HERE... */}
+					<TaskList tasks={unscheduledTasks} viewDetails={viewDetails} />
 					{/* UNSCHEDULED TASKS GO HERE... */}
 					{/* UNSCHEDULED TASKS GO HERE... */}
 				</section>

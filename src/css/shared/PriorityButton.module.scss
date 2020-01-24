@@ -30,6 +30,27 @@
 	color: #ffffff;
 	margin-bottom: 1rem;
 
+	&_high {
+		@extend .isSelected;
+		background-color: map-get($map: $colors, $key: "mainRed");
+		color: #ffffff;
+	}
+	&_medium {
+		@extend .isSelected;
+		background-color: map-get($map: $colors, $key: "mainOrange");
+		color: #ffffff;
+	}
+	&_low {
+		@extend .isSelected;
+		background-color: map-get($map: $colors, $key: "altYellow");
+		color: #ffffff;
+	}
+	&_low {
+		@extend .isSelected;
+		background-color: map-get($map: $colors, $key: "mainBlackBlue");
+		color: #ffffff;
+	}
+
 	& > span {
 		font-size: 1.4rem;
 		font-weight: 600;

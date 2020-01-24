@@ -75,6 +75,11 @@ const isScheduledTask = task => {
 	return true;
 };
 
+const isUnscheduledTask = task => {
+	if (hasProperty("AssessmentUnscheduleTaskId")) return true;
+	return false;
+};
+
 const sortByIdAsc = (a, b, prop) => {
 	return a[prop] - b[prop];
 };
@@ -82,16 +87,22 @@ const sortByIdAsc = (a, b, prop) => {
 const sortTasksAsc = (tasks, prop) => {
 	return [...tasks.sort((a, b) => sortByIdAsc(a, b, prop))];
 };
+const hasProp = (obj, prop) => {
+	if (obj.hasOwnProperty(prop)) return true;
+	return false;
+};
 
 export {
 	findTaskRecordByProp,
 	sortByIdAsc,
 	sortTasksAsc,
 	isScheduledTask,
+	isUnscheduledTask,
 	findTasksByDay,
 	findTasksByADL,
 	findTodaysTasks,
 	findTodaysTasksByADL,
 	findTasksByDayAndADL,
-	findTaskRecordByID // match ADLCareTask w/ AssessmentTrackingTask record
+	findTaskRecordByID, // match ADLCareTask w/ AssessmentTrackingTask record
+	hasProp
 };

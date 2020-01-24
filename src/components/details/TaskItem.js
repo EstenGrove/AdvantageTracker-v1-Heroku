@@ -19,8 +19,11 @@ import ShiftTag from "../shared/ShiftTag";
 import StatusBadge from "../shared/StatusBadge";
 import SubtaskCount from "./SubtaskCount";
 import ShiftList from "./ShiftList";
-import { isScheduledTask } from "../../helpers/utils_tasks";
-import { getCategoryNameFromID } from "../../helpers/utils_categories";
+import { isScheduledTask, hasProp } from "../../helpers/utils_tasks";
+import {
+	getCategoryNameFromID,
+	getCategoryID
+} from "../../helpers/utils_categories";
 
 // NEW REQUIREMENTS:
 // 1. HANDLES BOTH SCHEDULED AND UNSCHEDULED TASK ITEMS
@@ -29,21 +32,20 @@ import { getCategoryNameFromID } from "../../helpers/utils_categories";
 // checks if scheduled or unscheduled task
 // then returns the formatted ADL Category
 const getTaskCategory = task => {
-	if (isScheduledTask(task)) {
+	if (!isScheduledTask(task)) {
 		return replaceNullWithMsg(task.ADLCategory, "None");
 	}
 	return replaceNullWithMsg(
 		getCategoryNameFromID(task.AssessmentCategoryId),
-		"None"
+		"Unknown"
 	);
 };
 
 // returns the task description regardless whether it's a scheduled|unscheduled task item
 const getTaskDescription = task => {
-	return (
-		task?.Description ??
-		addEllipsis(replaceNullWithMsg(task.Notes, "No description"), 40)
-	);
+	if (hasProp(task, "AssessmentUnscheduleTaskId"))
+		return replaceNullWithMsg(task.Notes, "No Description");
+	return replaceNullWithMsg(task.Description, "No description");
 };
 
 const TaskItem = ({ viewDetails, addNote, task = {}, values = {} }) => {
@@ -61,10 +63,20 @@ const TaskItem = ({ viewDetails, addNote, task = {}, values = {} }) => {
 				<header className={styles.TaskItem_inner_category}>
 					<svg
 						className={styles.TaskItem_inner_category_icon}
-						style={adlIcons[task.ADLCategory].styles}
+						style={
+							adlIcons[
+								task?.ADLCategory ??
+									getCategoryNameFromID(task?.AssessmentCategoryId)
+							].styles
+						}
 					>
 						<use
-							xlinkHref={`${sprite}#icon-${adlIcons[task.ADLCategory].icon}`}
+							xlinkHref={`${sprite}#icon-${
+								adlIcons[
+									task?.ADLCategory ??
+										getCategoryNameFromID(task?.AssessmentCategoryId)
+								].icon
+							}`}
 						></use>
 					</svg>
 					{/* --- ADL CATEGORY HEADING --- */}
@@ -126,7 +138,7 @@ const TaskItem = ({ viewDetails, addNote, task = {}, values = {} }) => {
 								<use xlinkHref={`${sprite}#icon-event_note`}></use>
 							</svg>
 							<time className={styles.TaskItem_inner_bottom_right_due_date}>
-								{formatDate(task.TrackDate)}
+								{formatDate(task?.TrackDate ?? task.EntryDate)}
 							</time>
 							{pastDue && !isCompleted && (
 								<span className={styles.red}>

@@ -110,7 +110,7 @@ const DashboardContainer = ({
 						handlePriority={handlePriority}
 						addChecklist={addChecklist}
 						saveNewTask={saveNewTask}
-						// {...rest} for <VoiceRecorder/>
+						//
 						isListening={isListening}
 						isSupported={isSupported}
 						start={start}

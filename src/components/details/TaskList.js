@@ -29,7 +29,8 @@ const TaskList = ({
 				tasks.map((task, index) => (
 					<TaskItem
 						task={task}
-						key={`${task.AssessmentTrackingTaskId}_${index}`}
+						key={`${task?.AssessmentTrackingTaskId ??
+							task?.AssessmentUnscheduleTaskId}_${index}`}
 						values={vals}
 						handleSubtask={handleSubtask}
 						handleShiftStatus={handleShiftStatus}

@@ -195,6 +195,9 @@ const CreateTaskForm = ({
 					text="Save New Task"
 					action="Saving task..."
 					callback={saveNewTask}
+					customStyles={{
+						marginBottom: "4rem"
+					}}
 				/>
 			</form>
 		</article>

@@ -32,7 +32,12 @@ const DetailsView = props => {
 	const { category, currentUser } = props.location.state;
 	const { state, dispatch } = useContext(GlobalStateContext);
 	const { hasUpdated } = state.app;
-	const { trackingTasks, scheduledTasks, currentResident } = state.globals;
+	const {
+		trackingTasks,
+		scheduledTasks,
+		unscheduledTasks,
+		currentResident
+	} = state.globals;
 
 	return (
 		<>
@@ -46,6 +51,7 @@ const DetailsView = props => {
 				<PanelLG customStyles={{ backgroundColor: "#ffffff" }}>
 					<TasksPanel
 						scheduledTasks={scheduledTasks}
+						unscheduledTasks={unscheduledTasks}
 						trackingTasks={trackingTasks}
 						currentResident={currentResident}
 						currentUser={currentUser}

@@ -1,6 +1,15 @@
 import React, { useEffect } from "react";
 import { PropTypes } from "prop-types";
 import styles from "../../css/shared/PriorityButton.module.scss";
+import { themeColors } from "../../helpers/utils_styles";
+
+// consider different colors for different priorities
+export const priorities = {
+	none: themeColors.main.mainBlackBlue,
+	low: themeColors.main.altYellow,
+	medium: themeColors.main.orange,
+	high: themeColors.main.red
+};
 
 const PriorityButton = ({ label, name, id, isChecked, handleClick }) => {
 	useEffect(() => {}, [isChecked]);
