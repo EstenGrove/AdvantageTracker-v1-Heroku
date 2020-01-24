@@ -14,7 +14,7 @@ import VoiceRecorder from "../shared/VoiceRecorder";
 import StatefulButton from "../shared/StatefulButton";
 import PriorityButtonGroup from "../shared/PriorityButtonGroup";
 import Placeholder from "../shared/Placeholder";
-import { isEmptyObj, isEmptyVal } from "../../helpers/utils_types";
+import { isEmptyVal } from "../../helpers/utils_types";
 
 // ##TODOS:
 // 1. CONSIDER ADDING "RECURRING TASK" AS AN OPTION

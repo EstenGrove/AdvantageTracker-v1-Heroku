@@ -1,6 +1,7 @@
 import { test } from "./utils_env";
 import { unscheduledTasks } from "./utils_endpoints";
 // helpers
+import { UnscheduledTaskModel } from "./utils_models";
 import { isEmptyObj } from "./utils_types";
 import { getCategoryID } from "./utils_categories";
 import { replaceNullWithMsg } from "./utils_processing";
@@ -113,30 +114,51 @@ const deleteUnscheduledTask = async (token, params, tasks) => {
 // populate AssessmentUnscheduleTask model for new unscheduled task
 const populateUnscheduledModel = (vals, model) => {
 	if (isEmptyObj(vals)) return alert("Please complete form.");
-	const base = new model();
-	const taskModel = base.getModel();
+
 	return {
-		...taskModel,
-		AssessmentUnscheduleTaskId: "",
+		...model,
 		AssessmentCategoryId: getCategoryID(vals.newTaskCategory),
 		AssessmentReasonId: 9, // defaults to "FORGOTTEN"
 		AssessmentResolutionId: 6, // defaults to "PENDING"
 		AssessmentPriorityId: findPriorityID(vals.newTaskPriority),
 		AssessmentTaskStatusId: 1, // defaults to "PENDING"
-		CompletedAssessmentShiftId: 0,
 		FollowUpDate: replaceNullWithMsg(vals.newTaskFollowUpDate, ""),
 		EntryDate: new Date().toUTCString(),
 		SignedBy: vals.newTaskSignature,
 		InitialBy: "",
 		Notes: replaceNullWithMsg(vals.newTaskVoiceNote, ""),
-		CompletedDate: null,
-		ResidentId: "", // get from global state or props
-		UserId: "", // get from global state or props
+		Description: replaceNullWithMsg(
+			vals.newTaskName,
+			"No Description was added"
+		),
+		CompletedDate: new Date().toUTCString(),
 		IsCompleted: false,
 		IsFinal: false,
 		IsActive: true,
-		CreatedDate: new Date().toUTCString()
+		CreatedDate: new Date().toUTCString(),
+		CreatedBy: "7801CC7E-4462-4442-B214-BCDFF70B3F95"
 	};
+};
+
+// handles:
+// 1. Creates new task model instance
+// 2. sets the resident and user ids
+// 3. grabs the model
+// 4. updates task model w/ form values and pertinent data
+// 5. returns updated new task model (ie UnscheduledTaskModel)
+const mapUpdatesToModel = (formVals, residentID, userID) => {
+	// init model class instance...
+	const initModel = new UnscheduledTaskModel();
+	initModel.setProperty("ResidentId", residentID);
+	initModel.setProperty("UserId", userID);
+	// exposed task model
+	const model = initModel.getModel();
+	// update the model and return it
+	const updatedModel = populateUnscheduledModel(
+		formVals, // from CreateTaskForm
+		model // unscheduled model
+	);
+	return updatedModel;
 };
 
 export {
@@ -145,3 +167,6 @@ export {
 	updateUnscheduledTask,
 	deleteUnscheduledTask
 };
+
+// new task creation (ie unscheduled tasks)
+export { populateUnscheduledModel, mapUpdatesToModel };

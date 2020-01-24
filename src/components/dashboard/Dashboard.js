@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { Route, Switch, withRouter } from "react-router-dom";
-import { PropTypes } from "prop-types";
+import React from "react";
+import { Route, Switch } from "react-router-dom";
 import styles from "../../css/dashboard/Dashboard.module.scss";
 
 // DASHBOARD VIEWS //

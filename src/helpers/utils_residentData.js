@@ -147,6 +147,11 @@ const fetchDailyResidentData = async (token, residentID, day = new Date()) => {
 	const dailyData = await getResidentDay(token, residentID, dayOfWeekDate);
 	const profileData = await getResidentProfile(token, residentID);
 
+	console.group("fetchDailyResidentData");
+	console.log("profileData", profileData);
+	console.log("dailyData", dailyData);
+	console.groupEnd();
+
 	return { ...dailyData, ...profileData.Data };
 };
 
@@ -167,7 +172,8 @@ const mergeDailyResidentData = async (token, residentID, day = new Date()) => {
 
 	const merged = {
 		...dailyData,
-		UnscheduledTasks: unscheduledTasks
+		UnscheduledTasks: unscheduledTasks,
+		ResidentId: residentID
 	};
 	return { ...merged };
 };

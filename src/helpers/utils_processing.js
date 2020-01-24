@@ -1,4 +1,4 @@
-import { isEmptyObj, isEmptyArray } from "./utils_types";
+import { isEmptyObj, isEmptyArray, isEmptyVal } from "./utils_types";
 
 const isCompleted = task => {
 	if (task?.IsCompleted) return true;
@@ -149,6 +149,7 @@ const getNestedMatch = (items, firstID, comparator, secondID) => {
 // accepts the current route as a string and finds the last entry
 // ie "dashboard/daily/details/Ambulation" will return "Ambulation"
 const getRoute = route => {
+	if (isEmptyVal(route)) return;
 	const split = route.split("/");
 	const { length } = split;
 	return split[length - 1];
@@ -168,9 +169,10 @@ export {
 	addEllipsis,
 	replaceNullWithMsg,
 	getRandomNumArbitrary,
-	getIsCompletedCount,
-	getRoute
+	getIsCompletedCount
 };
+// handles splitting the url string to get the Details view's adl route
+export { getRoute };
 
 // SORTING & FILTERING UTILS
 export { groupBy, matchByID, getMatch, getNestedMatch };

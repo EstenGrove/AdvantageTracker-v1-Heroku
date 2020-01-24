@@ -13,6 +13,7 @@ import Dashboard from "./Dashboard";
 import Sidebar from "./Sidebar";
 import Modal from "../shared/Modal";
 import CreateTaskForm from "../app/CreateTaskForm";
+import { mapUpdatesToModel } from "../../helpers/utils_unscheduled";
 
 // REQUIREMENTS:
 // 1. Needs to be aware of <Sidebar/> open/close state
@@ -26,7 +27,7 @@ const DashboardContainer = ({
 	handleSidebar,
 	history
 }) => {
-	const { currentResident } = state.globals;
+	const { currentResident, user } = state.globals;
 	const [showModal, setShowModal] = useState(false);
 	const [checklist, setChecklist] = useState([]); // for subtasks
 	const {
@@ -49,22 +50,25 @@ const DashboardContainer = ({
 		newTaskSignature: ""
 	});
 
-	const addDataToTaskModel = (vals, model) => {
-		const initModel = new ScheduledTaskModel();
-		const taskModel = initModel.getModel();
-		initModel.setProperty("AssessmentCategoryId", "");
-	};
-
 	const createNewTask = e => {
 		e.preventDefault();
-		const { newTaskADL, newTaskName, newTaskNote, newTaskShift } = formState;
+		const updatedModel = mapUpdatesToModel(
+			formState.values,
+			currentResident.ResidentId,
+			user.userID
+		);
 
+		console.group("createNewTask");
+		console.log("updatedModel", updatedModel);
+		console.log();
+		console.groupEnd();
 		return console.log("Creating new task...");
 	};
 
 	const saveNewTask = e => {
 		e.preventDefault();
 		console.log("saveNewTask was invoked...");
+		return createNewTask(e);
 	};
 
 	const addChecklist = e => {
