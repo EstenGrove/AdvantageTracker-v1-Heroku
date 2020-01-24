@@ -1,7 +1,7 @@
 import { test } from "./utils_env";
 import { scheduledTasks, reassess } from "./utils_endpoints";
 import { format } from "date-fns";
-import { isEmptyArray, isEmptyVal, hasProperty } from "./utils_types";
+import { isEmptyArray, isEmptyVal, hasProp } from "./utils_types";
 
 /**
  * @description "READ" request to fetch active tasks
@@ -125,7 +125,7 @@ const deleteTrackingTasks = async (token, params, tasksToDelete) => {
 //  4a. IN-PROGRESS STATUS
 
 const isScheduledTask = task => {
-	if (hasProperty("AssessmentUnscheduleTaskId")) {
+	if (hasProp(task, "AssessmentUnscheduleTaskId")) {
 		return false;
 	}
 	return true;

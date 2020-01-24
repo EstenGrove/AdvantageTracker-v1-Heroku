@@ -85,9 +85,9 @@ const getZeroBasedDayOfWeek = (day = new Date()) => {
 const checkForPastDue = task => {
 	// if unscheduled task
 	if (!isScheduledTask(task)) {
-		return isPast(task.FollowUpDate)
-			? formatPastDate(task.FollowUpDate)
-			: formatDate(task.FollowUpDate);
+		return isPast(task.EntryDate)
+			? formatPastDate(task.EntryDate)
+			: formatDate(task.EntryDate);
 	}
 	return isPast(task.TrackDate)
 		? formatPastDate(task.TrackDate)

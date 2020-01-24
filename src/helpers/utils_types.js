@@ -23,9 +23,21 @@ const hasProperty = (obj, prop) => {
 	return true;
 };
 
+const hasProp = (obj, prop) => {
+	if (obj.hasOwnProperty(prop)) return true;
+	return false;
+};
+
 const handleEmpties = val => {
 	if (isEmptyArray(val) || !val) return [];
 	return [...val];
 };
 
-export { isEmptyArray, isEmptyObj, isEmptyVal, handleEmpties, hasProperty };
+export {
+	isEmptyArray,
+	isEmptyObj,
+	isEmptyVal,
+	handleEmpties,
+	hasProperty,
+	hasProp
+};

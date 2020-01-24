@@ -69,14 +69,14 @@ const findTaskRecordByID = (
 };
 
 const isScheduledTask = task => {
-	if (hasProperty("AssessmentUnscheduleTaskId")) {
+	if (hasProp(task, "AssessmentUnscheduleTaskId")) {
 		return false;
 	}
 	return true;
 };
 
 const isUnscheduledTask = task => {
-	if (hasProperty("AssessmentUnscheduleTaskId")) return true;
+	if (hasProp(task, "AssessmentUnscheduleTaskId")) return true;
 	return false;
 };
 

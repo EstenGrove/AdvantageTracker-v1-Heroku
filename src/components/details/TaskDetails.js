@@ -10,13 +10,18 @@ import styles from "../../css/details/TaskDetails.module.scss";
 import sprite from "../../assets/tasks.svg";
 
 import StatusBadge from "../shared/StatusBadge"; // updated component
-import { replaceNullWithMsg } from "../../helpers/utils_processing";
+import {
+	replaceNullWithMsg,
+	addEllipsis
+} from "../../helpers/utils_processing";
 
 // NEW REQUIREMENTS (AS 1/23/2020):
 // 1. ADD VIEWING OF EXISTING TASK NOTES
 // 2. ADD OPTION TO CREATE, EDIT AND DELETE NEW & EXISTING NOTES
 
 const TaskDetails = ({ task = {}, children }) => {
+	console.log(isScheduledTask(task));
+
 	if (isEmptyObj(task)) {
 		return <h1>No task found</h1>;
 	}
@@ -32,7 +37,7 @@ const TaskDetails = ({ task = {}, children }) => {
 					<h6
 						className={styles.TaskDetails_top_date_dateString}
 						style={
-							isPast(isScheduledTask(task) ? task.TrackDate : task.FollowUpdate)
+							isPast(isScheduledTask(task) ? task.TrackDate : task.EntryDate)
 								? { color: "hsla(352, 70%, 50%, 1)" }
 								: null
 						}
@@ -44,10 +49,23 @@ const TaskDetails = ({ task = {}, children }) => {
 			<main className={styles.TaskDetails_main}>
 				<div className={styles.TaskDetails_main_content}>
 					<h4 className={styles.TaskDetails_main_content_label}>Notes</h4>
-					<p className={styles.TaskDetails_main_content_notes}>
+					<p
+						className={styles.TaskDetails_main_content_notes}
+						title={
+							isScheduledTask(task)
+								? replaceNullWithMsg(task.TaskDescription, "No description")
+								: replaceNullWithMsg(task.Notes, "No description")
+						}
+					>
 						{isScheduledTask(task)
-							? replaceNullWithMsg(task.TaskDescription, "No description")
-							: replaceNullWithMsg(task.Notes, "No description")}
+							? addEllipsis(
+									replaceNullWithMsg(task.TaskDescription, "No description"),
+									40
+							  )
+							: addEllipsis(
+									replaceNullWithMsg(task.Notes, "No description"),
+									40
+							  )}
 					</p>
 				</div>
 				<div className={styles.TaskDetails_main_status}>

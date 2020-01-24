@@ -32,7 +32,7 @@ import {
 // checks if scheduled or unscheduled task
 // then returns the formatted ADL Category
 const getTaskCategory = task => {
-	if (!isScheduledTask(task)) {
+	if (isScheduledTask(task)) {
 		return replaceNullWithMsg(task.ADLCategory, "None");
 	}
 	return replaceNullWithMsg(
