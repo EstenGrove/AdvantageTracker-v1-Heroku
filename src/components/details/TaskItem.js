@@ -4,6 +4,7 @@ import styles from "../../css/details/TaskItem.module.scss";
 import sprite from "../../assets/tasks.svg";
 
 import { adlIcons } from "../../helpers/utils_styles";
+import { findStatusNameFromID } from "../../helpers/utils_status";
 import {
 	replaceNullWithMsg,
 	addEllipsis
@@ -19,17 +20,11 @@ import ShiftTag from "../shared/ShiftTag";
 import StatusBadge from "../shared/StatusBadge";
 import SubtaskCount from "./SubtaskCount";
 import ShiftList from "./ShiftList";
-<<<<<<< Updated upstream
 import { isScheduledTask, hasProp } from "../../helpers/utils_tasks";
 import {
 	getCategoryNameFromID,
 	getCategoryID
 } from "../../helpers/utils_categories";
-=======
-import { isScheduledTask } from "../../helpers/utils_tasks";
-import { getCategoryNameFromID } from "../../helpers/utils_categories";
-import { findStatusNameFromID } from "../../helpers/utils_status";
->>>>>>> Stashed changes
 
 // NEW REQUIREMENTS:
 // 1. HANDLES BOTH SCHEDULED AND UNSCHEDULED TASK ITEMS
@@ -150,11 +145,7 @@ const TaskItem = ({ viewDetails, addNote, task = {}, values = {} }) => {
 								<use xlinkHref={`${sprite}#icon-event_note`}></use>
 							</svg>
 							<time className={styles.TaskItem_inner_bottom_right_due_date}>
-<<<<<<< Updated upstream
-								{formatDate(task?.TrackDate ?? task.EntryDate)}
-=======
 								{formatDate(task?.TrackDate ?? task?.EntryDate)}
->>>>>>> Stashed changes
 							</time>
 							{pastDue && !isCompleted && (
 								<span className={styles.red}>

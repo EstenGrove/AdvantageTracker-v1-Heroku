@@ -27,7 +27,8 @@ const DashboardContainer = ({
 	handleSidebar,
 	history
 }) => {
-	const { currentResident, user } = state.globals;
+	const { currentResident } = state.globals;
+	const { user } = state;
 	const [showModal, setShowModal] = useState(false);
 	const [checklist, setChecklist] = useState([]); // for subtasks
 	const {
