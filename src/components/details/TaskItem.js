@@ -19,15 +19,24 @@ import ShiftTag from "../shared/ShiftTag";
 import StatusBadge from "../shared/StatusBadge";
 import SubtaskCount from "./SubtaskCount";
 import ShiftList from "./ShiftList";
+<<<<<<< Updated upstream
 import { isScheduledTask, hasProp } from "../../helpers/utils_tasks";
 import {
 	getCategoryNameFromID,
 	getCategoryID
 } from "../../helpers/utils_categories";
+=======
+import { isScheduledTask } from "../../helpers/utils_tasks";
+import { getCategoryNameFromID } from "../../helpers/utils_categories";
+import { findStatusNameFromID } from "../../helpers/utils_status";
+>>>>>>> Stashed changes
 
 // NEW REQUIREMENTS:
 // 1. HANDLES BOTH SCHEDULED AND UNSCHEDULED TASK ITEMS
 // 2. LEVERAGE NULLISH COALESCING AND OPTIONAL CHAINING TO HANDLE SWITCHING BETWEEN BOTH
+
+// ## TODOS ##
+// FINISH UPDATING COMPONENT TO HANDLE UNSCHEDULED TASKS
 
 // checks if scheduled or unscheduled task
 // then returns the formatted ADL Category
@@ -46,6 +55,10 @@ const getTaskDescription = task => {
 	if (hasProp(task, "AssessmentUnscheduleTaskId"))
 		return replaceNullWithMsg(task.Notes, "No Description");
 	return replaceNullWithMsg(task.Description, "No description");
+};
+
+const getTaskStatus = task => {
+	return task?.TaskStatus ?? findStatusNameFromID(task.AssessmentTaskStatusId);
 };
 
 const TaskItem = ({ viewDetails, addNote, task = {}, values = {} }) => {
@@ -94,22 +107,21 @@ const TaskItem = ({ viewDetails, addNote, task = {}, values = {} }) => {
 						{addEllipsis(getTaskDescription(task), 40)}
 					</p>
 				</article>
-				{/* SHIFT - MIDDLE RIGHT */}
+				{/* SHIFT - NOW HANDLES UNSCHEDULED|SCHEDULED */}
 				<article className={styles.TaskItem_inner_middle}>
 					<StatusBadge
-						status={replaceNullWithMsg(task.TaskStatus, "PENDING")}
+						status={replaceNullWithMsg(getTaskStatus(task), "PENDING")}
 						isCompleted={task.IsCompleted}
 					>
-						{replaceNullWithMsg(task.TaskStatus, "PENDING")}
+						{replaceNullWithMsg(getTaskStatus(task), "PENDING")}
 					</StatusBadge>
 					<section className={styles.TaskItem_inner_middle_shift}>
 						<i>
-							Shift <b>{replaceNullWithMsg(task.Shift, "ANY")}</b>
+							Shift <b>{replaceNullWithMsg(task?.Shift, "ANY")}</b>
 						</i>
 					</section>
 				</article>
-				{/* SHIFTS */}
-				{/* SHIFTS */}
+				{/* CORRESPONDS TO SHIFTSUBTASK RECORDS */}
 				{/* CORRESPONDS TO SHIFTSUBTASK RECORDS */}
 				<article className={styles.TaskItem_inner_bottom}>
 					<section className={styles.TaskItem_inner_bottom_left}>
@@ -138,11 +150,21 @@ const TaskItem = ({ viewDetails, addNote, task = {}, values = {} }) => {
 								<use xlinkHref={`${sprite}#icon-event_note`}></use>
 							</svg>
 							<time className={styles.TaskItem_inner_bottom_right_due_date}>
+<<<<<<< Updated upstream
 								{formatDate(task?.TrackDate ?? task.EntryDate)}
+=======
+								{formatDate(task?.TrackDate ?? task?.EntryDate)}
+>>>>>>> Stashed changes
 							</time>
 							{pastDue && !isCompleted && (
 								<span className={styles.red}>
-									<b>{formatTimeToNow(task.TrackDate, new Date())}</b> Past Due
+									<b>
+										{formatTimeToNow(
+											task?.TrackDate ?? task?.EntryDate,
+											new Date()
+										)}
+									</b>{" "}
+									Past Due
 								</span>
 							)}
 						</div>

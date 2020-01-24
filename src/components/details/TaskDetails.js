@@ -19,6 +19,9 @@ import {
 // 1. ADD VIEWING OF EXISTING TASK NOTES
 // 2. ADD OPTION TO CREATE, EDIT AND DELETE NEW & EXISTING NOTES
 
+// ## TODOS ##
+// UPDATE COMPONENT TO HANDLE UNSCHEDULED TASKS
+
 const TaskDetails = ({ task = {}, children }) => {
 	console.log(isScheduledTask(task));
 
