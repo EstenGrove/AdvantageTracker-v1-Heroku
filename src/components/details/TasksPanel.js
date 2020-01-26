@@ -36,6 +36,10 @@ const btnStyles = {
 //    - Consider just using a single value for the current subtask
 // NOTE: ONLY SHOWS TASKS FOR A SINGLE (1) CATEGORY
 
+// FOR TASK STATUS
+// HANDLE CASES OF SINGLE VALUE UPDATES SUCH AS NOTES OR OTHER METHODS
+// BE SURE TO RETURN THE EXISTING DATA AND ONLY APPEND THE UPDATED VALUE(S)
+
 const TasksPanel = ({
 	state,
 	dispatch,

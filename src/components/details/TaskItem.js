@@ -57,6 +57,11 @@ const getTaskStatus = task => {
 	return task?.TaskStatus ?? findStatusNameFromID(task.AssessmentTaskStatusId);
 };
 
+const getTaskShift = task => {
+	if (isScheduledTask(task)) return task?.Shift;
+	return "ANY";
+};
+
 const TaskItem = ({ viewDetails, addNote, task = {}, values = {} }) => {
 	const [isCompleted, setIsCompleted] = useState(task.IsCompleted);
 	const [pastDue, setPastDue] = useState(isPastDue(task.TrackDate));
@@ -64,9 +69,8 @@ const TaskItem = ({ viewDetails, addNote, task = {}, values = {} }) => {
 	return (
 		<article
 			className={isCompleted ? styles.TaskItem_isCompleted : styles.TaskItem}
-			onClick={viewDetails}
 		>
-			<ShiftTag shift={task.Shift} />
+			<ShiftTag shift={getTaskShift(task)} />
 			<section className={styles.TaskItem_inner}>
 				{/* ADL CATEGORY - TOP LEFT */}
 				<header className={styles.TaskItem_inner_category}>
@@ -161,11 +165,23 @@ const TaskItem = ({ viewDetails, addNote, task = {}, values = {} }) => {
 							)}
 						</div>
 						<div className={styles.TaskItem_inner_bottom_right_menu}>
-							<div onClick={() => addNote(task)}>
+							<div
+								onClick={() => addNote(task)}
+								className={styles.TaskItem_inner_bottom_right_menu_action}
+							>
 								<svg className={styles.TaskItem_inner_bottom_right_menu_icon}>
 									<use xlinkHref={`${sprite}#icon-plus21`}></use>
 								</svg>
 								<span>Add Note</span>
+							</div>
+							<div
+								onClick={viewDetails}
+								className={styles.TaskItem_inner_bottom_right_menu_action}
+							>
+								<svg className={styles.TaskItem_inner_bottom_right_menu_icon}>
+									<use xlinkHref={`${sprite}#icon-caret-down`}></use>
+								</svg>
+								<span>Edit Task</span>
 							</div>
 						</div>
 					</section>

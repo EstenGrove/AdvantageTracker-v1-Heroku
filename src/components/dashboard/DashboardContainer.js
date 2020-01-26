@@ -7,14 +7,13 @@ import {
 	ScheduledTaskModel,
 	ScheduledSubtaskModel
 } from "../../helpers/utils_models";
-import { getRoute } from "../../helpers/utils_processing";
+import { mapUpdatesToModel } from "../../helpers/utils_unscheduled";
 import styles from "../../css/dashboard/DashboardContainer.module.scss";
+
 import Dashboard from "./Dashboard";
 import Sidebar from "./Sidebar";
 import Modal from "../shared/Modal";
 import CreateTaskForm from "../app/CreateTaskForm";
-import { mapUpdatesToModel } from "../../helpers/utils_unscheduled";
-import { isEmptyVal } from "../../helpers/utils_types";
 
 // REQUIREMENTS:
 // 1. Needs to be aware of <Sidebar/> open/close state
@@ -60,7 +59,18 @@ const DashboardContainer = ({
 			user.userID
 		);
 		console.log("updatedModel", updatedModel);
-		return console.log("CREATING UNSCHEDULED TASK...SUCCESS!");
+		console.log("CREATING UNSCHEDULED TASK...SUCCESS!");
+		// DISPATCH NEW UNSCHEDULED TASK ACTION TO THE GLOBAL STORE
+		// SEND UPDATE TO SERVER
+
+		return dispatch({
+			type: "CREATE_TASK",
+			data: {
+				newTask: {
+					...updatedModel
+				}
+			}
+		});
 	};
 
 	const saveNewTask = e => {

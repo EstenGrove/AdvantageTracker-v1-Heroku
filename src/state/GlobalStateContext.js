@@ -148,6 +148,18 @@ const reducer = (state, action) => {
 				...newState
 			};
 		}
+		case "CREATE_TASK": {
+			const { newTask } = action.data;
+			const { unscheduledTasks, scheduledTasks } = state.globals;
+
+			return {
+				...state,
+				globals: {
+					...state.globals,
+					unscheduledTasks: [...unscheduledTasks, newTask]
+				}
+			};
+		}
 		case "RESET": {
 			return {
 				...initialGlobalState
