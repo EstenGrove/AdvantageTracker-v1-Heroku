@@ -1,8 +1,9 @@
 import { test } from "./utils_env";
 import { unscheduledTasks } from "./utils_endpoints";
+import { requestParams } from "./utils_params";
 // helpers
 import { UnscheduledTaskModel } from "./utils_models";
-import { isEmptyObj } from "./utils_types";
+import { isEmptyObj, isEmptyVal } from "./utils_types";
 import { getCategoryID } from "./utils_categories";
 import { replaceNullWithMsg } from "./utils_processing";
 import { findPriorityID } from "./utils_priority";
@@ -13,9 +14,9 @@ import { findPriorityID } from "./utils_priority";
  * @param {object} params query params; includes DB and table name
  * @param {array} tasks array of AssessmentUnscheduleTask models with updated values to save to database
  */
-const saveUnscheduledTasks = async (token, params, tasks) => {
+const saveUnscheduledTasks = async (token, tasks) => {
 	let url = test.base + unscheduledTasks.save.task;
-	if (params) url += "?" + new URLSearchParams(params);
+	url += "?" + new URLSearchParams(requestParams.unscheduledTask);
 
 	try {
 		const request = await fetch(url, {
@@ -43,12 +44,7 @@ const saveUnscheduledTasks = async (token, params, tasks) => {
  */
 const getUnscheduledTasks = async (token, residentID) => {
 	let url = test.base + unscheduledTasks.get.task;
-	url +=
-		"?" +
-		new URLSearchParams({
-			"db-meta": "Advantage",
-			source: "AssessmentUnscheduleTask"
-		});
+	url += "?" + new URLSearchParams(requestParams.unscheduledTask);
 	url += "&residentId=" + residentID;
 
 	try {
@@ -69,9 +65,9 @@ const getUnscheduledTasks = async (token, residentID) => {
 };
 
 // returns the AssessmentUnscheduleTaskId
-const updateUnscheduledTask = async (token, params, tasks) => {
+const updateUnscheduledTask = async (token, tasks) => {
 	let url = test.base + unscheduledTasks.update.task;
-	url += "?" + new URLSearchParams(params);
+	url += "?" + new URLSearchParams(requestParams.unscheduledTask);
 
 	try {
 		const request = await fetch(url, {
@@ -85,12 +81,14 @@ const updateUnscheduledTask = async (token, params, tasks) => {
 		});
 		const response = await request.json();
 		return response.Data;
-	} catch (err) {}
+	} catch (err) {
+		return err.message;
+	}
 };
 
-const deleteUnscheduledTask = async (token, params, tasks) => {
+const deleteUnscheduledTask = async (token, tasks) => {
 	let url = test.base + unscheduledTasks.delete.task;
-	url += "?" + new URLSearchParams(params);
+	url += "?" + new URLSearchParams(requestParams.unscheduledTask);
 
 	try {
 		const request = await fetch(url, {
@@ -115,6 +113,13 @@ const deleteUnscheduledTask = async (token, params, tasks) => {
 const populateUnscheduledModel = (vals, model) => {
 	if (isEmptyObj(vals)) return alert("Please complete form.");
 
+	const handleNotes = vals => {
+		if (isEmptyVal(vals.final)) {
+			return vals.newTaskNote;
+		}
+		return vals.final;
+	};
+
 	return {
 		...model,
 		AssessmentCategoryId: getCategoryID(vals.newTaskCategory),
@@ -126,7 +131,7 @@ const populateUnscheduledModel = (vals, model) => {
 		EntryDate: new Date().toUTCString(),
 		SignedBy: vals.newTaskSignature,
 		InitialBy: "",
-		Notes: replaceNullWithMsg(vals.newTaskVoiceNote, ""),
+		Notes: handleNotes(vals),
 		Description: replaceNullWithMsg(
 			vals.newTaskName,
 			"No Description was added"

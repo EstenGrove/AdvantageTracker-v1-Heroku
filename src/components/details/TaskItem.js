@@ -32,6 +32,7 @@ import {
 
 // ## TODOS ##
 // FINISH UPDATING COMPONENT TO HANDLE UNSCHEDULED TASKS
+// IMPLEMENT "ADD NOTE" MODAL FOR QUICK NOTE ADDING
 
 // checks if scheduled or unscheduled task
 // then returns the formatted ADL Category

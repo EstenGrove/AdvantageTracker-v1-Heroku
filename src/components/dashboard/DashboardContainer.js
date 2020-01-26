@@ -14,6 +14,7 @@ import Sidebar from "./Sidebar";
 import Modal from "../shared/Modal";
 import CreateTaskForm from "../app/CreateTaskForm";
 import { mapUpdatesToModel } from "../../helpers/utils_unscheduled";
+import { isEmptyVal } from "../../helpers/utils_types";
 
 // REQUIREMENTS:
 // 1. Needs to be aware of <Sidebar/> open/close state
@@ -44,7 +45,7 @@ const DashboardContainer = ({
 		newTaskName: "",
 		newTaskADL: "",
 		newTaskNote: "",
-		newTaskVoiceNote: "",
+		newTaskVoiceNote: final,
 		newTaskShift: "",
 		newTaskPriority: "NONE",
 		newTaskFollowUpDate: "",
@@ -54,16 +55,12 @@ const DashboardContainer = ({
 	const createNewTask = e => {
 		e.preventDefault();
 		const updatedModel = mapUpdatesToModel(
-			formState.values,
+			{ ...formState.values, final: final },
 			currentResident.ResidentId,
 			user.userID
 		);
-
-		console.group("createNewTask");
 		console.log("updatedModel", updatedModel);
-		console.log();
-		console.groupEnd();
-		return console.log("Creating new task...");
+		return console.log("CREATING UNSCHEDULED TASK...SUCCESS!");
 	};
 
 	const saveNewTask = e => {

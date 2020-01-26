@@ -28,14 +28,12 @@ const CreateTaskForm = ({
 	vals,
 	categories,
 	handleChange,
-	handleKeyDown,
 	handleCheckbox,
 	handlePriority,
 	createNewTask,
 	addChecklist,
 	saveNewTask,
 	// voice recorder props
-	handleEditTranscript,
 	isSupported,
 	isListening,
 	start,
@@ -79,13 +77,14 @@ const CreateTaskForm = ({
 						isListening={isListening}
 						start={start}
 						stop={stop}
-						recording={final}
+						recording={final} // actual string value
 						handleChange={handleChange}
 					>
 						<Textarea
 							name="newTaskVoiceNote"
 							id="newTaskVoiceNote"
-							val={final}
+							val={vals.newTaskVoiceNote}
+							handleChange={handleChange}
 							placeholder={`Click 'Start Recording' to record a note \nClick 'Stop Recording' to stop.`}
 							label="Notes/Comments"
 							addRequiredFlag={true}

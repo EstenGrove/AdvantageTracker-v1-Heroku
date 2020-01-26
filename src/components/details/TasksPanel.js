@@ -6,6 +6,7 @@ import styles from "../../css/details/TasksPanel.module.scss";
 import sprite2 from "../../assets/buttons.svg";
 import StatefulButton from "../shared/StatefulButton";
 import Modal from "../shared/Modal";
+import ModalSM from "../shared/ModalSM";
 import AppliedFilters from "./AppliedFilters";
 import TaskDetails from "./TaskDetails";
 import TaskList from "./TaskList";
@@ -53,6 +54,7 @@ const TasksPanel = ({
 	]);
 	const [showAppliedFilters, setShowAppliedFilters] = useState(false);
 	const [showModal, setShowModal] = useState(false);
+
 	const [activeTask, setActiveTask] = useState({});
 
 	const {
@@ -215,14 +217,22 @@ const TasksPanel = ({
 				</div>
 				{/* TASKLIST & TASKS ARE PASSED AS CHILDREN */}
 				<section className={styles.TasksPanel_inner}>
-					<TaskList tasks={tasks} viewDetails={viewDetails} />
+					<TaskList
+						tasks={tasks}
+						viewDetails={viewDetails}
+						isEditing={showModal}
+					/>
 					<h4 className={styles.TasksPanel_inner_tasksTitle}>
 						Unscheduled Tasks
 					</h4>
 					<hr className="divider" />
 					{/* UNSCHEDULED TASKS GO HERE... */}
 					{/* UNSCHEDULED TASKS GO HERE... */}
-					<TaskList tasks={unscheduledTasks} viewDetails={viewDetails} />
+					<TaskList
+						tasks={unscheduledTasks}
+						viewDetails={viewDetails}
+						isEditing={showModal}
+					/>
 					{/* UNSCHEDULED TASKS GO HERE... */}
 					{/* UNSCHEDULED TASKS GO HERE... */}
 				</section>
