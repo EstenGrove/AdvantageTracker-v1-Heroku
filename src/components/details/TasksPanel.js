@@ -223,12 +223,12 @@ const TasksPanel = ({
 						</section>
 					</section>
 				</div>
-				{/* SCHEDULED TASKLIST */}
-				{/* SCHEDULED TASKLIST */}
-				{/* SCHEDULED TASKLIST */}
-				{/* SCHEDULED TASKLIST */}
-				{/* SCHEDULED TASKLIST */}
 				<section className={styles.TasksPanel_inner}>
+					{/* SCHEDULED TASKLIST */}
+					{/* SCHEDULED TASKLIST */}
+					{/* SCHEDULED TASKLIST */}
+					{/* SCHEDULED TASKLIST */}
+					{/* SCHEDULED TASKLIST */}
 					<TaskList
 						tasks={tasks}
 						viewDetails={viewDetails}
@@ -248,8 +248,6 @@ const TasksPanel = ({
 						viewDetails={viewDetails}
 						isEditing={showModal}
 					/>
-					{/* UNSCHEDULED TASKS GO HERE... */}
-					{/* UNSCHEDULED TASKS GO HERE... */}
 				</section>
 			</main>
 			{/* EDIT/UPDATE TASK MODAL */}

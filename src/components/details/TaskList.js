@@ -79,12 +79,16 @@ const TaskList = ({
 							enableCharCount={true}
 							maxChar={250}
 							addRequiredFlag={true}
+							label="Record a task note"
+							placeholder={`Click *start* to begin recording a note. \nClick *stop* to stop the recording.`}
 						/>
 					</VoiceRecorder>
 					{!isSupported && (
 						<Textarea
 							name="taskNote"
 							id="taskNote"
+							label="Add a task note"
+							placeholder={`Enter any notes or comments \nAll previous notes will NOT be overwritten.`}
 							val={formState.values.taskNote}
 							handleChange={handleChange}
 							enableCharCount={true}
