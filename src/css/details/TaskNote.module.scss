@@ -1,0 +1,54 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+
+.TaskNote {
+	width: auto;
+	height: auto;
+	padding: 1rem;
+	border-radius: 0.5rem;
+	box-shadow: map-get($map: $shadows, $key: "mainOutline");
+
+	&_note {
+		width: 100%;
+		height: auto;
+		padding: 1rem;
+
+		&_entry {
+			font-size: 1.4rem;
+			font-weight: 400;
+			color: map-get($map: $colors, $key: "mainBlackBlue");
+		}
+	}
+
+	&_postedBy {
+		width: 100%;
+		@include row_start_center;
+
+		&_icon {
+			width: 1.4rem;
+			height: 1.4rem;
+			fill: map-get($map: $blueGreys, $key: "subheadings");
+			margin-right: 0.5rem;
+			&:hover {
+				cursor: pointer;
+				fill: map-get($map: $blueGreys, $key: "headings");
+			}
+		}
+		&_user {
+			color: map-get($map: $blueGreys, $key: "headings");
+			& > b,
+			& > b > a {
+				color: map-get($map: $colors, $key: "main");
+				text-decoration: none;
+				&:hover {
+					cursor: pointer;
+					color: map-get($map: $colors, $key: "mainBlue");
+				}
+			}
+		}
+	}
+	&_timestamp {
+		padding-left: 2rem;
+		color: map-get($map: $blueGreys, $key: "subheadings");
+	}
+}

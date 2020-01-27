@@ -1,50 +1,66 @@
 import React, { useState } from "react";
-import { PropTypes } from "prop-types";
+import { isEmptyArray } from "../../helpers/utils_types";
+import { isWithinRange, addDays, subDays } from "date-fns";
 import styles from "../../css/details/TaskNotesList.module.scss";
 import ButtonSM from "../shared/ButtonSM";
-import sprite from "../../assets/showhide.svg";
-import { themeColors } from "../../helpers/utils_styles";
+import TaskNote from "./TaskNote";
 
 const moreBtn = {
-	backgroundColor: themeColors.main.main,
 	color: "#ffffff",
 	borderRadius: "5rem",
-	cursor: "pointer"
+	maxWidth: "12rem",
+	maxHeight: "4rem"
 };
 
-const TaskNotesList = ({ task = {}, notes = [] }) => {
+const getInitialNotesList = (notes, quantity) => {
+	if (isEmptyArray(notes)) return [];
+	if (notes.length <= quantity) return notes;
+	return notes.slice(0, quantity);
+};
+
+const sortByDate = (notes, date = new Date()) => {
+	if (isEmptyArray(notes)) return [];
+	return notes.filter(note =>
+		isWithinRange(subDays(date, 3), note.EntryDate, addDays(date, 7))
+	);
+};
+
+const TaskNotesList = ({ notes = [] }) => {
 	const [showMore, setShowMore] = useState(false);
+	const [visibleList, setVisibleList] = useState(getInitialNotesList(notes, 2));
+
+	const handleShowMore = e => {
+		e.preventDefault();
+		setShowMore(!showMore);
+		setVisibleList(!showMore ? notes : getInitialNotesList(notes, 2));
+	};
+
 	return (
-		<article className={styles.TaskNotesList}>
-			<section className={styles.TaskNotesList_inner}>
-				{/*  */}
-				{/*  */}
-				{/*  */}
-			</section>
-			<ButtonSM
-				handleClick={() => setShowMore(!showMore)}
-				customStyles={moreBtn}
-			>
-				<svg className={styles.TaskNotesList_icon}>
-					<use
-						xlinkHref={`${sprite}#icon-view-${showMore ? "hide" : "show"}`}
-					></use>
-				</svg>{" "}
-				<span>Show More</span>
-			</ButtonSM>
-			<section className={styles.TaskNotesList_viewMore}></section>
-		</article>
+		<section className={styles.TaskNotesList}>
+			<div className="TaskNotesList_inner">
+				{visibleList &&
+					visibleList.length &&
+					visibleList.map((note, index) => <TaskNote note={note} />)}
+			</div>
+			<div className={styles.TaskNotesList_showMore}>
+				<ButtonSM
+					handleClick={e => {
+						handleShowMore(e);
+					}}
+					customStyles={moreBtn}
+				>
+					<svg className={styles.TaskNotesList_showMore_icon}>
+						<use
+							xlinkHref={`/showhide.svg/#icon-view-${
+								showMore ? "hide" : "show"
+							}`}
+						/>
+					</svg>{" "}
+					<span>Show {showMore ? "Less" : "More"}</span>
+				</ButtonSM>
+			</div>
+		</section>
 	);
 };
 
 export default TaskNotesList;
-
-TaskNotesList.defaultProps = {
-	task: {},
-	notes: []
-};
-
-TaskNotesList.propTypes = {
-	task: PropTypes.object.isRequired,
-	notes: PropTypes.array.isRequired
-};
