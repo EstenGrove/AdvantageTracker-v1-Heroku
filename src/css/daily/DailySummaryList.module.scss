@@ -1,11 +1,10 @@
-  @import '../../sass/variables';
-  @import '../../sass/mixins';
+@import "../../sass/variables";
+@import "../../sass/mixins";
 
-  .DailySummaryList {
-    position: relative;
-    @include fill_container;
-    height: 8rem;
-    overflow-y: auto;
-    z-index: 10;
-
-  }
+.DailySummaryList {
+	position: relative;
+	@include fill_container;
+	height: 8rem;
+	overflow-y: auto;
+	z-index: 10;
+}

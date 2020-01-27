@@ -87,6 +87,11 @@ const DailySummaryCard = ({
 		scheduledTasks
 	]);
 
+	console.group("<DailyView/>");
+	console.log("unscheduled (ALL)", unscheduledTasks);
+	console.log("unscheduledByADL");
+	console.groupEnd();
+
 	return (
 		<div className={styles.DailySummaryCard}>
 			<section className={styles.DailySummaryCard_top}>
@@ -177,7 +182,16 @@ const DailySummaryCard = ({
 				</div>
 			</section>
 			<section className={styles.DailySummaryCard_tasks}>
-				<DailySummaryList tasks={scheduledTasks} category={category} />
+				<DailySummaryList
+					key="SCHEDULED_TASKS"
+					tasks={[...scheduledTasks, ...unscheduledTasks]}
+					category={category}
+				/>
+				{/* <DailySummaryList
+					key="UNSCHEDULED_TASKS"
+					tasks={unscheduledTasks}
+					category={category}
+				/> */}
 			</section>
 		</div>
 	);

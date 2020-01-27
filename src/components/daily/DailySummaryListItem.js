@@ -10,20 +10,33 @@ import {
 	addEllipsis,
 	replaceNullWithMsg
 } from "../../helpers/utils_processing";
+import { hasProp } from "../../helpers/utils_tasks";
 import { statusReducer } from "../../helpers/utils_styles";
 import styles from "../../css/daily/DailySummaryListItem.module.scss";
 import sprite from "../../assets/icon-bar.svg";
+import { isScheduledTask } from "../../helpers/utils_scheduled";
 
 // COUNT: should be the # of notes/comments for a given task
 // CONSIDER ADDING HELPER FOR GRAB THE TASK NOTES
 
 const getSubtaskCount = task => {
 	if (isEmptyObj(task)) return 0;
-	if (isEmptyArray(task.ShiftTasks)) return 0;
+	if (isEmptyArray(task?.ShiftTasks)) return 0;
 	return task?.ShiftTasks?.length;
 };
 
+const getTaskDescription = task => {
+	if (hasProp(task, "AssessmentUnscheduleTaskId")) {
+		return replaceNullWithMsg(addEllipsis(task.Notes, 30), "No description");
+	}
+	return replaceNullWithMsg(addEllipsis(task.TaskDescription, 30), "No desc");
+};
+
 const DailySummaryListItem = ({ task }) => {
+	console.group("<DailySummaryListItem/>");
+	console.log("getTaskDescription", getTaskDescription(task));
+	console.groupEnd();
+
 	return (
 		<li
 			className={
@@ -35,9 +48,7 @@ const DailySummaryListItem = ({ task }) => {
 		>
 			<section className={styles.DailySummaryListItem_details}>
 				<div className={styles.DailySummaryListItem_details_desc}>
-					{!task.TaskDescription
-						? "No Description"
-						: addEllipsis(task.TaskDescription, 40)}
+					{getTaskDescription(task)}
 				</div>
 			</section>
 			<div className={styles.DailySummaryListItem_item}>
@@ -64,13 +75,13 @@ const DailySummaryListItem = ({ task }) => {
 
 				<svg
 					className={styles.DailySummaryListItem_item_icon}
-					title={`${isEmptyVal(task.TaskNotes) ? 0 : 1} notes`}
+					title={`${isEmptyVal(task?.TaskNotes ?? task?.Notes) ? 0 : 1} notes`}
 				>
 					<use xlinkHref={`${sprite}#icon-comments2`}></use>
 				</svg>
 				{/* WILL BE THE NUMBER OF NOTES FOR A TASK ITEM */}
 				<span className={styles.DailySummaryListItem_item_count}>
-					{isEmptyVal(task.TaskNotes) ? 0 : 1}
+					{isEmptyVal(task?.TaskNotes ?? task?.Notes) ? 0 : 1}
 				</span>
 			</div>
 		</li>

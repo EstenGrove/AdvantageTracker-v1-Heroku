@@ -3,11 +3,10 @@ import { unscheduledTasks } from "./utils_endpoints";
 import { requestParams } from "./utils_params";
 // helpers
 import { UnscheduledTaskModel } from "./utils_models";
-import { isEmptyObj, isEmptyVal } from "./utils_types";
-import { getCategoryID } from "./utils_categories";
+import { isEmptyObj, isEmptyVal, isEmptyArray } from "./utils_types";
+import { getCategoryID, getCategoryNameFromID } from "./utils_categories";
 import { replaceNullWithMsg } from "./utils_processing";
 import { findPriorityID } from "./utils_priority";
-
 /**
  * @description "CREATE" request to create and save one or more new task records
  * @param {string} token base64 encoded auth token
@@ -166,6 +165,13 @@ const mapUpdatesToModel = (formVals, residentID, userID) => {
 	return updatedModel;
 };
 
+const findUnscheduledByADL = (tasks, adl) => {
+	if (isEmptyArray(tasks)) return;
+	return tasks.filter(
+		task => getCategoryNameFromID(task.AssessmentCategoryId) === adl
+	);
+};
+
 export {
 	saveUnscheduledTasks,
 	getUnscheduledTasks,
@@ -174,4 +180,4 @@ export {
 };
 
 // new task creation (ie unscheduled tasks)
-export { populateUnscheduledModel, mapUpdatesToModel };
+export { populateUnscheduledModel, mapUpdatesToModel, findUnscheduledByADL };

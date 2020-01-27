@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 
 import { GlobalStateContext } from "../../state/GlobalStateContext";
 import { findTasksByADL } from "../../helpers/utils_scheduled";
+import { findUnscheduledByADL } from "../../helpers/utils_unscheduled";
 import { groupBy } from "../../helpers/utils_processing";
 import { adlColors } from "../../helpers/utils_styles";
 import Spinner from "../../components/shared/Spinner";
@@ -33,13 +34,6 @@ const DailyView = props => {
 		categories
 	} = globals;
 
-	useEffect(() => {
-		if (history.location.pathname.includes("/details")) {
-			return console.log("CAME FROM DETAILS");
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
 	if (isLoading) {
 		return <Spinner />;
 	}
@@ -60,6 +54,10 @@ const DailyView = props => {
 									key={`${adl.AdlId}_${adl.AdlCategoryId}`}
 									scheduledTasks={findTasksByADL(
 										scheduledTasks,
+										adl.AdlCategoryType
+									)}
+									unscheduledTasks={findUnscheduledByADL(
+										unscheduledTasks,
 										adl.AdlCategoryType
 									)}
 									currentUser={user}

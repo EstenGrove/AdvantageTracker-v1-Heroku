@@ -1,154 +1,152 @@
-  @import "../../sass/mixins";
-  @import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/variables";
 
-  .DailySummaryCard {
-      @include fill_container;
-      position: relative;
-      z-index: 5;
+.DailySummaryCard {
+	@include fill_container;
+	position: relative;
+	z-index: 5;
 
-      &_top {
-          width: 100%;
-          height: auto;
-          padding: 0.5rem;
-          @include row_start_center;
+	&_top {
+		width: 100%;
+		height: auto;
+		padding: 0.5rem;
+		@include row_start_center;
 
-          &_date {
-              width: auto;
+		&_date {
+			width: auto;
 
-              &_title,
-              &_adl {
-                  font-size: 1.2rem;
-                  font-weight: 500;
-                  color: map-get($map: $blueGreys, $key: "headings");
-              }
+			&_title,
+			&_adl {
+				font-size: 1.2rem;
+				font-weight: 500;
+				color: map-get($map: $blueGreys, $key: "headings");
+			}
 
-              &_adl {
-                  font-weight: 700;
-              }
+			&_adl {
+				font-weight: 700;
+			}
 
-              &_title {
-                  font-size: 1rem;
-              }
-          }
+			&_title {
+				font-size: 1rem;
+			}
+		}
 
-          &_icon {
-              position: relative;
-              margin-left: auto;
-              width: 1.6rem;
-              height: 1.6rem;
-              fill: map-get($map: $blueGreys, $key: "subheadings");
+		&_icon {
+			position: relative;
+			margin-left: auto;
+			width: 1.6rem;
+			height: 1.6rem;
+			fill: map-get($map: $blueGreys, $key: "subheadings");
 
-              &:hover {
-                  cursor: pointer;
-                  fill: map-get($map: $colors, $key: "main");
-              }
+			&:hover {
+				cursor: pointer;
+				fill: map-get($map: $colors, $key: "main");
+			}
+		}
+	}
 
-          }
-      }
+	&_inner {
+		width: 100%;
+		height: auto;
+		padding: 1rem;
+		@include row_evenly_start;
 
-      &_inner {
-          width: 100%;
-          height: auto;
-          padding: 1rem;
-          @include row_evenly_start;
+		&_tile {
+			width: 20%;
+			height: auto;
+			text-align: center;
 
+			&_heading {
+				color: map-get($map: $blueGreys, $key: "subheadings");
+			}
 
-          &_tile {
-              width: 20%;
-              height: auto;
-              text-align: center;
+			&_val {
+				font-size: 1.5rem;
+				color: map-get($map: $blueGreys, $key: "headings");
 
-              &_heading {
-                  color: map-get($map: $blueGreys, $key: "subheadings");
-              }
+				&_red {
+					@extend .DailySummaryCard_inner_tile_val;
+					color: map-get($map: $colors, $key: "mainRed");
+				}
 
-              &_val {
-                  font-size: 1.5rem;
-                  color: map-get($map: $blueGreys, $key: "headings");
+				&_green {
+					@extend .DailySummaryCard_inner_tile_val;
+					color: map-get($map: $colors, $key: "mainGreen");
+				}
 
-                  &_red {
-                      @extend .DailySummaryCard_inner_tile_val;
-                      color: map-get($map: $colors, $key: "mainRed");
-                  }
+				&_purple {
+					@extend .DailySummaryCard_inner_tile_val;
+					color: map-get($map: $colors, $key: "main");
+				}
 
-                  &_green {
-                      @extend .DailySummaryCard_inner_tile_val;
-                      color: map-get($map: $colors, $key: "mainGreen");
-                  }
+				&_blue {
+					@extend .DailySummaryCard_inner_tile_val;
+					color: map-get($map: $colors, $key: "mainBlue");
+				}
 
-                  &_purple {
-                      @extend .DailySummaryCard_inner_tile_val;
-                      color: map-get($map: $colors, $key: "main");
-                  }
+				&_orange {
+					@extend .DailySummaryCard_inner_tile_val;
+					color: map-get($map: $colors, $key: "mainOrange");
+				}
+			}
+		}
+	}
 
-                  &_blue {
-                      @extend .DailySummaryCard_inner_tile_val;
-                      color: map-get($map: $colors, $key: "mainBlue");
-                  }
+	&_tasks {
+		width: 100%;
+		height: auto;
+	}
 
-                  &_orange {
-                      @extend .DailySummaryCard_inner_tile_val;
-                      color: map-get($map: $colors, $key: "mainOrange");
-                  }
-              }
-          }
-      }
+	&_menu {
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 20rem;
+		height: auto;
+		padding: 0.5rem 0.5rem;
+		@include col_start_start;
+		border-radius: 0.5rem;
+		-webkit-box-shadow: map-get($map: $shadows, $key: "raised");
+		box-shadow: map-get($map: $shadows, $key: "raised");
+		background-color: #ffffff;
+		z-index: 20;
 
-      &_tasks {
-          width: 100%;
-          height: auto;
-      }
+		&_close {
+			width: 100%;
+			@include row_end_center;
 
-      &_menu {
-          position: absolute;
-          top: 0;
-          right: 0;
-          width: 20rem;
-          height: auto;
-          padding: .5rem .5rem;
-          @include col_start_start;
-          border-radius: .5rem;
-          -webkit-box-shadow: map-get($map: $shadows, $key: 'raised');
-          box-shadow: map-get($map: $shadows, $key: 'raised');
-          background-color: #ffffff;
-          z-index: 20;
+			&_icon {
+				width: 1.5rem;
+				height: 1.5rem;
+				fill: map-get($map: $colors, $key: "mainRed");
+				cursor: pointer;
+			}
+		}
 
-          &_close {
-              width: 100%;
-              @include row_end_center;
+		&_item {
+			margin-top: 1rem;
+			padding: 1rem;
+			font-size: 1.2rem;
+			color: map-get($map: $colors, $key: "main");
+			cursor: pointer;
 
-              &_icon {
-                  width: 1.5rem;
-                  height: 1.5rem;
-                  fill: map-get($map: $colors, $key: 'mainRed');
-                  cursor: pointer;
-              }
-          }
+			& > strong {
+				color: map-get($map: $colors, $key: "mainBlue");
+			}
 
-          &_item {
-              margin-top: 1rem;
-              padding: 1rem;
-              font-size: 1.2rem;
-              color: map-get($map: $colors, $key: 'main');
-              cursor: pointer;
+			&:last-child() {
+				margin-bottom: 2rem;
+			}
+		}
+	}
+}
 
-              &>strong {
-                  color: map-get($map: $colors, $key: 'mainBlue');
-              }
-
-              &:last-child() {
-                  margin-bottom: 2rem;
-              }
-          }
-      }
-  }
-
-  @media screen and (max-width: 400px) {
-      .DailySummaryCard {
-          &_inner {
-              &_tile {
-                  width: auto;
-              }
-          }
-      }
-  }
+@media screen and (max-width: 400px) {
+	.DailySummaryCard {
+		&_inner {
+			&_tile {
+				width: auto;
+			}
+		}
+	}
+}

@@ -68,6 +68,7 @@ const mergeCompletedCounts = (scheduledTasks, unscheduledTasks) => {
 //  #STRING HELPERS
 // will slice a string at a desired length an add a "..."
 const addEllipsis = (val, desiredLength) => {
+	if (isEmptyVal(val)) return "";
 	if (val.length <= desiredLength) return val;
 	return val.slice(0, desiredLength) + "...";
 };
