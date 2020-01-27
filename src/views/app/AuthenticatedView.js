@@ -116,7 +116,10 @@ const AuthenticatedView = ({ history }) => {
 							loadResident={loadResident}
 						/>
 						<DashboardNav />
-						<ResidentCard currentResident={currentResident} />
+						<ResidentCard
+							currentResident={currentResident}
+							residentDetails={state.globals.currentResident}
+						/>
 					</header>
 					<DashboardContainer
 						isExpanded={isExpanded}
