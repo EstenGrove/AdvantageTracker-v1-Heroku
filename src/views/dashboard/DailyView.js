@@ -4,7 +4,10 @@ import { PropTypes } from "prop-types";
 import { useHistory } from "react-router-dom";
 
 import { GlobalStateContext } from "../../state/GlobalStateContext";
-import { findTasksByADL } from "../../helpers/utils_scheduled";
+import {
+	findTasksByADL,
+	findAllTasksByADL
+} from "../../helpers/utils_scheduled";
 import { findUnscheduledByADL } from "../../helpers/utils_unscheduled";
 import { groupBy } from "../../helpers/utils_processing";
 import { adlColors } from "../../helpers/utils_styles";
@@ -52,11 +55,11 @@ const DailyView = props => {
 							>
 								<DailySummaryCard
 									key={`${adl.AdlId}_${adl.AdlCategoryId}`}
-									scheduledTasks={findTasksByADL(
+									scheduledTasks={findAllTasksByADL(
 										scheduledTasks,
 										adl.AdlCategoryType
 									)}
-									unscheduledTasks={findUnscheduledByADL(
+									unscheduledTasks={findAllTasksByADL(
 										unscheduledTasks,
 										adl.AdlCategoryType
 									)}

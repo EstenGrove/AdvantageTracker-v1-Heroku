@@ -21,7 +21,8 @@ import { isScheduledTask } from "../../helpers/utils_scheduled";
 
 const getSubtaskCount = task => {
 	if (isEmptyObj(task)) return 0;
-	if (isEmptyArray(task?.ShiftTasks)) return 0;
+	if (!isScheduledTask(task)) return 0;
+	if (isEmptyArray(task.ShiftTasks)) return 0;
 	return task?.ShiftTasks?.length;
 };
 
@@ -33,10 +34,6 @@ const getTaskDescription = task => {
 };
 
 const DailySummaryListItem = ({ task }) => {
-	console.group("<DailySummaryListItem/>");
-	console.log("getTaskDescription", getTaskDescription(task));
-	console.groupEnd();
-
 	return (
 		<li
 			className={

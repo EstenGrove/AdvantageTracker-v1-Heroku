@@ -87,11 +87,6 @@ const DailySummaryCard = ({
 		scheduledTasks
 	]);
 
-	console.group("<DailyView/>");
-	console.log("unscheduled (ALL)", unscheduledTasks);
-	console.log("unscheduledByADL");
-	console.groupEnd();
-
 	return (
 		<div className={styles.DailySummaryCard}>
 			<section className={styles.DailySummaryCard_top}>

@@ -21,7 +21,8 @@ import { updateCareTaskRecord } from "../../helpers/utils_careTasks";
 import { createSubtaskVals } from "../../helpers/utils_subtasks";
 import {
 	updateTrackingTasks,
-	findTasksByADL
+	findTasksByADL,
+	findAllTasksByADL
 } from "../../helpers/utils_scheduled";
 import { isEmptyArray, isEmptyObj } from "../../helpers/utils_types";
 import { unscheduledTasks } from "../../helpers/utils_endpoints";
@@ -55,6 +56,9 @@ const TasksPanel = ({
 	// tasks is receiving subtask updates, but not activeTask
 	const [tasks, setTasks] = useState([
 		...findTasksByADL(scheduledTasks, category)
+	]);
+	const [unscheduled, setUnscheduled] = useState([
+		...findAllTasksByADL(unscheduledTasks, category)
 	]);
 	const [showAppliedFilters, setShowAppliedFilters] = useState(false);
 	const [showModal, setShowModal] = useState(false);
@@ -219,7 +223,11 @@ const TasksPanel = ({
 						</section>
 					</section>
 				</div>
-				{/* TASKLIST & TASKS ARE PASSED AS CHILDREN */}
+				{/* SCHEDULED TASKLIST */}
+				{/* SCHEDULED TASKLIST */}
+				{/* SCHEDULED TASKLIST */}
+				{/* SCHEDULED TASKLIST */}
+				{/* SCHEDULED TASKLIST */}
 				<section className={styles.TasksPanel_inner}>
 					<TaskList
 						tasks={tasks}
@@ -230,10 +238,13 @@ const TasksPanel = ({
 						Unscheduled Tasks
 					</h4>
 					<hr className="divider" />
-					{/* UNSCHEDULED TASKS GO HERE... */}
-					{/* UNSCHEDULED TASKS GO HERE... */}
+					{/* UNSCHEDULED TASKLIST */}
+					{/* UNSCHEDULED TASKLIST */}
+					{/* UNSCHEDULED TASKLIST */}
+					{/* UNSCHEDULED TASKLIST */}
+					{/* UNSCHEDULED TASKLIST */}
 					<TaskList
-						tasks={unscheduledTasks}
+						tasks={unscheduled}
 						viewDetails={viewDetails}
 						isEditing={showModal}
 					/>

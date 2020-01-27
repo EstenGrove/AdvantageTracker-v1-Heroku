@@ -166,10 +166,15 @@ const mapUpdatesToModel = (formVals, residentID, userID) => {
 };
 
 const findUnscheduledByADL = (tasks, adl) => {
-	if (isEmptyArray(tasks)) return;
-	return tasks.filter(
-		task => getCategoryNameFromID(task.AssessmentCategoryId) === adl
+	console.group("findUnscheduledByADL");
+	console.log("tasks", tasks);
+	console.log("adl", adl);
+	console.log(
+		"AssessmentCategoryId (each task)",
+		tasks.filter(task => task.AssessmentCategoryId === getCategoryID(adl))
 	);
+	console.groupEnd();
+	return tasks.filter(task => task.AssessmentCategoryId === getCategoryID(adl));
 };
 
 export {

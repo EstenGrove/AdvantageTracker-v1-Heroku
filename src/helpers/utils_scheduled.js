@@ -2,6 +2,7 @@ import { test } from "./utils_env";
 import { scheduledTasks, reassess } from "./utils_endpoints";
 import { format } from "date-fns";
 import { isEmptyArray, isEmptyVal, hasProp } from "./utils_types";
+import { getCategoryNameFromID } from "./utils_categories";
 
 /**
  * @description "READ" request to fetch active tasks
@@ -156,9 +157,21 @@ const findTodaysTasks = tasks => {
 };
 
 // find by category (ie "Dressing")
+// since I'M merging the tasks when passing them to the <DailySummaryCards/>
+// i would need to account for the category property as well **iff* i stay with that method.
 const findTasksByADL = (tasks, adl) => {
 	if (isEmptyArray(tasks)) return;
 	return tasks.filter(task => task.ADLCategory === adl);
+};
+
+const findAllTasksByADL = (tasks, adl) => {
+	if (isEmptyArray(tasks)) return;
+	return tasks.filter((task, index) => {
+		if (hasProp(task, "AssessmentUnscheduleTaskId")) {
+			return getCategoryNameFromID(task.AssessmentCategoryId) === adl;
+		}
+		return task.ADLCategory === adl;
+	});
 };
 
 // find by today and adl (ie "Wednesday" & "Dressing")
@@ -181,6 +194,7 @@ export {
 	findTasksByDay,
 	findTodaysTasks,
 	findTasksByADL,
+	findAllTasksByADL,
 	findTodaysTasksByADL,
 	findTasksByDayAndADL
 };
