@@ -160,8 +160,6 @@ const EditTaskForm = ({
 							className={styles.EditTaskForm_form_additionalOptions_items}
 						>
 							{/* ---------HIDDEN BY DEFAULT--------- */}
-							{/* ADDITIONAL TASK OPTIONS (HIDDEN BY DEFAULT) */}
-							{/* ACTUAL TIME TAKEN */}
 							<Counter
 								count={count}
 								increment={increment}
@@ -174,7 +172,10 @@ const EditTaskForm = ({
 							/>
 							{/* FOLLOWUP-DATE */}
 							{/* PRIORITY BUTTONS???? */}
-							{/* NOTES TEXTBOX */}
+							<PriorityButtonGroup
+								handleClick={handlePriority}
+								val={vals.priority}
+							/>
 
 							{/* ---------HIDDEN BY DEFAULT--------- */}
 						</article>
