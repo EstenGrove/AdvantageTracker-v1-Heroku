@@ -17,9 +17,6 @@ import { isScheduledTask } from "../../helpers/utils_scheduled";
 import styles from "../../css/daily/DailySummaryListItem.module.scss";
 import sprite from "../../assets/icon-bar.svg";
 
-// COUNT: should be the # of notes/comments for a given task
-// CONSIDER ADDING HELPER FOR GRAB THE TASK NOTES
-
 const getSubtaskCount = task => {
 	if (isEmptyObj(task)) return 0;
 	if (!isScheduledTask(task)) return 0;
@@ -35,11 +32,6 @@ const getTaskDescription = task => {
 };
 
 const DailySummaryListItem = ({ task, notes = [] }) => {
-	console.group("<DailySummaryListItem/>");
-	console.log("task", task);
-	console.log("notes", notes);
-	console.log("getNotesCount");
-	console.groupEnd();
 	return (
 		<li
 			className={

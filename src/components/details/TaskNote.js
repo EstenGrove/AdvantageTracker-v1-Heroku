@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { PropTypes } from "prop-types";
 import { distanceInWordsToNow } from "date-fns";
 import styles from "../../css/details/TaskNote.module.scss";
-import sprite from "../../assets/buttons.svg";
+import sprite from "../../assets/tasks.svg";
 
 // REQUIREMENTS:
 // 1. USER WHO POSTED THE NOTE

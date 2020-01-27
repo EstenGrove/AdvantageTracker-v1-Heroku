@@ -35,6 +35,8 @@ const DetailsView = props => {
 	const {
 		trackingTasks,
 		scheduledTasks,
+		scheduledTaskNotes,
+		unscheduledTaskNotes,
 		unscheduledTasks,
 		currentResident
 	} = state.globals;
@@ -51,7 +53,9 @@ const DetailsView = props => {
 				<PanelLG customStyles={{ backgroundColor: "#ffffff" }}>
 					<TasksPanel
 						scheduledTasks={scheduledTasks}
+						scheduledTaskNotes={scheduledTaskNotes}
 						unscheduledTasks={unscheduledTasks}
+						unscheduledTaskNotes={unscheduledTaskNotes}
 						trackingTasks={trackingTasks}
 						currentResident={currentResident}
 						currentUser={currentUser}

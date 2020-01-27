@@ -6,12 +6,12 @@ import styles from "../../css/details/TasksPanel.module.scss";
 import sprite2 from "../../assets/buttons.svg";
 import StatefulButton from "../shared/StatefulButton";
 import Modal from "../shared/Modal";
-import ModalSM from "../shared/ModalSM";
 import AppliedFilters from "./AppliedFilters";
 import TaskDetails from "./TaskDetails";
 import TaskList from "./TaskList";
 import SubtaskList from "./SubtaskList";
 import EditTaskForm from "./EditTaskForm";
+import TaskNotesList from "./TaskNotesList";
 import {
 	findTaskRecordByID,
 	findTaskRecordByProp
@@ -26,6 +26,7 @@ import {
 } from "../../helpers/utils_scheduled";
 import { isEmptyArray, isEmptyObj } from "../../helpers/utils_types";
 import { unscheduledTasks } from "../../helpers/utils_endpoints";
+import ViewNotes from "./ViewNotes";
 
 const btnStyles = {
 	backgroundColor: "hsla(170, 100%, 39%, 1)",
@@ -47,7 +48,9 @@ const TasksPanel = ({
 	hasUpdated,
 	scheduledTasksUpdateCount = 0, // this will likely be changed.
 	scheduledTasks,
+	scheduledTaskNotes,
 	unscheduledTasks,
+	unscheduledTaskNotes,
 	trackingTasks,
 	category, // string
 	currentUser,
@@ -226,21 +229,17 @@ const TasksPanel = ({
 				<section className={styles.TasksPanel_inner}>
 					{/* SCHEDULED TASKLIST */}
 					{/* SCHEDULED TASKLIST */}
-					{/* SCHEDULED TASKLIST */}
-					{/* SCHEDULED TASKLIST */}
-					{/* SCHEDULED TASKLIST */}
 					<TaskList
 						tasks={tasks}
 						viewDetails={viewDetails}
 						isEditing={showModal}
 					/>
+					{/* SCHEDULED TASKLIST */}
+					{/* SCHEDULED TASKLIST */}
 					<h4 className={styles.TasksPanel_inner_tasksTitle}>
 						Unscheduled Tasks
 					</h4>
 					<hr className="divider" />
-					{/* UNSCHEDULED TASKLIST */}
-					{/* UNSCHEDULED TASKLIST */}
-					{/* UNSCHEDULED TASKLIST */}
 					{/* UNSCHEDULED TASKLIST */}
 					{/* UNSCHEDULED TASKLIST */}
 					<TaskList
@@ -248,6 +247,8 @@ const TasksPanel = ({
 						viewDetails={viewDetails}
 						isEditing={showModal}
 					/>
+					{/* UNSCHEDULED TASKLIST */}
+					{/* UNSCHEDULED TASKLIST */}
 				</section>
 			</main>
 			{/* EDIT/UPDATE TASK MODAL */}
@@ -262,6 +263,8 @@ const TasksPanel = ({
 							hasUpdated={hasUpdated}
 							state={state}
 						/>
+						<hr className="divider" />
+						<ViewNotes notes={scheduledTaskNotes} />
 						<hr className="divider" />
 						<EditTaskForm
 							title="Update task"

@@ -1,9 +1,9 @@
 import React from "react";
 import { PropTypes } from "prop-types";
 import { isEmptyArray } from "../../helpers/utils_types";
+import { isScheduledTask, getTaskID } from "../../helpers/utils_tasks";
 import styles from "../../css/daily/DailySummaryList.module.scss";
 import DailySummaryListItem from "./DailySummaryListItem";
-import { isScheduledTask } from "../../helpers/utils_tasks";
 
 const addTitle = tasks => {
 	if (isEmptyArray(tasks)) return "";
@@ -17,15 +17,11 @@ const DailySummaryList = ({ tasks = [], category = {}, notes = [] }) => {
 	}
 	return (
 		<ul className={styles.DailySummaryList} title={addTitle(tasks)}>
-			{tasks &&
-				tasks.length &&
+			{!isEmptyArray(tasks) &&
 				tasks.map((task, index) => (
 					<DailySummaryListItem
 						task={task}
-						key={
-							task?.AssessmentTrackingTaskId ??
-							task?.AssessmentUnscheduleTaskId + index
-						}
+						key={getTaskID(task) + index}
 						notes={notes}
 					/>
 				))}

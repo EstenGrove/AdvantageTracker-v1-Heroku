@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { isEmptyArray } from "../../helpers/utils_types";
 import { isWithinRange, addDays, subDays } from "date-fns";
+import sprite from "../../assets/showhide.svg";
 import styles from "../../css/details/TaskNotesList.module.scss";
 import ButtonSM from "../shared/ButtonSM";
 import TaskNote from "./TaskNote";
+import { getTaskID } from "../../helpers/utils_tasks";
 
 const moreBtn = {
 	color: "#ffffff",
@@ -40,7 +42,9 @@ const TaskNotesList = ({ notes = [] }) => {
 			<div className="TaskNotesList_inner">
 				{visibleList &&
 					visibleList.length &&
-					visibleList.map((note, index) => <TaskNote note={note} />)}
+					visibleList.map((note, index) => (
+						<TaskNote key={`${note[getTaskID(note)]}__${index}`} note={note} />
+					))}
 			</div>
 			<div className={styles.TaskNotesList_showMore}>
 				<ButtonSM
@@ -51,9 +55,7 @@ const TaskNotesList = ({ notes = [] }) => {
 				>
 					<svg className={styles.TaskNotesList_showMore_icon}>
 						<use
-							xlinkHref={`/showhide.svg/#icon-view-${
-								showMore ? "hide" : "show"
-							}`}
+							xlinkHref={`${sprite}#icon-view-${showMore ? "hide" : "show"}`}
 						/>
 					</svg>{" "}
 					<span>Show {showMore ? "Less" : "More"}</span>

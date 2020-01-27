@@ -6,7 +6,8 @@
 	height: auto;
 	padding: 1rem;
 	border-radius: 0.5rem;
-	box-shadow: map-get($map: $shadows, $key: "mainOutline");
+	margin-bottom: 1rem;
+	box-shadow: map-get($map: $shadows, $key: "subtle");
 
 	&_note {
 		width: 100%;
@@ -16,7 +17,7 @@
 		&_entry {
 			font-size: 1.4rem;
 			font-weight: 400;
-			color: map-get($map: $colors, $key: "mainBlackBlue");
+			color: map-get($map: $blueGreys, $key: "headings");
 		}
 	}
 
@@ -50,5 +51,9 @@
 	&_timestamp {
 		padding-left: 2rem;
 		color: map-get($map: $blueGreys, $key: "subheadings");
+
+		&_date {
+			font-weight: 300;
+		}
 	}
 }

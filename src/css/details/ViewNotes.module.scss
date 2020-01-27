@@ -1,0 +1,34 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+
+.ViewNotes {
+	width: 100%;
+	height: auto;
+
+	&_toggle {
+		width: max-content;
+		font-size: 1.4rem;
+		font-weight: 400;
+		color: map-get($map: $colors, $key: "main");
+		@include row_start_center;
+		margin-bottom: 2rem;
+		&:hover {
+			color: map-get($map: $colors, $key: "mainBlue");
+			cursor: pointer;
+		}
+		&:hover &_icon {
+			fill: map-get($map: $colors, $key: "mainBlue");
+			cursor: pointer;
+		}
+
+		&_icon {
+			width: 1.4rem;
+			height: 1.4rem;
+			fill: map-get($map: $colors, $key: "main");
+			margin-right: 0.3rem;
+			&:hover {
+				cursor: pointer;
+			}
+		}
+	}
+}
