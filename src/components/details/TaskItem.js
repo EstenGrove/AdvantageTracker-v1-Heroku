@@ -164,6 +164,7 @@ const TaskItem = ({ viewDetails, addNote, task = {}, values = {} }) => {
 								</span>
 							)}
 						</div>
+						{/* CLICK ACTIONS FOR ADDING A NOTE AND EDITING/STATUSING A TASK */}
 						<div className={styles.TaskItem_inner_bottom_right_menu}>
 							<div
 								onClick={() => addNote(task)}

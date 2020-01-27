@@ -51,19 +51,21 @@ const DashboardContainer = ({
 		newTaskSignature: ""
 	});
 
-	const createNewTask = e => {
+	const createNewTask = (e, newModel) => {
 		e.preventDefault();
+		setShowModal(false);
+	};
+
+	const saveNewTask = e => {
+		e.preventDefault();
+		// create and update model from value
 		const updatedModel = mapUpdatesToModel(
 			{ ...formState.values, final: final },
 			currentResident.ResidentId,
 			user.userID
 		);
-		console.log("updatedModel", updatedModel);
-		console.log("CREATING UNSCHEDULED TASK...SUCCESS!");
-		// DISPATCH NEW UNSCHEDULED TASK ACTION TO THE GLOBAL STORE
-		// SEND UPDATE TO SERVER
 
-		return dispatch({
+		dispatch({
 			type: "CREATE_TASK",
 			data: {
 				newTask: {
@@ -71,11 +73,6 @@ const DashboardContainer = ({
 				}
 			}
 		});
-	};
-
-	const saveNewTask = e => {
-		e.preventDefault();
-		console.log("saveNewTask was invoked...");
 		return createNewTask(e);
 	};
 

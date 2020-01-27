@@ -4,6 +4,10 @@ import { isEmptyArray } from "../../helpers/utils_types";
 import styles from "../../css/details/TaskList.module.scss";
 import TaskItem from "./TaskItem";
 import ModalSM from "../shared/ModalSM";
+import VoiceRecorder from "../shared/VoiceRecorder";
+import Textarea from "../shared/Textarea";
+import { useForm } from "../../utils/useForm";
+import { useSpeechRecognition } from "../../utils/useSpeechRecognition";
 
 const TaskList = ({
 	isEditing, // true is EditTask modal is open
@@ -13,11 +17,24 @@ const TaskList = ({
 	handleSubtask,
 	handleShiftStatus
 }) => {
-	const [showAddNote, setShowAddNote] = useState(false);
+	const {
+		isListening,
+		isSupported,
+		start,
+		stop,
+		final
+	} = useSpeechRecognition({ continuous: true, interimResults: true });
+	const { formState, setFormState, handleChange, handleCheckbox } = useForm({
+		voiceNote: "",
+		taskNote: ""
+	});
+
+	const [showAddNote, setShowAddNote] = useState(false); // add note modal
 	// CONSIDER LIFTING THIS UP INTO <TasksPanel/>
 	const addNote = task => {
 		setShowAddNote(true);
 		console.log("adding note...");
+		// dispatch action to update task add task note
 	};
 
 	if (isEmptyArray(tasks)) {
@@ -47,9 +64,34 @@ const TaskList = ({
 
 			{showAddNote && !isEditing && (
 				<ModalSM title="Add a Note" closeModal={() => setShowAddNote(false)}>
-					{/*  */}
-					{/*  */}
-					{/*  */}
+					<VoiceRecorder
+						isListening={isListening}
+						isSupported={isSupported}
+						start={start}
+						stop={stop}
+						recording={final}
+					>
+						<Textarea
+							name="voiceNote"
+							id="voiceNote"
+							val={formState.values.voiceNote}
+							handleChange={handleChange}
+							enableCharCount={true}
+							maxChar={250}
+							addRequiredFlag={true}
+						/>
+					</VoiceRecorder>
+					{!isSupported && (
+						<Textarea
+							name="taskNote"
+							id="taskNote"
+							val={formState.values.taskNote}
+							handleChange={handleChange}
+							enableCharCount={true}
+							maxChar={250}
+							addRequiredFlag={true}
+						/>
+					)}
 				</ModalSM>
 			)}
 		</>

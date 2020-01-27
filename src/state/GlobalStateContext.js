@@ -150,13 +150,13 @@ const reducer = (state, action) => {
 		}
 		case "CREATE_TASK": {
 			const { newTask } = action.data;
-			const { unscheduledTasks, scheduledTasks } = state.globals;
+			const { unscheduledTasks } = state.globals;
 
 			return {
 				...state,
 				globals: {
 					...state.globals,
-					unscheduledTasks: [...unscheduledTasks, newTask]
+					unscheduledTasks: [newTask, ...unscheduledTasks]
 				}
 			};
 		}
