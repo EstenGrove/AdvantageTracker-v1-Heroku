@@ -92,17 +92,25 @@ const hasProp = (obj, prop) => {
 	return false;
 };
 
+// determines if a task is "scheduled" or "unscheduled"
+// and returns the appropriate task id.
+const getTaskID = task => {
+	return isScheduledTask(task)
+		? "AssessmentTrackingTaskId"
+		: "AssessmentUnscheduleTaskId";
+};
+
 export {
 	findTaskRecordByProp,
 	sortByIdAsc,
 	sortTasksAsc,
-	isScheduledTask,
-	isUnscheduledTask,
 	findTasksByDay,
 	findTasksByADL,
 	findTodaysTasks,
 	findTodaysTasksByADL,
 	findTasksByDayAndADL,
-	findTaskRecordByID, // match ADLCareTask w/ AssessmentTrackingTask record
-	hasProp
+	findTaskRecordByID // match ADLCareTask w/ AssessmentTrackingTask record
 };
+
+// determining scheduled|unscheduled tasks and their ids
+export { isScheduledTask, isUnscheduledTask, hasProp, getTaskID };

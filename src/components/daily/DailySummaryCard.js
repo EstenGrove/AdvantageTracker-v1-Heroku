@@ -22,7 +22,9 @@ import DailySummaryList from "./DailySummaryList";
 const DailySummaryCard = ({
 	hasBeenUpdated = false,
 	unscheduledTasks = [],
+	unscheduledTaskNotes = [],
 	scheduledTasks = [],
+	scheduledTaskNotes = [],
 	currentUser,
 	category,
 	day,
@@ -180,6 +182,7 @@ const DailySummaryCard = ({
 				<DailySummaryList
 					key="SCHEDULED_TASKS"
 					tasks={[...scheduledTasks, ...unscheduledTasks]}
+					notes={[...scheduledTaskNotes, ...unscheduledTaskNotes]}
 					category={category}
 				/>
 				{/* <DailySummaryList
@@ -195,7 +198,9 @@ export default withRouter(DailySummaryCard);
 DailySummaryCard.defaultProps = {
 	hasBeenUpdated: false,
 	scheduledTasks: [],
-	unscheduledTasks: []
+	scheduledTaskNotes: [],
+	unscheduledTasks: [],
+	unscheduledTaskNotes: []
 };
 DailySummaryCard.propTypes = {
 	dispatch: PropTypes.func,
@@ -204,5 +209,7 @@ DailySummaryCard.propTypes = {
 	category: PropTypes.object.isRequired,
 	day: PropTypes.instanceOf(Date).isRequired,
 	scheduledTasks: PropTypes.array,
-	unscheduledTasks: PropTypes.array
+	scheduledTaskNotes: PropTypes.array,
+	unscheduledTasks: PropTypes.array,
+	unscheduledTaskNotes: PropTypes.array
 };

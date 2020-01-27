@@ -10,14 +10,20 @@ const populateState = (data, state) => {
 		Resident,
 		ResidentId,
 		AssessmentTrackingTask,
+		AssessmentTrackingTaskNote,
 		Charts,
 		Vitals,
 		UnscheduledTasks,
+		AssessmentUnscheduleTaskNote,
 		ADLCategory
 		// AssessmentTask,
 		// AssessmentTracking,
 	} = data;
 	const [resident] = Resident;
+
+	console.group("populateState (initialResources)");
+	console.log("data", data);
+	console.groupEnd();
 
 	const newState = {
 		...state,
@@ -29,7 +35,9 @@ const populateState = (data, state) => {
 			},
 			adlDescriptions: handleEmpties(ADL),
 			unscheduledTasks: handleEmpties(UnscheduledTasks),
+			unscheduledTaskNotes: handleEmpties(AssessmentUnscheduleTaskNote),
 			scheduledTasks: handleEmpties(ADLCareTask),
+			scheduledTaskNotes: handleEmpties(AssessmentTrackingTaskNote),
 			scheduledTasksHistory: handleEmpties(ADLCareTaskHistory),
 			scheduledTasksFuture: handleEmpties(ADLCareTaskFuture),
 			trackingTasks: handleEmpties(AssessmentTrackingTask),

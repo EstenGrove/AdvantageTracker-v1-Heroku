@@ -1,4 +1,5 @@
 import React from "react";
+import { PropTypes } from "prop-types";
 import {
 	isEmptyObj,
 	isEmptyArray,
@@ -6,15 +7,15 @@ import {
 } from "../../helpers/utils_types";
 import {
 	isCompleted,
-	isMissedEvent,
 	addEllipsis,
 	replaceNullWithMsg
 } from "../../helpers/utils_processing";
-import { hasProp } from "../../helpers/utils_tasks";
+import { getNotesCount } from "../../helpers/utils_taskNotes";
+import { hasProp, getTaskID } from "../../helpers/utils_tasks";
 import { statusReducer } from "../../helpers/utils_styles";
+import { isScheduledTask } from "../../helpers/utils_scheduled";
 import styles from "../../css/daily/DailySummaryListItem.module.scss";
 import sprite from "../../assets/icon-bar.svg";
-import { isScheduledTask } from "../../helpers/utils_scheduled";
 
 // COUNT: should be the # of notes/comments for a given task
 // CONSIDER ADDING HELPER FOR GRAB THE TASK NOTES
@@ -33,7 +34,12 @@ const getTaskDescription = task => {
 	return replaceNullWithMsg(addEllipsis(task.TaskDescription, 30), "No desc");
 };
 
-const DailySummaryListItem = ({ task }) => {
+const DailySummaryListItem = ({ task, notes = [] }) => {
+	console.group("<DailySummaryListItem/>");
+	console.log("task", task);
+	console.log("notes", notes);
+	console.log("getNotesCount");
+	console.groupEnd();
 	return (
 		<li
 			className={
@@ -70,15 +76,15 @@ const DailySummaryListItem = ({ task }) => {
 					{getSubtaskCount(task)}
 				</span>
 
-				<svg
-					className={styles.DailySummaryListItem_item_icon}
-					title={`${isEmptyVal(task?.TaskNotes ?? task?.Notes) ? 0 : 1} notes`}
-				>
+				<svg className={styles.DailySummaryListItem_item_icon}>
 					<use xlinkHref={`${sprite}#icon-comments2`}></use>
 				</svg>
 				{/* WILL BE THE NUMBER OF NOTES FOR A TASK ITEM */}
-				<span className={styles.DailySummaryListItem_item_count}>
-					{isEmptyVal(task?.TaskNotes ?? task?.Notes) ? 0 : 1}
+				<span
+					className={styles.DailySummaryListItem_item_count}
+					title={`There's ${getNotesCount(task[getTaskID(task)], notes)} notes`}
+				>
+					{getNotesCount(task[getTaskID(task)], notes)}
 				</span>
 			</div>
 		</li>
@@ -86,3 +92,11 @@ const DailySummaryListItem = ({ task }) => {
 };
 
 export default DailySummaryListItem;
+
+DailySummaryListItem.defaultProps = {
+	notes: []
+};
+
+DailySummaryListItem.propTypes = {
+	notes: PropTypes.array
+};

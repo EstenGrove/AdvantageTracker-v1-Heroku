@@ -11,7 +11,7 @@ const addTitle = tasks => {
 	return "UNSCHEDULED_TASKS";
 };
 
-const DailySummaryList = ({ tasks = [] }) => {
+const DailySummaryList = ({ tasks = [], category = {}, notes = [] }) => {
 	if (isEmptyArray(tasks)) {
 		return <span>No tasks today</span>;
 	}
@@ -26,6 +26,7 @@ const DailySummaryList = ({ tasks = [] }) => {
 							task?.AssessmentTrackingTaskId ??
 							task?.AssessmentUnscheduleTaskId + index
 						}
+						notes={notes}
 					/>
 				))}
 		</ul>
@@ -35,10 +36,13 @@ const DailySummaryList = ({ tasks = [] }) => {
 export default DailySummaryList;
 
 DailySummaryList.defaultProps = {
-	tasks: []
+	tasks: [],
+	notes: [],
+	category: {}
 };
 
 DailySummaryList.propTypes = {
 	tasks: PropTypes.array,
+	notes: PropTypes.array,
 	category: PropTypes.object
 };

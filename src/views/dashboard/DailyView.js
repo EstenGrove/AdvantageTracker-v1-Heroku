@@ -5,8 +5,8 @@ import { useHistory } from "react-router-dom";
 
 import { GlobalStateContext } from "../../state/GlobalStateContext";
 import {
-	findTasksByADL,
-	findAllTasksByADL
+	findTasksByADL, // ONLY handled scheduled tasks
+	findAllTasksByADL // handles ALL tasks (scheduled|unscheduled)
 } from "../../helpers/utils_scheduled";
 import { findUnscheduledByADL } from "../../helpers/utils_unscheduled";
 import { groupBy } from "../../helpers/utils_processing";
@@ -26,13 +26,15 @@ import DailySummaryCard from "../../components/daily/DailySummaryCard";
 const DailyView = props => {
 	const history = useHistory();
 
-	const { state, dispatch } = useContext(GlobalStateContext);
+	const { state } = useContext(GlobalStateContext);
 	const { app, user, globals } = state;
 	const { isLoading } = app;
 	const {
 		currentResident,
 		scheduledTasks,
+		scheduledTaskNotes,
 		unscheduledTasks,
+		unscheduledTaskNotes,
 		trackingTasks,
 		categories
 	} = globals;
@@ -55,10 +57,12 @@ const DailyView = props => {
 							>
 								<DailySummaryCard
 									key={`${adl.AdlId}_${adl.AdlCategoryId}`}
+									scheduledTaskNotes={scheduledTaskNotes}
 									scheduledTasks={findAllTasksByADL(
 										scheduledTasks,
 										adl.AdlCategoryType
 									)}
+									unscheduledTaskNotes={unscheduledTaskNotes}
 									unscheduledTasks={findAllTasksByADL(
 										unscheduledTasks,
 										adl.AdlCategoryType
