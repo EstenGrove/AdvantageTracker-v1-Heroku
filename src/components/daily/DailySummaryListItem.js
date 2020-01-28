@@ -28,13 +28,6 @@ const getSubtaskCount = task => {
 	return task?.ShiftTasks?.length;
 };
 
-// const getTaskDescription = task => {
-// 	if (hasProp(task, "AssessmentUnscheduleTaskId")) {
-// 		return replaceNullWithMsg(addEllipsis(task.Notes, 30), "No description");
-// 	}
-// 	return replaceNullWithMsg(addEllipsis(task.TaskDescription, 30), "No desc");
-// };
-
 const DailySummaryListItem = ({ task, notes = [] }) => {
 	return (
 		<li

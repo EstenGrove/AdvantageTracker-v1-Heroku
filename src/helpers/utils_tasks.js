@@ -105,15 +105,13 @@ const getTaskID = task => {
 
 // checks for notes in unscheduled tasks
 const checkForNotes = (task, msg) => {
-	const allEmpty = isEmptyVal(task.Notes) && isEmptyVal(task.Description);
-	const emptyNotes = isEmptyVal(task.Notes);
-	if (allEmpty) {
+	if (isEmptyVal(task.Notes) && isEmptyVal(task.Description)) {
 		return msg;
 	}
-	return replaceNullWithMsg(
-		addEllipsis(emptyNotes ? task.Description : task.Notes, 30),
-		msg
-	);
+	if (isEmptyVal(task.Notes)) {
+		return replaceNullWithMsg(addEllipsis(task.Description, 30), msg);
+	}
+	return addEllipsis(task.Notes, 30);
 };
 
 const getTaskDescription = task => {
