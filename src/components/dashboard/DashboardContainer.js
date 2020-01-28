@@ -73,6 +73,9 @@ const DashboardContainer = ({
 				}
 			}
 		});
+		dispatch({
+			type: "REFRESH_STATE"
+		});
 		return createNewTask(e);
 	};
 

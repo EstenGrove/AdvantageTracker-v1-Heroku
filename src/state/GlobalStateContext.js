@@ -145,9 +145,8 @@ const reducer = (state, action) => {
 			};
 		}
 		case "REFRESH_STATE": {
-			const { newState } = action.data;
 			return {
-				...newState
+				...state
 			};
 		}
 		case "CREATE_TASK": {
