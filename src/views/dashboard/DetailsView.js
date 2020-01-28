@@ -14,6 +14,7 @@ import {
 import styles from "../../css/dashboard/DetailsView.module.scss";
 import PanelLG from "../../components/shared/PanelLG";
 import TasksPanel from "../../components/details/TasksPanel";
+import Spinner from "../../components/shared/Spinner";
 
 // **TODOS**:
 // 1. REASSESS NOTES TEXTAREA NOT SHOWING WHEN REASSESS CHECKBOX IS SELECTED
@@ -42,19 +43,23 @@ const DetailsView = props => {
 					Tasks For Today
 				</h1>
 				<PanelLG customStyles={{ backgroundColor: "#ffffff" }}>
-					<TasksPanel
-						scheduledTasks={scheduledTasks}
-						scheduledTaskNotes={scheduledTaskNotes}
-						unscheduledTasks={unscheduledTasks}
-						unscheduledTaskNotes={unscheduledTaskNotes}
-						trackingTasks={trackingTasks}
-						currentResident={currentResident}
-						currentUser={currentUser}
-						dispatch={dispatch}
-						state={state}
-						category={category.AdlCategoryType}
-						hasUpdated={hasLoaded}
-					/>
+					{isLoading ? (
+						<Spinner />
+					) : (
+						<TasksPanel
+							scheduledTasks={scheduledTasks}
+							scheduledTaskNotes={scheduledTaskNotes}
+							unscheduledTasks={unscheduledTasks}
+							unscheduledTaskNotes={unscheduledTaskNotes}
+							trackingTasks={trackingTasks}
+							currentResident={currentResident}
+							currentUser={currentUser}
+							dispatch={dispatch}
+							state={state}
+							category={category.AdlCategoryType}
+							hasUpdated={hasLoaded}
+						/>
+					)}
 				</PanelLG>
 			</section>
 		</>

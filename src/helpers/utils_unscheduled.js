@@ -121,7 +121,7 @@ const populateUnscheduledModel = (vals, model) => {
 
 	return {
 		...model,
-		AssessmentCategoryId: getCategoryID(vals.newTaskCategory),
+		AssessmentCategoryId: getCategoryID(vals.newTaskADL),
 		AssessmentReasonId: 9, // defaults to "FORGOTTEN"
 		AssessmentResolutionId: 6, // defaults to "PENDING"
 		AssessmentPriorityId: findPriorityID(vals.newTaskPriority),

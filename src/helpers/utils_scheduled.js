@@ -2,7 +2,7 @@ import { test } from "./utils_env";
 import { scheduledTasks, reassess } from "./utils_endpoints";
 import { format } from "date-fns";
 import { isEmptyArray, isEmptyVal, hasProp } from "./utils_types";
-import { getCategoryNameFromID } from "./utils_categories";
+import { getCategoryID } from "./utils_categories";
 
 /**
  * @description "READ" request to fetch active tasks
@@ -164,13 +164,32 @@ const findTasksByADL = (tasks, adl) => {
 	return tasks.filter(task => task.ADLCategory === adl);
 };
 
+/**
+ *
+ * @param {array} tasks - An array of either ADLCareTasks or AssessmentUnscheduleTasks
+ * @param {string} adl - An AssessmentCategory as a
+ */
+// const findAllTasksByADL = (tasks, adl) => {
+// 	if (isEmptyArray(tasks)) return;
+// 	console.group("findAllTasksByADL");
+// 	console.log("findAllTasksByADL", tasks);
+// 	console.groupEnd();
+// 	return tasks.filter((task, index) => {
+// 		if (hasProp(task, "AssessmentUnscheduleTaskId")) {
+// 			return getCategoryNameFromID(task.AssessmentCategoryId) === adl;
+// 		}
+// 		return task.ADLCategory === adl;
+// 	});
+// };
+// replacement helper???
 const findAllTasksByADL = (tasks, adl) => {
-	if (isEmptyArray(tasks)) return;
-	return tasks.filter((task, index) => {
-		if (hasProp(task, "AssessmentUnscheduleTaskId")) {
-			return getCategoryNameFromID(task.AssessmentCategoryId) === adl;
+	if (isEmptyArray(tasks)) return [];
+	const adlID = getCategoryID(adl);
+	return tasks.filter(task => {
+		if (task.AssessmentCategoryId === adlID) {
+			return task;
 		}
-		return task.ADLCategory === adl;
+		return null;
 	});
 };
 

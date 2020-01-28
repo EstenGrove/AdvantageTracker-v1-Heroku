@@ -11,7 +11,11 @@ import {
 	replaceNullWithMsg
 } from "../../helpers/utils_processing";
 import { getNotesCount } from "../../helpers/utils_taskNotes";
-import { hasProp, getTaskID } from "../../helpers/utils_tasks";
+import {
+	hasProp,
+	getTaskID,
+	getTaskDescription
+} from "../../helpers/utils_tasks";
 import { statusReducer } from "../../helpers/utils_styles";
 import { isScheduledTask } from "../../helpers/utils_scheduled";
 import styles from "../../css/daily/DailySummaryListItem.module.scss";
@@ -24,12 +28,12 @@ const getSubtaskCount = task => {
 	return task?.ShiftTasks?.length;
 };
 
-const getTaskDescription = task => {
-	if (hasProp(task, "AssessmentUnscheduleTaskId")) {
-		return replaceNullWithMsg(addEllipsis(task.Notes, 30), "No description");
-	}
-	return replaceNullWithMsg(addEllipsis(task.TaskDescription, 30), "No desc");
-};
+// const getTaskDescription = task => {
+// 	if (hasProp(task, "AssessmentUnscheduleTaskId")) {
+// 		return replaceNullWithMsg(addEllipsis(task.Notes, 30), "No description");
+// 	}
+// 	return replaceNullWithMsg(addEllipsis(task.TaskDescription, 30), "No desc");
+// };
 
 const DailySummaryListItem = ({ task, notes = [] }) => {
 	return (
@@ -43,7 +47,7 @@ const DailySummaryListItem = ({ task, notes = [] }) => {
 		>
 			<section className={styles.DailySummaryListItem_details}>
 				<div className={styles.DailySummaryListItem_details_desc}>
-					{getTaskDescription(task)}
+					{getTaskDescription(task, "No Description")}
 				</div>
 			</section>
 			<div className={styles.DailySummaryListItem_item}>

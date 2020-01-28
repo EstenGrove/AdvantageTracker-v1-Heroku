@@ -4,6 +4,7 @@ import {
 	isEmptyVal,
 	isEmptyObj
 } from "./utils_types";
+import { replaceNullWithMsg, addEllipsis } from "./utils_processing";
 import { format } from "date-fns";
 
 const findTaskRecordByProp = (task, taskRecords, prop) => {
@@ -76,7 +77,9 @@ const isScheduledTask = task => {
 };
 
 const isUnscheduledTask = task => {
-	if (hasProp(task, "AssessmentUnscheduleTaskId")) return true;
+	if (hasProp(task, "AssessmentUnscheduleTaskId")) {
+		return true;
+	}
 	return false;
 };
 
@@ -100,6 +103,29 @@ const getTaskID = task => {
 		: "AssessmentUnscheduleTaskId";
 };
 
+// checks for notes in unscheduled tasks
+const checkForNotes = (task, msg) => {
+	const allEmpty = isEmptyVal(task.Notes) && isEmptyVal(task.Description);
+	const emptyNotes = isEmptyVal(task.Notes);
+	if (allEmpty) {
+		return msg;
+	}
+	return replaceNullWithMsg(
+		addEllipsis(emptyNotes ? task.Description : task.Notes, 30),
+		msg
+	);
+};
+
+const getTaskDescription = task => {
+	if (!isScheduledTask(task)) {
+		return checkForNotes(task, "No description");
+	}
+	return replaceNullWithMsg(
+		addEllipsis(task.TaskDescription, 30),
+		"No description"
+	);
+};
+
 export {
 	findTaskRecordByProp,
 	sortByIdAsc,
@@ -111,6 +137,9 @@ export {
 	findTasksByDayAndADL,
 	findTaskRecordByID // match ADLCareTask w/ AssessmentTrackingTask record
 };
+
+// tasks/unscheduled notes and description processing
+export { getTaskDescription, checkForNotes };
 
 // determining scheduled|unscheduled tasks and their ids
 export { isScheduledTask, isUnscheduledTask, hasProp, getTaskID };

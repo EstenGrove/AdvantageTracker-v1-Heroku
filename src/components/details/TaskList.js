@@ -37,6 +37,10 @@ const TaskList = ({
 		// dispatch action to update task add task note
 	};
 
+	console.group("<TaskList/>");
+	console.log("tasks", tasks);
+	console.groupEnd();
+
 	if (isEmptyArray(tasks)) {
 		return (
 			<article className={styles.EMPTY}>

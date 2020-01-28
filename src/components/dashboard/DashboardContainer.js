@@ -46,7 +46,7 @@ const DashboardContainer = ({
 	} = useSpeechRecognition({ continuous: true, interimResults: true });
 	const { formState, setFormState, handleChange, handleCheckbox } = useForm({
 		// Create task values
-		newTaskCategory: "",
+		newTaskActiveCategory: "",
 		newTaskName: "",
 		newTaskADL: "",
 		newTaskNote: "",
@@ -120,10 +120,6 @@ const DashboardContainer = ({
 			});
 		}
 	}, [state.app.hasLoaded, scheduledTasks, unscheduledTasks]);
-
-	console.group("<DashboardContainer/>");
-	console.log("newTasks", newTasks);
-	console.groupEnd();
 
 	return (
 		<>

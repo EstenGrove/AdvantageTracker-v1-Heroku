@@ -24,8 +24,6 @@ import {
 	findTasksByADL,
 	findAllTasksByADL
 } from "../../helpers/utils_scheduled";
-import { isEmptyArray, isEmptyObj } from "../../helpers/utils_types";
-import { unscheduledTasks } from "../../helpers/utils_endpoints";
 import ViewNotes from "./ViewNotes";
 import Spinner from "../shared/Spinner";
 
@@ -181,9 +179,25 @@ const TasksPanel = ({
 		return `${count} task update is pending`;
 	};
 
-	if (state.app.isLoading) {
-		return <Spinner />;
-	}
+	useEffect(() => {
+		if (hasUpdated) {
+			const refreshLocalTasks = () => {
+				setTasks([...findTasksByADL(scheduledTasks, category)]);
+				return setUnscheduled([
+					...findAllTasksByADL(unscheduledTasks, category)
+				]);
+			};
+			return refreshLocalTasks();
+		}
+	}, [category, hasUpdated, scheduledTasks, unscheduledTasks]);
+
+	console.group("<TasksPanel/>");
+	console.log("category", category);
+	console.log("tasks(localState)", tasks);
+	console.log("unscheduled(localState)", unscheduled);
+	console.log("unscheduledTasks(fromProps)", unscheduledTasks);
+	console.groupEnd();
+
 	return (
 		<>
 			<main className={styles.TasksPanel}>
@@ -234,6 +248,7 @@ const TasksPanel = ({
 					{/* SCHEDULED TASKLIST */}
 					{/* SCHEDULED TASKLIST */}
 					<TaskList
+						key="SCHEDULED_TASKS"
 						tasks={tasks}
 						viewDetails={viewDetails}
 						isEditing={showModal}
@@ -247,7 +262,8 @@ const TasksPanel = ({
 					{/* UNSCHEDULED TASKLIST */}
 					{/* UNSCHEDULED TASKLIST */}
 					<TaskList
-						tasks={unscheduled}
+						key="UNSCHEDULED_TASKS"
+						tasks={findAllTasksByADL(unscheduledTasks, category)}
 						viewDetails={viewDetails}
 						isEditing={showModal}
 					/>
