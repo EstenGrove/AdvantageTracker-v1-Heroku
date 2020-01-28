@@ -1,12 +1,33 @@
 @import "../../sass/variables";
 @import "../../sass/mixins";
 
+.scrollGradient {
+	background: linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)),
+		linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%,
+		radial-gradient(
+			farthest-side at 50% 0,
+			rgba(34, 34, 34, 0.5),
+			rgba(0, 0, 0, 0)
+		),
+		radial-gradient(
+				farthest-side at 50% 100%,
+				rgba(34, 34, 34, 0.5),
+				rgba(0, 0, 0, 0)
+			)
+			0 100%;
+	background-color: #ffffff;
+	background-repeat: no-repeat;
+	background-attachment: local, local, scroll, scroll;
+	background-size: 100% 30px, 100% 30px, 100% 15px, 100% 15px;
+	border-radius: 0 0 0.5rem 0.5rem;
+}
+
 .TasksPanel {
 	min-width: 100%;
+	position: relative;
 	height: 100rem;
 	background-color: #ffffff;
 	border-radius: 0.5rem;
-	-webkit-box-shadow: map-get($map: $shadows, $key: "subtle");
 	box-shadow: map-get($map: $shadows, $key: "subtle");
 	z-index: 5;
 
@@ -56,7 +77,6 @@
 			height: auto;
 			padding: 2rem 2rem;
 			@include row_between_center;
-			-webkit-box-shadow: map-get($map: $shadows, $key: "bottom");
 			box-shadow: map-get($map: $shadows, $key: "bottom");
 
 			&_completedCount {
@@ -68,7 +88,6 @@
 				width: 50%;
 				@include base_flex;
 				-webkit-box-pack: end;
-				-ms-flex-pack: end;
 				justify-content: flex-end;
 			}
 		}
@@ -81,7 +100,8 @@
 		padding: 2rem;
 		margin-bottom: 2rem;
 		overflow-y: auto;
-		z-index: 1;
+		@extend .scrollGradient;
+		z-index: 5;
 
 		// unscheduled tasks section
 		&_tasksTitle {

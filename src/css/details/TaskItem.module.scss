@@ -12,6 +12,7 @@
 	margin-bottom: 2rem;
 	background-color: #ffffff;
 	font-family: map-get($map: $fonts, $key: "mainSans");
+	z-index: 1;
 	-webkit-transition: all 0.2s ease-in-out;
 	transition: all 0.2s ease-in-out;
 

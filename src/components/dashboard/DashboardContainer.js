@@ -65,7 +65,7 @@ const DashboardContainer = ({
 			unscheduled: [newModel, ...newTasks.unscheduled]
 		});
 		console.log("createNewTask (newModel)", newModel);
-		dispatch({ type: "LOADING" });
+		dispatch({ type: "LOADING" }); // init faux loading state
 		new Promise((res, rej) => {
 			return setTimeout(() => {
 				res();

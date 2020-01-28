@@ -191,13 +191,6 @@ const TasksPanel = ({
 		}
 	}, [category, hasUpdated, scheduledTasks, unscheduledTasks]);
 
-	console.group("<TasksPanel/>");
-	console.log("category", category);
-	console.log("tasks(localState)", tasks);
-	console.log("unscheduled(localState)", unscheduled);
-	console.log("unscheduledTasks(fromProps)", unscheduledTasks);
-	console.groupEnd();
-
 	return (
 		<>
 			<main className={styles.TasksPanel}>
