@@ -30,7 +30,6 @@ const CreateTaskForm = ({
 	handleChange,
 	handleCheckbox,
 	handlePriority,
-	createNewTask,
 	addChecklist,
 	saveNewTask,
 	// voice recorder props

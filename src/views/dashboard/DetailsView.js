@@ -4,25 +4,16 @@ import { PropTypes } from "prop-types";
 
 import { GlobalStateContext } from "../../state/GlobalStateContext";
 import { adlColors } from "../../helpers/utils_styles";
-import { useForm } from "../../utils/useForm";
-import { useCounter } from "../../utils/useCounter";
-import { useSpeechRecognition } from "../../utils/useSpeechRecognition";
-import { updateTrackingTasks } from "../../helpers/utils_scheduled";
 import {
 	ScheduledTask,
 	ScheduledTaskShift,
 	ScheduledShiftSubTask,
 	ScheduledTaskNote
 } from "../../helpers/utils_models";
-import { findRecordAndUpdate } from "../../helpers/utils_updates";
-import { createSubtaskVals } from "../../helpers/utils_subtasks";
 
 import styles from "../../css/dashboard/DetailsView.module.scss";
 import PanelLG from "../../components/shared/PanelLG";
-import Modal from "../../components/shared/Modal";
 import TasksPanel from "../../components/details/TasksPanel";
-import CreateTaskForm from "../../components/app/CreateTaskForm";
-import { findTasksByADL } from "../../helpers/utils_tasks";
 
 // **TODOS**:
 // 1. REASSESS NOTES TEXTAREA NOT SHOWING WHEN REASSESS CHECKBOX IS SELECTED
@@ -31,7 +22,7 @@ import { findTasksByADL } from "../../helpers/utils_tasks";
 const DetailsView = props => {
 	const { category, currentUser } = props.location.state;
 	const { state, dispatch } = useContext(GlobalStateContext);
-	const { hasUpdated } = state.app;
+	const { hasLoaded, isLoading } = state.app;
 	const {
 		trackingTasks,
 		scheduledTasks,
@@ -62,7 +53,7 @@ const DetailsView = props => {
 						dispatch={dispatch}
 						state={state}
 						category={category.AdlCategoryType}
-						hasUpdated={hasUpdated}
+						hasUpdated={hasLoaded}
 					/>
 				</PanelLG>
 			</section>

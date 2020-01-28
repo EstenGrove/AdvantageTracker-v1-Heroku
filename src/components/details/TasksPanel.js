@@ -27,6 +27,7 @@ import {
 import { isEmptyArray, isEmptyObj } from "../../helpers/utils_types";
 import { unscheduledTasks } from "../../helpers/utils_endpoints";
 import ViewNotes from "./ViewNotes";
+import Spinner from "../shared/Spinner";
 
 const btnStyles = {
 	backgroundColor: "hsla(170, 100%, 39%, 1)",
@@ -180,6 +181,9 @@ const TasksPanel = ({
 		return `${count} task update is pending`;
 	};
 
+	if (state.app.isLoading) {
+		return <Spinner />;
+	}
 	return (
 		<>
 			<main className={styles.TasksPanel}>

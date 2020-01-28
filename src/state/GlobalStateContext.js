@@ -146,7 +146,13 @@ const reducer = (state, action) => {
 		}
 		case "REFRESH_STATE": {
 			return {
-				...state
+				...state,
+				app: {
+					hasLoaded: true,
+					isLoading: false,
+					isError: false,
+					hasCache: false
+				}
 			};
 		}
 		case "CREATE_TASK": {

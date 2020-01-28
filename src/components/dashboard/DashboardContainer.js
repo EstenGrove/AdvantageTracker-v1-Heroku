@@ -27,8 +27,14 @@ const DashboardContainer = ({
 	handleSidebar,
 	history
 }) => {
-	const { currentResident } = state.globals;
+	const { currentResident, scheduledTasks, unscheduledTasks } = state.globals;
 	const { user } = state;
+	// state clones for local use
+	const [newTasks, setNewTasks] = useState({
+		scheduled: scheduledTasks,
+		unscheduled: unscheduledTasks
+	});
+
 	const [showModal, setShowModal] = useState(false);
 	const [checklist, setChecklist] = useState([]); // for subtasks
 	const {
@@ -54,6 +60,20 @@ const DashboardContainer = ({
 	const createNewTask = (e, newModel) => {
 		e.preventDefault();
 		setShowModal(false);
+		setNewTasks({
+			...newTasks,
+			unscheduled: [newModel, ...newTasks.unscheduled]
+		});
+		console.log("createNewTask (newModel)", newModel);
+		dispatch({ type: "LOADING" });
+		new Promise((res, rej) => {
+			return setTimeout(() => {
+				res();
+				return dispatch({
+					type: "REFRESH_STATE"
+				});
+			}, 1000);
+		});
 	};
 
 	const saveNewTask = e => {
@@ -73,10 +93,8 @@ const DashboardContainer = ({
 				}
 			}
 		});
-		dispatch({
-			type: "REFRESH_STATE"
-		});
-		return createNewTask(e);
+
+		return createNewTask(e, updatedModel);
 	};
 
 	const addChecklist = e => {
@@ -94,6 +112,19 @@ const DashboardContainer = ({
 		});
 	};
 
+	useEffect(() => {
+		if (state.app.hasLoaded) {
+			return setNewTasks({
+				scheduled: scheduledTasks,
+				unscheduled: unscheduledTasks
+			});
+		}
+	}, [state.app.hasLoaded, scheduledTasks, unscheduledTasks]);
+
+	console.group("<DashboardContainer/>");
+	console.log("newTasks", newTasks);
+	console.groupEnd();
+
 	return (
 		<>
 			<div className={styles.DashboardContainer}>
@@ -104,10 +135,11 @@ const DashboardContainer = ({
 					state={state}
 					dispatch={dispatch}
 					currentResident={state.globals.currentResident}
-					scheduledTasks={state.globals.scheduledTasks}
-					unscheduledTasks={state.globals.unscheduledTasks}
+					scheduledTasks={newTasks.scheduled}
+					unscheduledTasks={newTasks.unscheduled}
 					categories={state.globals.categories}
 				/>
+
 				<Dashboard state={state} dispatch={dispatch} />
 			</div>
 			{/* MODAL AND CREATETETASKFORM WAS HERE PREVIOUSLY */}
