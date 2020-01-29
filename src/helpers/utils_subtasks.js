@@ -1,5 +1,8 @@
 import { test } from "./utils_env.js";
+import { ScheduledSubTaskModel, UnscheduledSubTaskModel } from "./utils_models";
+import { replaceNullWithMsg, getInitials } from "./utils_processing";
 import { scheduledTasks } from "./utils_endpoints.js";
+import { isScheduledTask } from "./utils_tasks";
 import { isEmptyObj, isEmptyVal, isEmptyArray } from "./utils_types";
 import { findShiftID, findShiftName } from "./utils_shifts";
 import { getReasonID } from "./utils_reasons";
@@ -349,6 +352,64 @@ const subtaskUpdater = (newSubtask, tasks) => {
 	});
 };
 
+// ONLY HANDLES "NEW" SCHEDULED SUBTASKS
+const mergeNewScheduledSubtask = (newSubtask, tasks) => {
+	const taskID =
+		newSubtask?.AssessmentTrackingTaskId ??
+		newSubtask.AssessmentUnscheduleTaskId;
+	if (isScheduledTask(newSubtask)) {
+		return tasks.map((task, index) => {
+			if (task[taskID] === newSubtask[taskID]) {
+				return {
+					...task,
+					ShiftTasks: [newSubtask, ...task.ShiftTasks]
+				};
+			}
+			return null;
+		});
+	}
+	return null;
+};
+
+// CREATING SUBTASKS (IE checklists)
+const createEmptyScheduledSubtask = (activeTask, currentUser = {}) => {
+	const base = new ScheduledSubTaskModel();
+	const model = base.getModel();
+	return {
+		...model,
+		AssessmentTrackingTaskId: activeTask.AssessmentTrackingTaskId,
+		AssessmentTrackingId: activeTask.AssessmentTrackingId,
+		AssessmentTaskId: activeTask.AssessmentTaskId,
+		AssessmentTaskStatusId: 1,
+		IsCheck: false,
+		IsCompleted: false,
+		IsFinal: false,
+		IsActive: true,
+		FollowUpDate: replaceNullWithMsg(activeTask.FollowUpDate, "None"),
+		SignedBy: replaceNullWithMsg(activeTask.SignedBy, ""),
+		InitialBy: getInitials(currentUser)
+	};
+};
+
+// FOR UNSCHEDULED TASK RECORDS
+const createEmptyUnscheduledSubtask = (activeTask, currentUser = {}) => {
+	const base = new UnscheduledSubTaskModel();
+	const model = base.getModel();
+	return {
+		...model,
+		AssessmentUnscheduleTaskId: activeTask.AssessmentUnscheduleTaskId,
+		AssessmentUnscheduleTaskShiftId: 4, // ANY/ALL
+		AssessmentTaskStatusId: 1,
+		IsCheck: false,
+		IsCompleted: false,
+		IsFinal: false,
+		IsActive: true,
+		FollowUpDate: replaceNullWithMsg(activeTask.FollowUpDate, "None"),
+		SignedBy: replaceNullWithMsg(activeTask.SignedBy, ""),
+		InitialBy: getInitials(currentUser)
+	};
+};
+
 export {
 	createSubtaskVals,
 	groupByShift,
@@ -366,7 +427,11 @@ export {
 	handleSubtaskCompletion,
 	handleSubtaskException,
 	determineSubtaskResolutionID,
-	subtaskUpdater // used in the state updater in GlobalStateContext
+	// SUBTASK - RELATED UPDATES
+	subtaskUpdater, // used in the state updater in GlobalStateContext
+	createEmptyScheduledSubtask,
+	createEmptyUnscheduledSubtask,
+	mergeNewScheduledSubtask
 };
 
 // UPDATE FETCH UTILS

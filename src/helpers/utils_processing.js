@@ -164,13 +164,12 @@ const getRoute = route => {
 // accepts a user object and grabs the first and last name and returns the user's initials (ie S.G)
 const getInitials = user => {
 	if (isEmptyObj(user)) return "NA";
-	if (!hasProperty(user, "firstName")) return "NA";
-	if (!hasProperty(user, "lastName")) return "NA";
-	if (isEmptyVal(user.firstName)) return "NA";
-	if (isEmptyVal(user.lastName)) return "NA";
-	const first = user.firstName.slice(0, 1);
-	const last = user.lastName.slice(0, 1);
-	return `${first}${last}`.toUpperCase();
+	let fname = user?.firstName ?? user?.FirstName;
+	let lname = user?.lastName ?? user?.LastName;
+	if (isEmptyVal(fname) || isEmptyVal(lname)) return "NA";
+	const first = fname.slice(0, 1);
+	const last = lname.slice(0, 1);
+	return `${first}.${last}.`;
 };
 
 // checking status's for scheduled, unscheduled and subtasks.

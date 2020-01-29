@@ -167,6 +167,16 @@ const reducer = (state, action) => {
 				}
 			};
 		}
+		case "CREATE_SUBTASK": {
+			const { newSubtask, taskType } = action.data;
+			// taskType: 'SCHEDULED'/'UNSCHEDULED'
+			return {
+				...state,
+				globals: {
+					...state.globals
+				}
+			};
+		}
 		case "RESET": {
 			return {
 				...initialGlobalState

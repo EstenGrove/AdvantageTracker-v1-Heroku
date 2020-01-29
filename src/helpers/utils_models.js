@@ -240,7 +240,7 @@ class ScheduledTaskShiftModel {
 }
 
 // SCHEDULED SHIFT SUB TASK
-class ScheduledSubtaskModel {
+class ScheduledSubTaskModel {
 	constructor() {
 		this._model = {
 			AssessmentTrackingTaskShiftSubTaskId: 0,
@@ -327,6 +327,6 @@ export {
 	// SCHEDULED
 	ScheduledTaskModel,
 	ScheduledTaskShiftModel,
-	ScheduledSubtaskModel,
+	ScheduledSubTaskModel,
 	ScheduledTaskNoteModel
 };
