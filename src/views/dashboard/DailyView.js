@@ -2,21 +2,15 @@ import React, { useEffect, useContext } from "react";
 import styles from "../../css/dashboard/DailyView.module.scss";
 import { PropTypes } from "prop-types";
 import { useHistory } from "react-router-dom";
-
 import { GlobalStateContext } from "../../state/GlobalStateContext";
-import {
-	findTasksByADL, // ONLY handled scheduled tasks
-	findAllTasksByADL // handles ALL tasks (scheduled|unscheduled)
-} from "../../helpers/utils_scheduled";
-import { findUnscheduledByADL } from "../../helpers/utils_unscheduled";
-import { groupBy } from "../../helpers/utils_processing";
+
+import { findAllTasksByADL } from "../../helpers/utils_scheduled"; // handles ALL tasks (scheduled|unscheduled)
 import { adlColors } from "../../helpers/utils_styles";
 import Spinner from "../../components/shared/Spinner";
 import ContainerLG from "../../components/shared/ContainerLG";
 import Row from "../../components/shared/Row";
 import CardSM from "../../components/shared/CardSM";
 import DailySummaryCard from "../../components/daily/DailySummaryCard";
-import { getCategoryNameFromID } from "../../helpers/utils_categories";
 
 // REQUIRED PROPS:
 // 1. resident data
