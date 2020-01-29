@@ -80,7 +80,7 @@ class UnscheduledTaskShiftModel {
 }
 
 // UNSCHEDULED SHIFT SUB TASK
-class UnscheduledSubTask {
+class UnscheduledSubTaskModel {
 	constructor() {
 		this._model = {
 			AssessmentUnscheduleTaskShiftSubTaskId: 0,
@@ -322,7 +322,7 @@ export {
 	// UNSCHEDULED
 	UnscheduledTaskModel,
 	UnscheduledTaskShiftModel,
-	UnscheduledSubTask,
+	UnscheduledSubTaskModel,
 	UnscheduledTaskNoteModel,
 	// SCHEDULED
 	ScheduledTaskModel,

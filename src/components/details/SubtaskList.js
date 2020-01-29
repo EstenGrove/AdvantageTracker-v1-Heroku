@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { PropTypes } from "prop-types";
+import { UnscheduledSubTaskModel } from "../../helpers/utils_models";
 import { isEmptyArray, isEmptyObj } from "../../helpers/utils_types";
 import { getSubtaskByShiftID } from "../../helpers/utils_subtasks";
 import { findTaskRecordByProp } from "../../helpers/utils_tasks";
 import styles from "../../css/details/SubtaskList.module.scss";
 import ButtonSM from "../shared/ButtonSM";
 import SubtaskItem from "./SubtaskItem";
-import { deepDiff } from "../../helpers/utils_updates";
 
 // FINISH HANDLING SUBTASK UPDATES
 // IE. IsCheck, IsCompleted, adding Notes
@@ -22,6 +22,8 @@ const SubtaskList = ({ subtasks = [], dispatch }) => {
 
 	const addNewSubtask = () => {
 		console.log("Adding new subtask");
+		const base = new UnscheduledSubTaskModel();
+		const model = base.getModel();
 	};
 
 	if (isEmptyArray(subtasks)) {

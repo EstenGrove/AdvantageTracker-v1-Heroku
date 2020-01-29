@@ -1,4 +1,9 @@
-import { isEmptyObj, isEmptyArray, isEmptyVal } from "./utils_types";
+import {
+	isEmptyObj,
+	isEmptyArray,
+	isEmptyVal,
+	hasProperty
+} from "./utils_types";
 
 const isCompleted = task => {
 	if (task?.IsCompleted) return true;
@@ -156,6 +161,18 @@ const getRoute = route => {
 	return split[length - 1];
 };
 
+// accepts a user object and grabs the first and last name and returns the user's initials (ie S.G)
+const getInitials = user => {
+	if (isEmptyObj(user)) return "NA";
+	if (!hasProperty(user, "firstName")) return "NA";
+	if (!hasProperty(user, "lastName")) return "NA";
+	if (isEmptyVal(user.firstName)) return "NA";
+	if (isEmptyVal(user.lastName)) return "NA";
+	const first = user.firstName.slice(0, 1);
+	const last = user.lastName.slice(0, 1);
+	return `${first}${last}`.toUpperCase();
+};
+
 // checking status's for scheduled, unscheduled and subtasks.
 export { isCompleted, isMissedEvent };
 
@@ -170,7 +187,8 @@ export {
 	addEllipsis,
 	replaceNullWithMsg,
 	getRandomNumArbitrary,
-	getIsCompletedCount
+	getIsCompletedCount,
+	getInitials
 };
 // handles splitting the url string to get the Details view's adl route
 export { getRoute };

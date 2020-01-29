@@ -59,7 +59,7 @@ const getTaskStatus = task => {
 
 const checkIsCompleted = task => {
 	if (isScheduledTask(task)) {
-		return task.TaskStatus || task.IsCompleted ? true : false;
+		return task.TaskStatus === "COMPLETED" || task.IsCompleted ? true : false;
 	}
 	return findStatusNameFromID(task.AssessmentTaskStatusId) === 2 ||
 		task.IsCompleted

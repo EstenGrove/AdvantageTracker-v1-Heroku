@@ -11,7 +11,6 @@ import sprite from "../../assets/tasks.svg";
 // 3. LAST MODIFIED (IF MODIFIED)
 
 const TaskNote = ({ note = {} }) => {
-	console.log(distanceInWordsToNow(note.EntryDate));
 	return (
 		<section className={styles.TaskNote}>
 			<div className={styles.TaskNote_note}>

@@ -21,10 +21,6 @@ const populateState = (data, state) => {
 	} = data;
 	const [resident] = Resident;
 
-	console.group("populateState (initialResources)");
-	console.log("data", data);
-	console.groupEnd();
-
 	const newState = {
 		...state,
 		globals: {
