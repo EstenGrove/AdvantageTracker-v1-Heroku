@@ -2,60 +2,66 @@
 @import "../../sass/mixins";
 
 .EditTaskForm {
-  @include fill_container;
+	@include fill_container;
 
-  &_form {
-    @include fill_container;
-    margin-bottom: 4rem;
+	&_form {
+		@include fill_container;
+		margin-bottom: 4rem;
 
-    &_title {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: map-get($map: $colors, $key: "mainBlackBlue");
-      margin-bottom: 4rem;
-    }
+		&_title {
+			font-size: 2.5rem;
+			font-weight: 700;
+			color: map-get($map: $colors, $key: "mainBlackBlue");
+			margin-bottom: 4rem;
+		}
 
-    &_subtitle {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: map-get($map: $colors, $key: "mainBlackBlue");
-      margin-bottom: 4rem;
-      opacity: 0.8;
-    }
+		&_subtitle {
+			font-size: 1.8rem;
+			font-weight: 700;
+			color: map-get($map: $colors, $key: "mainBlackBlue");
+			margin-bottom: 4rem;
+			opacity: 0.8;
+		}
 
-    & > hr {
-      opacity: 0.2;
-      margin-bottom: 3rem;
-    }
+		& > hr {
+			opacity: 0.2;
+			margin-bottom: 3rem;
+		}
 
-    &_checkGroup {
-      margin-top: 2rem;
-      @include fill_container;
-    }
+		&_checkGroup {
+			margin-top: 2rem;
+			@include fill_container;
+		}
 
-    &_toggleOptions {
-      width: auto;
-      height: auto;
-      @include row_start_start;
+		&_toggleOptions {
+			width: auto;
+			height: auto;
+			@include row_start_start;
 
-      &_label {
-        font-size: 1.4rem;
-        font-weight: 400;
-        color: map-get($map: $colors, $key: "main");
-        margin-right: 0.5rem;
-        cursor: pointer;
-      }
-    }
+			&_label {
+				font-size: 1.4rem;
+				font-weight: 400;
+				color: map-get($map: $colors, $key: "main");
+				margin-right: 0.5rem;
+				cursor: pointer;
+			}
+		}
 
-    &_additionalOptions {
-      @include fill_container;
-    }
+		&_additionalOptions {
+			@include fill_container;
 
-    &_icon {
-      width: 2rem;
-      height: 2rem;
-      fill: map-get($map: $colors, $key: "main");
-      cursor: pointer;
-    }
-  }
+			&_items_label {
+				font-size: 1.4rem;
+				font-size: 400;
+				color: map-get($map: $blueGreys, $key: "subheadings");
+			}
+		}
+
+		&_icon {
+			width: 2rem;
+			height: 2rem;
+			fill: map-get($map: $colors, $key: "main");
+			cursor: pointer;
+		}
+	}
 }

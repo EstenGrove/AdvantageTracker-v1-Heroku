@@ -172,6 +172,13 @@ const EditTaskForm = ({
 							/>
 							{/* FOLLOWUP-DATE */}
 							{/* PRIORITY BUTTONS???? */}
+							<h4
+								className={
+									styles.EditTaskForm_form_additionalOptions_items_label
+								}
+							>
+								Set Task's Priority
+							</h4>
 							<PriorityButtonGroup
 								handleClick={handlePriority}
 								val={vals.priority}

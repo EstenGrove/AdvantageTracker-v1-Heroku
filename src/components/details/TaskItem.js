@@ -57,13 +57,23 @@ const getTaskStatus = task => {
 	return task?.TaskStatus ?? findStatusNameFromID(task.AssessmentTaskStatusId);
 };
 
+const checkIsCompleted = task => {
+	if (isScheduledTask(task)) {
+		return task.TaskStatus || task.IsCompleted ? true : false;
+	}
+	return findStatusNameFromID(task.AssessmentTaskStatusId) === 2 ||
+		task.IsCompleted
+		? true
+		: false;
+};
+
 const getTaskShift = task => {
 	if (isScheduledTask(task)) return task?.Shift;
 	return "ANY";
 };
 
 const TaskItem = ({ viewDetails, addNote, task = {}, values = {} }) => {
-	const [isCompleted, setIsCompleted] = useState(task.IsCompleted);
+	const [isCompleted, setIsCompleted] = useState(checkIsCompleted(task));
 	const [pastDue, setPastDue] = useState(isPastDue(task.TrackDate));
 
 	return (
