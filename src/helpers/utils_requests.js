@@ -10,6 +10,11 @@ const getInitialResource = async (auth, state, dispatch) => {
 	const userProfile = ADVUSER[0];
 	const residents = residentData.Data;
 
+	console.group("getInitialResouce");
+	console.log();
+	console.log();
+	console.groupEnd();
+
 	return {
 		residents: residents,
 		userProfile: userProfile,
