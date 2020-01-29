@@ -173,7 +173,8 @@ const reducer = (state, action) => {
 			return {
 				...state,
 				globals: {
-					...state.globals
+					...state.globals,
+					scheduledTasks: [...state.globals.scheduledTasks]
 				}
 			};
 		}

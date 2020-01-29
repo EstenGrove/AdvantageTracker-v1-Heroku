@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { PropTypes } from "prop-types";
-import { UnscheduledSubTaskModel } from "../../helpers/utils_models";
+import {
+	UnscheduledSubTaskModel,
+	ScheduledSubTaskModel
+} from "../../helpers/utils_models";
 import { isEmptyArray, isEmptyObj } from "../../helpers/utils_types";
-import { getSubtaskByShiftID } from "../../helpers/utils_subtasks";
+import {
+	getSubtaskByShiftID,
+	createEmptyScheduledSubtask
+} from "../../helpers/utils_subtasks";
 import { findTaskRecordByProp } from "../../helpers/utils_tasks";
 import styles from "../../css/details/SubtaskList.module.scss";
 import ButtonSM from "../shared/ButtonSM";
@@ -17,20 +23,31 @@ import SubtaskItem from "./SubtaskItem";
 // 3. DESPITE ALL OF THE ABOVE THERE ARE INTERDEPENDENCIES
 // 4. CONSIDER LIFTING SUBTASK UDPATES FROM <SUBTASKITEM/> IN TO <SUBTASKLIST/>
 
-const SubtaskList = ({ subtasks = [], dispatch }) => {
+const SubtaskList = ({
+	currentUser = {},
+	currentResident = {}, // might not be needed
+	task = {},
+	subtasks = [],
+	dispatch
+}) => {
 	const [subtaskList, setSubtaskList] = useState([...subtasks]);
 
-	const addNewSubtask = () => {
-		console.log("Adding new subtask");
-		const base = new UnscheduledSubTaskModel();
-		const model = base.getModel();
+	const addNewSubtask = (task, currentUser) => {
+		const newSubtask = createEmptyScheduledSubtask(task, currentUser);
+		console.group("Adding new subtask...");
+		console.log("newSubtask", newSubtask);
+		console.groupEnd();
+		setSubtaskList([newSubtask, ...subtaskList]);
+		return dispatch({
+			type: "CREATE_SUBTASK"
+		});
 	};
 
 	if (isEmptyArray(subtasks)) {
 		return (
 			<section className={styles.SubtaskList}>
 				<h4 className={styles.SubtaskList_EMPTY}>No subtasks</h4>
-				<ButtonSM handleClick={addNewSubtask}>
+				<ButtonSM handleClick={() => addNewSubtask(task, currentUser)}>
 					<b>+</b> Create Subtask
 				</ButtonSM>
 			</section>
@@ -81,11 +98,16 @@ const SubtaskList = ({ subtasks = [], dispatch }) => {
 export default SubtaskList;
 
 SubtaskList.defaultProps = {
-	task: {}
+	currentResident: {},
+	currentUser: {},
+	task: {},
+	subtasks: []
 };
 
 SubtaskList.propTypes = {
+	currentResident: PropTypes.object,
+	currentUser: PropTypes.object,
 	task: PropTypes.object,
-	dispatch: PropTypes.func,
-	addNewSubtask: PropTypes.func // create new Subtask, consider handling locally instead of lifting up into parent
+	subtasks: PropTypes.arrayOf(PropTypes.object),
+	dispatch: PropTypes.func
 };

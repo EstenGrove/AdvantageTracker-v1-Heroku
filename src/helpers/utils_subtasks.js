@@ -368,7 +368,7 @@ const mergeNewScheduledSubtask = (newSubtask, tasks) => {
 			return null;
 		});
 	}
-	return null;
+	return; // handle unscheduled subtasks here???
 };
 
 // CREATING SUBTASKS (IE checklists)

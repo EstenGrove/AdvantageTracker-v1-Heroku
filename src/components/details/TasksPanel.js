@@ -270,11 +270,11 @@ const TasksPanel = ({
 					<TaskDetails task={activeTask}>
 						{/* SUBTASK ITEMS & NOTES */}
 						<SubtaskList
+							currentResident={currentResident}
+							currentUser={currentUser}
 							task={activeTask}
 							subtasks={activeTask.ShiftTasks}
 							dispatch={dispatch}
-							hasUpdated={hasUpdated}
-							state={state}
 						/>
 						<hr className="divider" />
 						<ViewNotes notes={scheduledTaskNotes} />
